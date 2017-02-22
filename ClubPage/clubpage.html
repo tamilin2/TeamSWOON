@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1" />
+    <title>Club Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="clubpage.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="clubpage.js"></script>
+</head> 
+
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a style="color:white" class="navbar-brand" href="#">SWOON</a>
+        </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbarstuff">
+        <ul class="nav navbar-nav">
+            <li class="navitem"><a style="color:white" class="navbutton" href="#">View All Clubs <span class="sr-only">(current)</span></a></li>
+            <li class="navitem"><a style="color:white" class="navbutton" href="#">Schedule</a></li>
+            <li class="dropdown navitem">
+                <a style="color:white" href="#" class="dropdown-toggle navbutton" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Music</a></li>
+                    <li><a href="#">Art</a></li>
+                    <li><a href="#">Dance</a></li>
+                    <li><a href="#">Art</a></li>
+                    <li><a href="#">Fraternity/Sorority</a></li>
+                </ul>
+            </li>
+        </ul>
+        <form class="navbar-form navbar-left">
+            <div class="form-group">
+                <input id="searchbar" type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown navitem">
+                <a style="color:white" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">View Profile</a></li>
+                    <li><a href="#">Edit Profile</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>    
+<!-- End of Navbar######### Start of club page html ########### -->
+    
+<form>
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="clubname">Club Name:</label>
+                <input type="text" class="form-control" id="clubname" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="email">Contact email:</label>
+                <input type="email" class="form-control" id="email" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="phone">Phone number:</label>
+                <input type="tel" class="form-control" id="phone" />
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="Major">Website:</label>
+                <input type="url" class="form-control" id="website" />
+            </div>
+            <div class="form-group col-md-8">
+                <label for="Bio">Description:</label>
+                <textarea type="text" class="form-control" id="description"></textarea>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="Interests">Interests:</label>
+                <input type="text" class="form-control" id="interests" />
+            </div>
+            <div class="col-md-4" id="interesttable">
+                <label >Interests:</label>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <label for="meetingfrom">From:</label>
+            </div>
+            <div class="col-md-6">
+                <label for="meetingfrom">To:</label>
+            </div>
+        </div>
+</form>
+<form>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <select class="form-control" id="dayfrom">
+                    <option value="na">N/A</option>
+                    <option value="monday">Sunday</option>
+                    <option value="monday">Monday</option>
+                    <option value="monday">Tuesday</option>
+                    <option value="monday">Wednesday</option>
+                    <option value="monday">Thursday</option>
+                    <option value="monday">Friday</option>
+                    <option value="monday">Saturday</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <select class="form-control" id="timefrom">
+                    <option value="na">N/A</option>
+                    <option value="12am">12:00am</option>
+                    <option value="1230am">12:30am</option>
+                    <option value="1am">1:00am</option>
+                    <option value="130am">1:30am</option>
+                    <option value="2am">2:00am</option>
+                    <option value="230am">2:30am</option>
+                    <option value="3am">3:00am</option>
+                    <option value="330am">3:30am</option>
+                    <option value="4am">4:00am</option>
+                    <option value="430am">4:30am</option>
+                    <option value="5am">5:00am</option>
+                    <option value="530am">5:30am</option>
+                    <option value="6am">6:00am</option>
+                    <option value="630am">6:30am</option>
+                    <option value="7am">7:00am</option>
+                    <option value="730am">7:30am</option>
+                    <option value="8am">8:00am</option>
+                    <option value="830am">8:30am</option>
+                    <option value="9am">9:00am</option>
+                    <option value="930am">9:30am</option>
+                    <option value="10am">10:00am</option>
+                    <option value="1030am">10:30am</option>
+                    <option value="11am">11:00am</option>
+                    <option value="1130am">11:30am</option>
+                    <option value="12pm">12:00pm</option>
+                    <option value="1230pm">12:30pm</option>
+                    <option value="1pm">1:00pm</option>
+                    <option value="130pm">1:30pm</option>
+                    <option value="2pm">2:00pm</option>
+                    <option value="230pm">2:30pm</option>
+                    <option value="3pm">3:00pm</option>
+                    <option value="330pm">3:30pm</option>
+                    <option value="4pm">4:00pm</option>
+                    <option value="430pm">4:30pm</option>
+                    <option value="5pm">5:00pm</option>
+                    <option value="530pm">5:30pm</option>
+                    <option value="6pm">6:00pm</option>
+                    <option value="630pm">6:30pm</option>
+                    <option value="7pm">7:00pm</option>
+                    <option value="730pm">7:30pm</option>
+                    <option value="8pm">8:00pm</option>
+                    <option value="830pm">8:30pm</option>
+                    <option value="9pm">9:00pm</option>
+                    <option value="930pm">9:30pm</option>
+                    <option value="10pm">10:00pm</option>
+                    <option value="1030pm">10:30pm</option>
+                    <option value="11pm">11:00pm</option>
+                    <option value="1130pm">11:30pm</option>
+                </select>
+            </div>
+           
+            <div class="form-group col-md-2">
+                <select class="form-control" id="dayto">
+                    <option value="na">N/A</option>
+                    <option value="monday">Sunday</option>
+                    <option value="monday">Monday</option>
+                    <option value="monday">Tuesday</option>
+                    <option value="monday">Wednesday</option>
+                    <option value="monday">Thursday</option>
+                    <option value="monday">Friday</option>
+                    <option value="monday">Saturday</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">  
+                <select class="form-control" id="timeto">
+                    <option value="na">N/A</option>
+                    <option value="12am">12:00am</option>
+                    <option value="1230am">12:30am</option>
+                    <option value="1am">1:00am</option>
+                    <option value="130am">1:30am</option>
+                    <option value="2am">2:00am</option>
+                    <option value="230am">2:30am</option>
+                    <option value="3am">3:00am</option>
+                    <option value="330am">3:30am</option>
+                    <option value="4am">4:00am</option>
+                    <option value="430am">4:30am</option>
+                    <option value="5am">5:00am</option>
+                    <option value="530am">5:30am</option>
+                    <option value="6am">6:00am</option>
+                    <option value="630am">6:30am</option>
+                    <option value="7am">7:00am</option>
+                    <option value="730am">7:30am</option>
+                    <option value="8am">8:00am</option>
+                    <option value="830am">8:30am</option>
+                    <option value="9am">9:00am</option>
+                    <option value="930am">9:30am</option>
+                    <option value="10am">10:00am</option>
+                    <option value="1030am">10:30am</option>
+                    <option value="11am">11:00am</option>
+                    <option value="1130am">11:30am</option>
+                    <option value="12pm">12:00pm</option>
+                    <option value="1230pm">12:30pm</option>
+                    <option value="1pm">1:00pm</option>
+                    <option value="130pm">1:30pm</option>
+                    <option value="2pm">2:00pm</option>
+                    <option value="230pm">2:30pm</option>
+                    <option value="3pm">3:00pm</option>
+                    <option value="330pm">3:30pm</option>
+                    <option value="4pm">4:00pm</option>
+                    <option value="430pm">4:30pm</option>
+                    <option value="5pm">5:00pm</option>
+                    <option value="530pm">5:30pm</option>
+                    <option value="6pm">6:00pm</option>
+                    <option value="630pm">6:30pm</option>
+                    <option value="7pm">7:00pm</option>
+                    <option value="730pm">7:30pm</option>
+                    <option value="8pm">8:00pm</option>
+                    <option value="830pm">8:30pm</option>
+                    <option value="9pm">9:00pm</option>
+                    <option value="930pm">9:30pm</option>
+                    <option value="10pm">10:00pm</option>
+                    <option value="1030pm">10:30pm</option>
+                    <option value="11pm">11:00pm</option>
+                    <option value="1130pm">11:30pm</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-10">
+                    <button type="button" id="meetbtn" class="btn btn-success">Add Meeting time</button>
+                </div>
+            </div>
+        </div>
+</form>  
+        
+        
+        <div class="row" style="margin-top:15px">
+            <div class="col-md-6" id="meeetinglist">
+                <label for="savedmeetings" id="meetingheader">Meeting Times:</label>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+    
+</html>
