@@ -40,3 +40,13 @@
 .navitem:hover {
     background-color: dodgerblue;
 }
+
+#interesttable {
+    border: black 2px
+}
+
+#TableHeader {
+    text-align: center
+}
+
+
