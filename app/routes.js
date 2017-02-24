@@ -14,6 +14,6 @@ router.get('/', function (req, res) {
     res.render('pages/index');
 });
 
-router.get('/edit_profile', function (req, res) {
+router.get('/edit_user_profile', function (req, res) {
     res.render('pages/edit_user_profile');
 });
