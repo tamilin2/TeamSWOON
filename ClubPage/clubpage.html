@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1" />
-    <title>Club Page</title>
+    <title>Create Club Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="clubpage.css">
     <!-- jQuery library -->
@@ -88,20 +88,21 @@
                 <label for="Major">Website:</label>
                 <input type="url" class="form-control" id="website" />
             </div>
-            <div class="form-group col-md-8">
-                <label for="Bio">Description:</label>
-                <textarea type="text" class="form-control" id="description"></textarea>
+             <div class="form-group col-md-4">
+                <label for="categories">Categories:</label>
+                <input type="text" class="form-control" id="interests" placeholder="Categorize your club" />
             </div>
         </div>
         
         <div class="row">
-            <div class="form-group col-md-4">
-                <label for="Interests">Interests:</label>
-                <input type="text" class="form-control" id="interests" />
+           
+            <div class="form-group col-md-12">
+                <label for="Bio">Description:</label>
+                <textarea type="text" class="form-control" id="description" rows="5" placeholder="Tell people what your club is all about."></textarea>
             </div>
-            <div class="col-md-4" id="interesttable">
-                <label >Interests:</label>
-            </div>
+        </div>
+        <div class="row">
+            
         </div>
         
         <div class="row">
@@ -112,19 +113,21 @@
                 <label for="meetingfrom">To:</label>
             </div>
         </div>
+    </div>
 </form>
 <form>
+    <div class="container">
         <div class="row">
             <div class="form-group col-md-2">
                 <select class="form-control" id="dayfrom">
                     <option value="na">N/A</option>
-                    <option value="monday">Sunday</option>
+                    <option value="sunday">Sunday</option>
                     <option value="monday">Monday</option>
-                    <option value="monday">Tuesday</option>
-                    <option value="monday">Wednesday</option>
-                    <option value="monday">Thursday</option>
-                    <option value="monday">Friday</option>
-                    <option value="monday">Saturday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
                 </select>
             </div>
             <div class="form-group col-md-4">
@@ -184,13 +187,13 @@
             <div class="form-group col-md-2">
                 <select class="form-control" id="dayto">
                     <option value="na">N/A</option>
-                    <option value="monday">Sunday</option>
+                    <option value="sunday">Sunday</option>
                     <option value="monday">Monday</option>
-                    <option value="monday">Tuesday</option>
-                    <option value="monday">Wednesday</option>
-                    <option value="monday">Thursday</option>
-                    <option value="monday">Friday</option>
-                    <option value="monday">Saturday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
                 </select>
             </div>
             <div class="form-group col-md-4">  
@@ -252,16 +255,22 @@
                 </div>
             </div>
         </div>
+    </div>
 </form>  
         
-        
-        <div class="row" style="margin-top:15px">
+    <div class="container">
+        <div class="row lastrow" style="margin-top:15px">
             <div class="col-md-6" id="meeetinglist">
-                <label for="savedmeetings" id="meetingheader">Meeting Times:</label>
+                <h2 id="meetingheader">Scheduled Meeting Times:</h2>
+            </div>
+            <div class="col-md-4" id="interesttable">
+                <h2 id="categoryheader">Saved Categories:</h2>
+            </div>
+            <div class="col-md-2" id="buttonbox" style="margin-top:20px">
+                <button type="button" class="btn btn-success">Create Club</button>
             </div>
         </div>
     </div>
-</form>
 </body>
     
 </html>

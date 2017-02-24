@@ -10,14 +10,11 @@ $(document).ready(function() {
     function meeting(startday, starttime, startseg, endday, endtime, endseg) {
         this.startday = startday;
         this.starttime = starttime;
-        this.startseg = startseg;
         this.endday = endday;
-        this.endtime = endtime;
-        this.endseg = endseg;
-        this.toString = function() {
-            return startday + " " + starttime + startseg + " - " + endday + " " + endtime + endseg;
+        this.endtime = endtime;        
         }
-    }
+    
+    var
     $('#clubname').change(function() {
         var name = $("input[name=clubname]").val();
     });
