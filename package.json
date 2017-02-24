@@ -1,14 +1,20 @@
 {
-  "name": "myApp",
+  "name": "swoonApp",
   "version": "0.1.0",
+  "main": "server.js",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.8.5"
+    "react-scripts": "0.9.0"
   },
   "dependencies": {
-    "react": "^15.4.2",
-    "react-bootstrap": "^0.30.7",
-    "react-dom": "^15.4.2"
+    "body-parser": "^1.16.1",
+    "ejs": "^2.5.6",
+    "express": "^4.14.1",
+    "express-ejs-layouts": "^2.2.0",
+    "express-react-views": "^0.10.2",
+    "mysql": "^2.13.0",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7"
   },
   "scripts": {
     "start": "react-scripts start",
