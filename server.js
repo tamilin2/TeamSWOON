@@ -5,7 +5,6 @@ let app = express();
 let port = process.env.PORT || 8080;
 
 
-
 //use ejs and express layouts
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
@@ -13,13 +12,12 @@ app.use(expressLayouts);
 //use body parser
 app.use(bodyParser.urlencoded({extended: true}));
 
-//route our router
+//gets our router
 let router = require('./app/routes');
 app.use('/', router);
 
-
-//static files i.e. css
-//app.use(express.static(__dirname + '/public'));
+//static files i.e. css, js, etc.
+app.use(express.static(__dirname + '/public'));
 
 //start server
 app.listen(port, function () {

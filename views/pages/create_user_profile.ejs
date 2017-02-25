@@ -1,5 +1,5 @@
 <%- contentFor('title')%>
-<title>Edit Profile</title>
+<title>Create Profile</title>
 
 <%- contentFor('body_page') %>
 <body>
@@ -58,22 +58,24 @@
         <!---->
         
 
-    <form>
+    <form action="/create_user_profile" method="POST">
         <div class="form-group">
             <label for="Age">Age:</label>
-            <input type="number" class="form-control" id="Age" placeholder="Please Enter Your Age" />
+            <input type="number" name="age" class="form-control" id="Age" placeholder="Please Enter Your Age" />
         </div>
+
         <div class="form-group">
             <label for="Gender">Gender:</label>
-            <select class="form-control" id="Gender">
+            <select class="form-control" name="gender" id="Gender">
                 <option>Male</option>
                 <option>Female</option>
                 <option>3rd Gender</option>
             </select>
         </div>
+
         <div class="form-group">
             <label for="Academic Year">Academic Year:</label>
-            <select class="form-control" id="AcaYear">
+            <select class="form-control" name="acaYear" id="AcaYear">
                 <option>Freshman<option>
                 <option>Sophmore<option>
                 <option>Junior<option>
@@ -82,19 +84,22 @@
                 <option>Graduate Student<option>
             </select>
         </div>
+
         <div class="forum-group">
             <label for="Major">Major:</label>
-            <input type="text" class="form-control" id="Major" placeholder="Please Enter Your Major" />
+            <input type="text" class="form-control" name="major" id="Major" placeholder="Please Enter Your Major" />
         </div>
+
         <div class="forum-group">
             <label for="Bio">About Me:</label>
-            <textarea type="text" class="form-control" id="Bio" placeholder="Say something about yourself."></textarea>
+            <textarea type="text" class="form-control" name="bio" id="Bio" placeholder="Say something about yourself."></textarea>
         </div>
-    </form>
     
-    <div class="row">
-        <div class="col-sm-2">
-            <button type="button" href="#" class="btn btn-success">Save Changes</button>
+        <div class="row">
+            <div class="col-sm-2">
+                <input type="submit" class="btn btn-success" value="Create Profile">
+            </div>
         </div>
-    </div>
+
+    </form>
 </body>
