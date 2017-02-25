@@ -44,7 +44,7 @@ router.get('/create_user_profile', function (req, res) {
 /*Sends new user credentials to upload page*/
 router.post('/create_user_profile', function (req, res) {
     // MySQL query to insert into student table
-    let query = "insert ignore into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+    let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
 
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
@@ -52,7 +52,7 @@ router.post('/create_user_profile', function (req, res) {
     let phone = parse_phoneNum(req.body.phone);
     let age = req.body.age;
     let password = req.body.password;
-    let conf_password = req.body.confirm_password;
+    let conf_password = req.body.conf_pass;
 
     /** Server validation of credentials
      *  -verifies passwords match
@@ -67,7 +67,8 @@ router.post('/create_user_profile', function (req, res) {
                 console.log('Entering query', [firstname, lastname, email, phone, password]);
                 conn.query(query, [firstname, lastname, email, phone, password], function (err, results) {
                     if (err) {
-                        console.error('Failed to create account', err);
+                        console.error('Failed to create account');
+                        conn.release();
                     }
                     else {
                         res.render('pages/index');
@@ -98,7 +99,15 @@ function verify_password(password, conf_password) {
     return password === conf_password;
 }
 
+/**
+ * Extracts a phone number from a given string
+ * @param phone_number: given input string
+ * @returns
+ *      - a 10 digit phone number, if formatted correctly
+ *      - null, if formatted incorrectly
+ */
 function parse_phoneNum(phone_number) {
+    if (phone_number == null) { return phone_number; }
     let number = "";
 
     for (let idx = 0; idx < phone_number.length; idx++) {

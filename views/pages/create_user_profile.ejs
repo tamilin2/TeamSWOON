@@ -1,104 +1,57 @@
-<%- contentFor('title')%>
+<%- contentFor('body_page') %>
 <title>Create Profile</title>
 
-<%- contentFor('body_page') %>
 <body>
-
-    <!--<nav class="navbar navbar-default">-->
-    <!--<div class="container-fluid">-->
-        <!--&lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;-->
-        <!--<div class="navbar-header">-->
-            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">-->
-                <!--<span class="sr-only">Toggle navigation</span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-            <!--</button>-->
-            <!--<a style="color:white" class="navbar-brand" href="#">SWOON</a>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;-->
-        <!--<div class="collapse navbar-collapse" id="navbarstuff">-->
-            <!--<ul class="nav navbar-nav">-->
-                <!--<li class="navitem"><a style="color:white" class="navbutton" href="#">View All Clubs <span class="sr-only">(current)</span></a></li>-->
-                <!--<li class="navitem"><a style="color:white" class="navbutton" href="#">Schedule</a></li>-->
-                <!--<li  class="dropdown navitem">-->
-                    <!--<a style="color:white" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                        <!--<li><a href="#">Sports</a></li>-->
-                        <!--<li><a href="#">Music</a></li>-->
-                        <!--<li><a href="#">Art</a></li>-->
-                        <!--<li><a href="#">Dance</a></li>-->
-                        <!--<li><a href="#">Art</a></li>-->
-                        <!--<li><a href="#">Fraternity/Sorority</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
-            <!--</ul>-->
-            <!--<form class="navbar-form navbar-left">-->
-                <!--<div class="form-group">-->
-                    <!--<input type="text" class="form-control" placeholder="Search">-->
-                <!--</div>-->
-                <!--<button type="submit" class="btn btn-default">Search</button>-->
-            <!--</form>-->
-            <!--<ul class="nav navbar-nav navbar-right">-->
-                <!--<li class="dropdown navitem">-->
-                    <!--<a style="color:white" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                        <!--<li><a href="#">View Profile</a></li>-->
-                        <!--<li><a href="#">Edit Profile</a></li>-->
-                        <!--<li role="separator" class="divider"></li>-->
-                        <!--<li><a href="#">Settings</a></li>-->
-                        <!--<li><a href="#">Logout</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>&lt;!&ndash; /.navbar-collapse &ndash;&gt;-->
-    <!--</div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
-<!--</nav> -->
-        <!---->
-        
-
     <form action="/create_user_profile" method="POST">
-        <div class="forum-group">
-            <label for="first_name">First Name:</label>
-            <input value="Jeffrey" type="text" class="form-control" name="firstname" id="first_name" placeholder="Please enter your first name" />
-        </div>
+        <div class="container">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="firstname">First Name:</label>
+                    <input type="text" class="form-control" id="firstname" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="lastname">Last Name:</label>
+                    <input type="email" class="form-control" id="lastname" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" class="form-control" id="phone" />
+                </div>
+            </div>
 
-        <div class="forum-group">
-            <label for="last_name">Last Name:</label>
-            <input value="Yen" type="text" class="form-control" name="lastname" id="last_name" placeholder="Please enter your last name" />
-        </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="email">UCSD Email:</label>
+                    <input type="email" class="form-control" id="email" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="age">Age:</label>
+                    <input type="number" class="form-control" id="age"  />
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label for="Age">Age:</label>
-            <input value="20" type="number" name="age" class="form-control" id="Age" placeholder="Please Enter Your Age" />
-        </div>
+            <div class="row">
 
-        <div class="forum-group">
-            <label for="email">UCSD Email:</label>
-            <input value="jyen@ucsd.edu" type="email" class="form-control" name="email" id="email" placeholder="Please enter your ucsd.edu email" />
-        </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" />
+                </div>
 
-        <div class="forum-group">
-            <label for="phone">Phone Number:</label>
-            <input value="415-518-2627" type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number" />
-        </div>
+                <div class="form-group col-md-6">
+                    <label for="conf_pass">Confirm Password:</label>
+                    <input type="password" class="form-control" id="conf_pass" />
+                </div>
+            </div>
+            <div class="row">
 
-        <div class="forum-group">
-            <label for="password">Password:</label>
-            <input value="pass" type="text" class="form-control" name="password" id="password" placeholder="Enter a password" />
-        </div>
+            </div>
 
-        <div class="forum-group">
-            <label for="confirm_password">Confirm Password:</label>
-            <input value="pass" type="text" class="form-control" name="confirm_password" id="confirm_password" placeholder="Re-enter password" />
-        </div>
-    
-        <div class="row">
-            <div class="col-sm-2">
-                <input type="submit" class="btn btn-success" value="Create Profile">
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <input type="submit" class="btn btn-success" value="Create Profile">
+                </div>
             </div>
         </div>
-
     </form>
 </body>
