@@ -9,36 +9,19 @@ let mysql = require('mysql');
 
 // Creates a pool of connections to draw from to connect to MySQL
 let pool = mysql.createPool({
-    // Since connection limit is 4 on free trial server
-    connectionLimit : 4,
-    database        :  'swoondb',
     host            :  'us-cdbr-azure-west-b.cleardb.com',
     user            :  'bba003a662e9c4',
-    password        :  '17ce3e64'
+    password        :  '17ce3e64',
+    database        :  'swoondb',
+    // Since connection limit is 4 on free trial server
+    connectionLimit : 4
 });
 
 // Initial connection to test database connectivity
-pool.getConnection(function (res, err, connection) {
-    if (err) {
-        console.error("Database failed to connect");
-    }
-    else {
-        console.log("Database connected");
-        connection.release();
-    }
-});
-
-function handle_Database(context) {
-    pool.getConnection(function (req, res, err, connection) {
-        if (err) {
-            console.log("Database failed to connect");
-        }
-        else {
-            console.log("Database connected");
-        }
-        connection.release();
-    });
-}
+// pool.getConnection(function (err) {
+//     if (err) { console.error('Failed to connect to database'); }
+//     else { console.log('Database connected'); }
+// });
 
 // Communicates this router to server.js
 module.exports = router;
@@ -60,11 +43,74 @@ router.get('/create_user_profile', function (req, res) {
 
 /*Sends new user credentials to upload page*/
 router.post('/create_user_profile', function (req, res) {
-    console.log('upload data');
-    res.render('pages/index');
+    // MySQL query to insert into student table
+    let query = "insert ignore into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let email = req.body.email;
+    let phone = parse_phoneNum(req.body.phone);
+    let age = req.body.age;
+    let password = req.body.password;
+    let conf_password = req.body.confirm_password;
+
+    /** Server validation of credentials
+     *  -verifies passwords match
+     *  -verifies age is correct
+     */
+    if (verify_password(password, conf_password) ) {
+        pool.getConnection(function (err, conn) {
+            if (err) {
+                console.error('Failed to connect to database');
+            }
+            else {
+                console.log('Entering query', [firstname, lastname, email, phone, password]);
+                conn.query(query, [firstname, lastname, email, phone, password], function (err, results) {
+                    if (err) {
+                        console.error('Failed to create account', err);
+                    }
+                    else {
+                        res.render('pages/index');
+                    }
+                });
+            }
+        });
+    }
+    else {
+        //TODO Handle failed queries
+    }
+    
+
 });
 
 /*Loads edit club profile page*/
 router.get('/edit_club_profile', function (req, res) {
     res.render('pages/edit_club_profile');
 });
+
+/**
+ * Verifies if user password matches
+ * @param password: original password
+ * @param conf_password: copy password
+ * Returns: true if equal, else false
+ */
+function verify_password(password, conf_password) {
+    return password === conf_password;
+}
+
+function parse_phoneNum(phone_number) {
+    let number = "";
+
+    for (let idx = 0; idx < phone_number.length; idx++) {
+        let curr_dig = phone_number.charAt(idx);
+        // Verifies if current symbol is a number
+        if ( !isNaN(curr_dig)) {
+            number += curr_dig;
+        }
+    }
+
+    // Assures final phone number is valid, else it's null
+    if (number.length != 10) { number=""; }
+
+    return number;
+}

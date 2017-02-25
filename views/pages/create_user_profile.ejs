@@ -59,40 +59,39 @@
         
 
     <form action="/create_user_profile" method="POST">
+        <div class="forum-group">
+            <label for="first_name">First Name:</label>
+            <input value="Jeffrey" type="text" class="form-control" name="firstname" id="first_name" placeholder="Please enter your first name" />
+        </div>
+
+        <div class="forum-group">
+            <label for="last_name">Last Name:</label>
+            <input value="Yen" type="text" class="form-control" name="lastname" id="last_name" placeholder="Please enter your last name" />
+        </div>
+
         <div class="form-group">
             <label for="Age">Age:</label>
-            <input type="number" name="age" class="form-control" id="Age" placeholder="Please Enter Your Age" />
-        </div>
-
-        <div class="form-group">
-            <label for="Gender">Gender:</label>
-            <select class="form-control" name="gender" id="Gender">
-                <option>Male</option>
-                <option>Female</option>
-                <option>3rd Gender</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="Academic Year">Academic Year:</label>
-            <select class="form-control" name="acaYear" id="AcaYear">
-                <option>Freshman<option>
-                <option>Sophmore<option>
-                <option>Junior<option>
-                <option>Senior<option>
-                <option>5th Year<option>
-                <option>Graduate Student<option>
-            </select>
+            <input value="20" type="number" name="age" class="form-control" id="Age" placeholder="Please Enter Your Age" />
         </div>
 
         <div class="forum-group">
-            <label for="Major">Major:</label>
-            <input type="text" class="form-control" name="major" id="Major" placeholder="Please Enter Your Major" />
+            <label for="email">UCSD Email:</label>
+            <input value="jyen@ucsd.edu" type="email" class="form-control" name="email" id="email" placeholder="Please enter your ucsd.edu email" />
         </div>
 
         <div class="forum-group">
-            <label for="Bio">About Me:</label>
-            <textarea type="text" class="form-control" name="bio" id="Bio" placeholder="Say something about yourself."></textarea>
+            <label for="phone">Phone Number:</label>
+            <input value="415-518-2627" type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number" />
+        </div>
+
+        <div class="forum-group">
+            <label for="password">Password:</label>
+            <input value="pass" type="text" class="form-control" name="password" id="password" placeholder="Enter a password" />
+        </div>
+
+        <div class="forum-group">
+            <label for="confirm_password">Confirm Password:</label>
+            <input value="pass" type="text" class="form-control" name="confirm_password" id="confirm_password" placeholder="Re-enter password" />
         </div>
     
         <div class="row">
