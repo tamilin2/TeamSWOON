@@ -5,6 +5,7 @@
 let express = require('express');
 let path = require('path');
 let router = express.Router();
+let authenticator = require('./authenticator');
 let mysql = require('mysql');
 
 // Creates a pool of connections to draw from to connect to MySQL
@@ -49,7 +50,7 @@ router.post('/create_user_profile', function (req, res) {
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     let email = req.body.email;
-    let phone = parse_phoneNum(req.body.phone);
+    let phone = authenticator.parse_phoneNum(req.body.phone);
     let age = req.body.age;
     let password = req.body.password;
     let conf_password = req.body.conf_pass;
@@ -58,7 +59,7 @@ router.post('/create_user_profile', function (req, res) {
      *  -verifies passwords match
      *  -verifies age is correct
      */
-    if (verify_password(password, conf_password) ) {
+    if (authenticator.verify_password(password, conf_password) ) {
         pool.getConnection(function (err, conn) {
             if (err) {
                 console.error('Failed to connect to database');
@@ -67,7 +68,7 @@ router.post('/create_user_profile', function (req, res) {
                 console.log('Entering query', [firstname, lastname, email, phone, password]);
                 conn.query(query, [firstname, lastname, email, phone, password], function (err, results) {
                     if (err) {
-                        console.error('Failed to create account');
+                        console.error('Failed to create account', err);
                         conn.release();
                     }
                     else {
@@ -78,7 +79,7 @@ router.post('/create_user_profile', function (req, res) {
         });
     }
     else {
-        //TODO Handle failed queries
+        //TODO Handle inccorect credentials e.g. mismatching passwords
     }
     
 
@@ -88,38 +89,3 @@ router.post('/create_user_profile', function (req, res) {
 router.get('/edit_club_profile', function (req, res) {
     res.render('pages/edit_club_profile');
 });
-
-/**
- * Verifies if user password matches
- * @param password: original password
- * @param conf_password: copy password
- * Returns: true if equal, else false
- */
-function verify_password(password, conf_password) {
-    return password === conf_password;
-}
-
-/**
- * Extracts a phone number from a given string
- * @param phone_number: given input string
- * @returns
- *      - a 10 digit phone number, if formatted correctly
- *      - null, if formatted incorrectly
- */
-function parse_phoneNum(phone_number) {
-    if (phone_number == null) { return phone_number; }
-    let number = "";
-
-    for (let idx = 0; idx < phone_number.length; idx++) {
-        let curr_dig = phone_number.charAt(idx);
-        // Verifies if current symbol is a number
-        if ( !isNaN(curr_dig)) {
-            number += curr_dig;
-        }
-    }
-
-    // Assures final phone number is valid, else it's null
-    if (number.length != 10) { number=""; }
-
-    return number;
-}
