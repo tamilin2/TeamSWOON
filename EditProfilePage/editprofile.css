@@ -1,6 +1,5 @@
 .navbar {
-    background-color: rgb(14,10,200);
-    color: white;
+    background-color: rgb(40,40,40); border-radius: 0; height: 60px; border:none; z
 }
 
 .dropdown-content {

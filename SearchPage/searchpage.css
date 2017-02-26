@@ -1,0 +1,18 @@
+.navbar {
+    background-color: rgb(40,40,40);
+    border-radius: 0;
+    height: 60px;
+    border:none;
+    z-index:9;
+}
+.navbar-left {
+    border:none;
+}
+
+#navbarstuff {
+    border: none;
+}
+
+.navbar-right {
+    border: none;
+}
