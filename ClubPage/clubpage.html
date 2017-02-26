@@ -66,39 +66,39 @@
 </nav>    
 <!-- End of Navbar######### Start of club page html ########### -->
     
-<form>
+<form id="contentform">
     <div class="container">
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="clubname">Club Name:</label>
-                <input type="text" class="form-control" id="clubname" />
+                <input type="text" class="form-control tfield" name="clubname" />
             </div>
             <div class="form-group col-md-4">
                 <label for="email">Contact email:</label>
-                <input type="email" class="form-control" id="email" />
+                <input type="email" class="form-control tfield" name="email" />
             </div>
             <div class="form-group col-md-4">
                 <label for="phone">Phone number:</label>
-                <input type="tel" class="form-control" id="phone" />
+                <input type="tel" class="form-control tfield" name="phone" />
             </div>
         </div>
         
         <div class="row">
             <div class="form-group col-md-4">
-                <label for="Major">Website:</label>
-                <input type="url" class="form-control" id="website" />
+                <label for="website">Website:</label>
+                <input type="url" class="form-control tfield" name="website" />
             </div>
              <div class="form-group col-md-4">
                 <label for="categories">Categories:</label>
-                <input type="text" class="form-control" id="interests" placeholder="Categorize your club" />
+                <input type="text" class="form-control" name="categories" placeholder="Categorize your club" />
             </div>
         </div>
         
         <div class="row">
            
             <div class="form-group col-md-12">
-                <label for="Bio">Description:</label>
-                <textarea type="text" class="form-control" id="description" rows="5" placeholder="Tell people what your club is all about."></textarea>
+                <label for="description">Description:</label>
+                <textarea type="text" class="form-control tfield" name="description" rows="5" placeholder="Tell people what your club is all about."></textarea>
             </div>
         </div>
         <div class="row">
@@ -110,16 +110,15 @@
                 <label for="meetingfrom">From:</label>
             </div>
             <div class="col-md-6">
-                <label for="meetingfrom">To:</label>
+                <label for="meetingto">To:</label>
             </div>
         </div>
     </div>
-</form>
-<form>
+
     <div class="container">
         <div class="row">
             <div class="form-group col-md-2">
-                <select class="form-control" id="dayfrom">
+                <select class="form-control meetfield" name="dayfrom">
                     <option value="na">N/A</option>
                     <option value="sunday">Sunday</option>
                     <option value="monday">Monday</option>
@@ -131,7 +130,7 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <select class="form-control" id="timefrom">
+                <select class="form-control meetfield" name="timefrom">
                     <option value="na">N/A</option>
                     <option value="12am">12:00am</option>
                     <option value="1230am">12:30am</option>
@@ -185,7 +184,7 @@
             </div>
            
             <div class="form-group col-md-2">
-                <select class="form-control" id="dayto">
+                <select class="form-control meetfield" name="dayto">
                     <option value="na">N/A</option>
                     <option value="sunday">Sunday</option>
                     <option value="monday">Monday</option>
@@ -197,7 +196,7 @@
                 </select>
             </div>
             <div class="form-group col-md-4">  
-                <select class="form-control" id="timeto">
+                <select class="form-control meetfield" name="timeto">
                     <option value="na">N/A</option>
                     <option value="12am">12:00am</option>
                     <option value="1230am">12:30am</option>
@@ -251,13 +250,12 @@
             </div>
             <div class="row">
                 <div class="col-md-2 col-md-offset-10">
-                    <button type="button" id="meetbtn" class="btn btn-success">Add Meeting time</button>
+                    <button type="button" id="meetbtn" class="btn btn-success disabled">Add Meeting time</button>
                 </div>
             </div>
         </div>
-    </div>
-</form>  
-        
+    </div> 
+       
     <div class="container">
         <div class="row lastrow" style="margin-top:15px">
             <div class="col-md-6" id="meeetinglist">
@@ -267,10 +265,11 @@
                 <h2 id="categoryheader">Saved Categories:</h2>
             </div>
             <div class="col-md-2" id="buttonbox" style="margin-top:20px">
-                <button type="button" class="btn btn-success">Create Club</button>
+                <button type="button" class="btn btn-success" id="submitbtn">Create Club</button>
             </div>
         </div>
     </div>
+</form> 
 </body>
     
 </html>
