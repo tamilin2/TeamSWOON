@@ -24,25 +24,6 @@ $(document).ready(function() {
     var dayto;
     var timeto;
 
-    // Converts given phone number into only numbers
-    $("#phone").change(function() {
-        var sol ="";
-        // Loop through given input
-        for(var idx = 0; idx < phone.length; idx++) {
-            var dig = phone.charAt(idx);
-
-            // If the type of the character is number then it's part of our phone number
-            if(typeof parseInt(dig,10) ==='number' && 	(dig%1)===0) {
-                sol += dig;
-            }
-        }
-
-        // Checks if the final phone number is valid
-        // <3_digit_area_code> <7_digit_number>
-        if(sol.length == 10) { this.phone = sol; }
-        else { this.phone = ""; }
-    });
-
     $("#dayfrom").change(function () {
         dayfrom = $("#dayfrom option:selected").text();
 

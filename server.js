@@ -14,7 +14,7 @@ let routes = require('./routes/routes');
 let users = require('./routes/users');
 
 //static files i.e. css, js, etc.
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname,'/public')));
 //use ejs and express layouts
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
@@ -64,8 +64,8 @@ app.use(function (req, res, next) {
 });
 
 // Let app use our routes
-app.use('/', routes);
 app.use('/users', users);
+app.use('/', routes);
 
 //start server
 app.listen(port, function () {

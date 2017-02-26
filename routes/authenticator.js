@@ -2,7 +2,7 @@
  * Created by Jeffers on 2/25/2017.
  */
 
-var authenticator = module.exports = {
+let authenticator = module.exports = {
     /**
      * Verifies if user password matches
      * @param password: original password
@@ -53,9 +53,16 @@ var authenticator = module.exports = {
 
         let ucsd_edu = email.substring(email.length - 8);
         return ucsd_edu == "ucsd.edu";
+    },
+
+    /**
+     * Verifies the users age is plausible
+     * @param age: given user age
+     * @returns true, if user's age is less than TINYBIT's max value(128)
+     *          false, otherwise
+     */
+    verify_age: function (age) {
+        if (age > 127) { return false;}
+        return true;
     }
 };
-//
-// var require = function(path) {
-//     return module.exports;
-// };

@@ -136,7 +136,10 @@ img.portrait {
   border: 0.75px solid gray;
 }
 
+h1 {
+  font-family: sans-serif;
+}
+
 footer {
-  margin-top:5%;
-  color: rgb(110,110,110);
+  margin-top: 40px;
 }
