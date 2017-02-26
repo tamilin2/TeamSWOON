@@ -1,6 +1,8 @@
 $(document).ready(function() {
+    var form;
    $("#createbtn").click(function() {
-       $("#signupform").serializeArray();
+       form = $(".field").serializeArray();
+       console.log(form);
        alert("Your account has been created");
    });
 });
