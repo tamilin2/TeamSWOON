@@ -8,3 +8,8 @@ To run website, use node in CMD:
     - To view website, enter "localhost:<port_number>"
         - port_number is default to '8080' but can be changed under server.js
 
+Current functions:
+    - Enter home page
+    - Create user profile on database
+    - View edit user profile
+    - View edit club profile

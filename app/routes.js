@@ -59,7 +59,7 @@ router.post('/create_user_profile', function (req, res) {
      *  -verifies passwords match
      *  -verifies age is correct
      */
-    if (authenticator.verify_password(password, conf_password) ) {
+    if (authenticator.verify_password(password, conf_password) &&  authenticator.verify_ucsd_email(email)) {
         pool.getConnection(function (err, conn) {
             if (err) {
                 console.error('Failed to connect to database');
@@ -68,7 +68,7 @@ router.post('/create_user_profile', function (req, res) {
                 console.log('Entering query', [firstname, lastname, email, phone, password]);
                 conn.query(query, [firstname, lastname, email, phone, password], function (err, results) {
                     if (err) {
-                        console.error('Failed to create account', err);
+                        console.error('Failed to create account onto database', err);
                         conn.release();
                     }
                     else {
@@ -80,6 +80,7 @@ router.post('/create_user_profile', function (req, res) {
     }
     else {
         //TODO Handle inccorect credentials e.g. mismatching passwords
+        console.error("Credentials are incorrectly formatted");
     }
     
 

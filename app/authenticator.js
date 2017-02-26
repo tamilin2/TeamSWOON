@@ -40,6 +40,19 @@ var authenticator = module.exports = {
         }
 
         return number;
+    },
+
+    /**
+     * Verifies the user inputs an ucsd email
+     * @param email: given user email
+     * @returns true, if user enters a ucsd email
+     *          false, if use didn't enter a ucsd email
+     */
+    verify_ucsd_email: function (email) {
+        if (email == null) { return email; }
+
+        let ucsd_edu = email.substring(email.length - 8);
+        return ucsd_edu == "ucsd.edu";
     }
 };
 
