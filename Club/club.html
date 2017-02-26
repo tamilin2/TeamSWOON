@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Club Page</title>
+    <meta name="description" content="To display club info">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- For Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- for Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <script></script>
+</head>
+    
+<style>
+    body {
+        background-color: whitesmoke;
+    }
+    .section {
+        background-color: white;   
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        margin: 10px 0px;
+        padding: 0px 15px;
+    }
+    
+    #icon {
+        text-align: right;
+    }
+    
+    #pict {
+        width: 100%;
+        height: 307px;
+    }
+    
+    #name {
+        text-align: center;
+        background-color: white;
+    }
+    
+    
+    
+</style>
+    
+<body>
+
+   <nav class="navbar navbar-default" style="background-color: rgb(40,40,40); border-radius: 0; height: 60px; border:none; z-index:9;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a style="color:white; font-weight: 550; " class="navbar-brand" href="#">SWOON</a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
+            <ul class="nav navbar-nav">
+                <li class="dropdown navitem">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style=" color:white">Clubs<span ></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="clubpage.html">Page</a></li>
+                            <li><a href="clublist.html">Page</a></li>
+                            <li><a href="#">Page</a></li>
+                        </ul>
+                </li>
+            </ul>
+            
+            
+            <ul class="nav navbar-nav navbar-right" style="border:none;">
+                <li><a href="#" style="color:white"> Search</a></li>
+                <li><a href="#" style="color:white"> Sign Out</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+   <div class="row">  
+    <div class="col-sm-12">
+        <!-- Club Profile Image -->
+        <img id="pict" src="default.jpg" />
+    </div>
+  </div>
+    
+  <div class="row">  
+    <!-- Block for Meeting time and location -->
+    <div class="col-sm-4">
+        <div class="section" id="meeting">
+          <h3>Meetings</h3>
+            <dl>
+                <dt>Time:</dt>
+                <dd id="time">Saturday, 8:00 PM - 10:00 PM</dd>
+                <dt>Location:</dt>
+                <dd id="location">Peterson Hall 108</dd>
+            </dl>
+        </div>
+        
+        <!-- Block for Contact Info -->
+        <div class="section" id="contact">
+          <h3>Contact Info</h3>
+            <dl>
+                <dt>Phone:</dt>
+                <dd id="phone">(800)123-4567</dd>
+                <dt>Email:</dt>
+                <dd id="email"><a href="mailto:someone@example.com?Subject=Hello" target="_top"><i  title= "Send Mail" class="fa fa-envelope"></i></a>  someclub@ucsd.edu</dd>
+            </dl>
+            <div id="icon">
+              <a href="https://www.facebook.com/"><i title="Facebook" class="fa fa-facebook-official"style="font-size:24px;"></i></a>
+            </div>
+        </div>
+    </div>
+      
+    <div class="col-sm-8">  
+        <!-- Club Description --> 
+        <div class="section" id="description">
+          <h2> Club Name<br> </h2>
+          <h3>Description</h3>
+          <p id="desc">This club is really cool you should join! These are words and there are lots of them because this club is really cool and we do lots of things like this thing and that thing and another and we would like for you to join the club so you can do some of these fun things with us and then itll be even more fun to do this thing words words words words words words words words words words jfksdfks jdfkdsafh ureurepo cn,xnvz jdakfa jfklsd kfjasd ksadflj;asd ksdjf;a jeihf fjdskla; ksdfjak jfdkl; If spelling doesnt matter i could type at least 200 wpm <br> <br> This is our purpose statement our purpose is to be dope and do dope shit come check us out fam. kadlsfj aksdfj; jkad;f jfkdjfksjdk jfklsdjf  jsdklfj s ei akfjsd kajk asfkfjds fejfidjfkld fkldaf jeoifj dskfeijslakjdf kdse faklfdj fkdsfj ksdjfeijflskdfj eialjfd fkdsfkds fkdfklsda fjsdkf jf dsklaf  jfsdkalf  fjdkslf ieru ewioskfj sdklmxc,nv cx fjsdkl afeir ew fjsdkl  nmcvn fsdklaf ewijr ewifdsakl  jklea  fsdjkaf  rjewkl  fjsakld weoru we fsdklf nvcmx , fdsjakl fweior jeiow fjsdakl ; ruewioa f jsdlka rjeiowa jfds alk hkef dsjklaf rjewio fjsdklar jewiof lksda fjaldks fsadkl fjsadl fsdf  fslk f fsdjklf fdjskl fjdskl fsjl fsdjkl fjskdl </p>
+        </div>
+    </div>   
+  </div>      
+        
+</div>    
+</body>
+</html>
