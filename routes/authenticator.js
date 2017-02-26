@@ -55,7 +55,7 @@ var authenticator = module.exports = {
         return ucsd_edu == "ucsd.edu";
     }
 };
-
-var require = function(path) {
-    return module.exports;
-};
+//
+// var require = function(path) {
+//     return module.exports;
+// };

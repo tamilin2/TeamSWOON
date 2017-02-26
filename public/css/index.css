@@ -11,8 +11,6 @@ body {
 
 }
 
-
-
 .navitem-hover {
   background-color: rgb(110,110,110);
 }
@@ -136,4 +134,9 @@ img.portrait {
   width: 540px;
   height: 330px;
   border: 0.75px solid gray;
+}
+
+footer {
+  margin-top:5%;
+  color: rgb(110,110,110);
 }

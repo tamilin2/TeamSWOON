@@ -1,41 +1,10 @@
 /**
- * Created by Jeffers on 2/21/2017.
- * Routes: Handles page transitions and MySQL queries
+ * Created by Jeffers on 2/25/2017.
  */
 let express = require('express');
-let path = require('path');
 let router = express.Router();
+let path = require('path');
 let authenticator = require('./authenticator');
-let mysql = require('mysql');
-
-// Creates a pool of connections to draw from to connect to MySQL
-let pool = mysql.createPool({
-    host            :  'us-cdbr-azure-west-b.cleardb.com',
-    user            :  'bba003a662e9c4',
-    password        :  '17ce3e64',
-    database        :  'swoondb',
-    // Since connection limit is 4 on free trial server
-    connectionLimit : 4
-});
-
-// Initial connection to test database connectivity
-// pool.getConnection(function (err) {
-//     if (err) { console.error('Failed to connect to database'); }
-//     else { console.log('Database connected'); }
-// });
-
-// Communicates this router to server.js
-module.exports = router;
-
-/*Loads home page*/
-router.get('/', function (req, res) {
-    res.render('pages/index');
-});
-
-/*Loads edit user profile page*/
-router.get('/edit_user_profile', function (req, res) {
-    res.render('pages/edit_user_profile');
-});
 
 /*Loads create user profile page*/
 router.get('/create_user_profile', function (req, res) {
@@ -45,7 +14,7 @@ router.get('/create_user_profile', function (req, res) {
 /*Sends new user credentials to upload page*/
 router.post('/create_user_profile', function (req, res) {
     // MySQL query to insert into student table
-    let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+    let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
 
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
@@ -59,6 +28,7 @@ router.post('/create_user_profile', function (req, res) {
      *  -verifies passwords match
      *  -verifies age is correct
      */
+    //TODO Handle same ucsd email case
     if (authenticator.verify_password(password, conf_password) &&  authenticator.verify_ucsd_email(email)) {
         pool.getConnection(function (err, conn) {
             if (err) {
@@ -68,7 +38,7 @@ router.post('/create_user_profile', function (req, res) {
                 console.log('Entering query', [firstname, lastname, email, phone, password]);
                 conn.query(query, [firstname, lastname, email, phone, password], function (err, results) {
                     if (err) {
-                        console.error('Failed to create account onto database', err);
+                        console.error('Failed to create account onto database');
                         conn.release();
                     }
                     else {
@@ -82,11 +52,15 @@ router.post('/create_user_profile', function (req, res) {
         //TODO Handle inccorect credentials e.g. mismatching passwords
         console.error("Credentials are incorrectly formatted");
     }
-    
+
 
 });
 
-/*Loads edit club profile page*/
-router.get('/edit_club_profile', function (req, res) {
-    res.render('pages/edit_club_profile');
+// Login
+router.get('/login', function (req, res) {
+    res.render('pages/login');
 });
+
+
+
+module.exports = router;
