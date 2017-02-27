@@ -10,5 +10,10 @@ router.get('/', function (req, res) {
     res.render('pages/index');
 });
 
+/*Loads home page*/
+router.get('/club_page', function (req, res) {
+    res.render('pages/club_page');
+});
+
 // Communicates this router to server.js
 module.exports = router;
