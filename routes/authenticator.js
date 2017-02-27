@@ -4,7 +4,7 @@
 
 let authenticator = module.exports = {
     /**
-     * Verifies if user password matches
+     * Verifies if User password matches
      * @param password: original password
      * @param conf_password: copy password
      * Returns: true if equal, else false
@@ -43,9 +43,9 @@ let authenticator = module.exports = {
     },
 
     /**
-     * Verifies the user inputs an ucsd email
-     * @param email: given user email
-     * @returns true, if user enters a ucsd email
+     * Verifies the User inputs an ucsd email
+     * @param email: given User email
+     * @returns true, if User enters a ucsd email
      *          false, if use didn't enter a ucsd email
      */
     verify_ucsd_email: function (email) {
@@ -56,13 +56,10 @@ let authenticator = module.exports = {
     },
 
     /**
-     * Verifies the users age is plausible
-     * @param age: given user age
-     * @returns true, if user's age is less than TINYBIT's max value(128)
-     *          false, otherwise
+     *  Verifies the User gave a ucsd email and matching password
      */
-    verify_age: function (age) {
-        if (age > 127) { return false;}
-        return true;
+    isRegisterValid: function (email, password, conf_password) {
+        // Assures given password and ucsd email is correct
+        return !(!this.verify_password(password, conf_password) && this.verify_ucsd_email(email));
     }
 };

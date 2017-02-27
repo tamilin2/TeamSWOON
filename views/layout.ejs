@@ -34,7 +34,7 @@
                     </div>
 
                     <ul class="nav navbar-nav navbar-left" style="border:none;">
-                        <li><a href="#" style="color:white"> Find Clubs</a></li>
+                        <li><a href="/search_page" style="color:white"> Find Clubs</a></li>
                     </ul>
                     <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
                         <ul class="nav navbar-nav navbar-right" style="border:none;">
@@ -55,9 +55,21 @@
             </nav>
         </header>
 
+            <!-- Loads messages after an event -->
+            <% if(success_msg.length > 0) {%>
+                <div class="alert alert-success"> <%= success_msg%> </div>
+            <% } %>
 
-        <!-- Page content added here -->
-        <%- defineContent('body_page')%>
+            <% if(error_msg.length > 0) {%>
+                <div class="alert alert-danger"> <%= error_msg%> </div>
+            <% } %>
+
+            <% if(error.length > 0) {%>
+                <div class="alert alert-danger"> <%= error%> </div>
+            <% } %>
+
+            <!-- Page content added here -->
+            <%- defineContent('body_page')%>
 
         <footer class="footer">
             <p>

@@ -3,6 +3,15 @@
 
 <body>
     <h2 class="page-header">Create User Profile</h2>
+
+    <!-- If errors exists then show them -->
+    <% if(errors) {%>
+        <% errors.forEach(function (errors) { %>
+            <div class="alert alert-danger">
+                <%= errors.msg %>
+            </div>
+        <% }); %>
+    <% } %>
     <form action="/users/create_user_profile" method="POST">
         <div class="container">
             <div class="row">
@@ -35,8 +44,8 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="conf_pass">Confirm Password:</label>
-                    <input type="password" class="form-control" name="conf_pass" />
+                    <label for="password2">Confirm Password:</label>
+                    <input type="password" class="form-control" name="password2" />
                 </div>
             </div>
             <div class="row">
