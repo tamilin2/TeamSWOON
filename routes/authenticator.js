@@ -51,8 +51,8 @@ let authenticator = module.exports = {
     verify_ucsd_email: function (email) {
         if (email == null) { return email; }
 
-        let ucsd_edu = email.substring(email.length - 8);
-        return ucsd_edu == "ucsd.edu";
+        let ucsd_edu = email.substring(email.length - 9);
+        return ucsd_edu == "@ucsd.edu";
     },
 
     /**

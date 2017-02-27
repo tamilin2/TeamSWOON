@@ -13,3 +13,11 @@ Current functions:
     - Create user profile on database
     - View edit user profile
     - View edit club profile
+
+Structure:
+    - routes:
+        Holds all .js files to connect pages
+    - public:
+        Holds all .css and .js files to style pages/add jquery
+    - views:
+        Holds all .ejs files that format html pages
