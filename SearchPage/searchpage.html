@@ -4,7 +4,7 @@
   <title>TeamSWOON</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="searchpage.css" />
+  <link rel="stylesheet" type="text/css" href="clubpage.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -12,7 +12,7 @@
     
 
 <body>    
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="background-color: rgb(40,40,40); border-radius: 0; height: 60px; border:none; z-index:9;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -24,11 +24,11 @@
             <a style="color:white; font-weight: 550; " class="navbar-brand" href="#">SWOON</a>
         </div>
         
-        <ul class="nav navbar-nav navbar-left">
+        <ul class="nav navbar-nav navbar-left" style="border:none;">
             <li><a href="#" style="color:white"> Find Clubs</a></li>
         </ul>
-        <div class="collapse navbar-collapse" id="navbarstuff">
-           <ul class="nav navbar-nav navbar-right">
+        <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
+           <ul class="nav navbar-nav navbar-right" style="border:none;">
                 <ul class="nav navbar-nav">
                 <li class="dropdown navitem">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">Profile<span ></span></a>
@@ -44,46 +44,52 @@
         </div>
     </div>
 </nav>
+</body>
 
-
-<form>
-    <ul class="nav nav-pills nav-stacked left-menu" id="stacked-menu" style="background-color: rgb(45,45,45); position: fixed; min-width:15%; width: 15%; height: 100%; margin-top: -1.6%;">
+    <form>
+    <ul class="nav nav-pills nav-stacked left-menu" id="stacked-menu" style="overflow: auto; background-color: rgb(45,45,45); position: fixed; min-width:15%; width: 15%; height: 95%; top: 8%;">
         <li>
           <a href="#" data-target="#interest" data-toggle="collapse" data-parent="#stacked-menu" style="border-radius: 0; background-color: rgb(45,45,45); color: white;">Interest<span class="caret arrow"></span></a>
             
             <ul class="nav nav-pills nav-stacked collapse" id="interest">
-                <li><a href="#" data-target="#button1" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">SubCategory 1<span class="caret arrow"></span></a>
+                <li><a href="#" data-target="#button1" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">Academics<span class="caret arrow"></span></a>
                 
                     <ul class="nav nav-pills nav stacked collapse" id="button1">
-                        <label class="btn btn-primary active" style="border-radius: 0; background-color: rgb(100,100,100); color: white; width: 150%">
-                            <li><input type="checkbox" name="options" id="option1" value="Radio"> Radio 1 </li>
-                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Radio 2 </li>
-                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Radio 3 </li>
-                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Radio 4 </li>
+                        <label class="btn btn-primary active" style="text-align: left; border-radius: 0; background-color: rgb(100,100,100); color: white; width: 100%">
+                            <li><input type="checkbox" name="options" id="option1" value="Radio"> STEM </li>
+                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Med/Pre-med/Health </li>
+                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Social Sciences </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Communications
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Linguistics/Language </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Other Academics </li>
                         </label>
                     </ul>
                 </li>
               
-                <li><a href="#" data-target="#button2" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">SubCategory 2<span class="caret arrow"></span></a>
+                <li><a href="#" data-target="#button2" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">Arts<span class="caret arrow"></span></a>
                 
                     <ul class="nav nav-pills nav stacked collapse" id="button2">
-                        <label class="btn btn-primary active" style="border-radius: 0; background-color: rgb(100,100,100); color: white; width: 150%">
-                            <li><input type="checkbox" name="options" id="option1" value="Radio"> Radio 1 </li>
-                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Radio 2 </li>
-                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Radio 3 </li>
-                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Radio 4 </li>
+                        <label class="btn btn-primary active" style="border-radius: 0; text-align: left; background-color: rgb(100,100,100); color: white;">
+                            <li><input type="checkbox" name="options" id="option1" value="Radio"> Dance </li>
+                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Digital Arts </li>
+                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Literature/Poetry </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Music </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Painting </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Photography/Videography </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Theatre </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Other Arts </li>
                         </label>
                     </ul>
                 </li>
               
-              <li><a href="#" data-target="#button3" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">SubCategory 3<span class="caret arrow"></span></a>
+              <li><a href="#" data-target="#button3" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">Cultural<span class="caret arrow"></span></a>
                 
                 <ul class="nav nav-pills nav stacked collapse" id="button3">
-                    <label class="btn btn-primary active" style="border-radius: 0; background-color: rgb(100,100,100); color: white; width: 150%">
-                            <li><input type="checkbox" name="options" id="option1" value="Radio"> Radio 1 </li>
-                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Radio 2 </li>
-                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Radio 3 </li>
-                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Radio 4 </li>
+                    <label class="btn btn-primary active" style="text-align: left; border-radius: 0; background-color: rgb(100,100,100); color: white; width: 100%">
+                            <li><input type="checkbox" name="options" id="option1" value="Radio"> African </li>
+                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Asian </li>
+                            <li><input type="checkbox" name="options" id="option3" value="Radio"> European </li>
+                            <li><input type="checkbox" name="options" id="option4" value="Radio"> American </li>
                     </label>
                 </ul>
               </li>
@@ -92,7 +98,7 @@
         </li>
         
         <li>
-          <a href="#" data-target="#schedule" data-toggle="collapse" data-parent="#stacked-menu" style="border-radius: 0; background-color: rgb(45,45,45); color: white;">Schedule<span class="caret arrow"></span></a>          
+          <a href="#" data-target="#schedule" data-toggle="collapse" data-parent="#stacked-menu" style="text-align: left; border-radius: 0; background-color: rgb(45,45,45); color: white;">Schedule<span class="caret arrow"></span></a>          
           <ul class="nav nav-pills nav-stacked collapse" id="schedule">
             <li><a href="#"style="border-radius: 0; background-color: rgb(55,55,55); color: white;">View One</a></li>
             <li><a href="#"style="border-radius: 0; background-color: rgb(55,55,55); color: white;">View Two</a></li>
@@ -101,6 +107,8 @@
         </li>
       </ul>
     </form>
-    </body>
+<form>
+        
+</form>
     
 </html>
