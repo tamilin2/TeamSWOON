@@ -31,17 +31,21 @@ let queries = module.exports = {
             if (authenticator.isRegisterValid(email, password, password2)) {
                 console.log('Entering query', [firstname, lastname, email, phone, password]);
                 User(function (err, con) {
-                    if (err) { console.error('Failed to connect to database'); }
+                    if (err) {
+                        req.flash('error_msg', 'Failed to create account');
+                        res.redirect('/users/create_user_profile');
+                    }
                     else {
                         con.query(query, [firstname, lastname, email, phone, password], function (err) {
                             if (err) {
-                                console.error('Failed to create account onto database', err);
+                                req.flash('error_msg', 'Failed to connect to database');
+                                res.redirect('/users/create_user_profile');
                             }
+                        req.flash('success_msg', 'Registration complete; Login');
+                        res.redirect('/users/login');
                         });
                     }
                 });
-                req.flash('success_msg', 'Registration complete; Login');
-                res.redirect('/users/login');
             }
             else {
                 //TODO Handle incorrect credentials e.g. mismatching passwords
