@@ -12,39 +12,40 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
 
-<body>
-<nav class="navbar navbar-default">
+<body>    
+<nav class="navbar navbar-default" style="background-color: rgb(40,40,40); border-radius: 0; height: 60px; border:none; z-index:9;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> 
             </button>
             <a style="color:white; font-weight: 550; " class="navbar-brand" href="#">SWOON</a>
         </div>
         
+        <ul class="nav navbar-nav navbar-left" style="border:none;">
+            <li><a href="#" style="color:white"> Find Clubs</a></li>
+        </ul>
         <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
-            <ul class="nav navbar-nav">
+           <ul class="nav navbar-nav navbar-right" style="border:none;">
+                <ul class="nav navbar-nav">
                 <li class="dropdown navitem">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style=" color:white">Clubs<span ></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">Profile<span ></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="clubpage.html">Page</a></li>
+                            <li><a href="editprofilebootstrap.html">Page</a></li>
                             <li><a href="clublist.html">Page</a></li>
                             <li><a href="#">Page</a></li>
                         </ul>
                 </li>
             </ul>
-            
-            
-            <ul class="nav navbar-nav navbar-right" style="border:none;">
-                <li><a href="#" style="color:white"> Search</a></li>
                 <li><a href="#" style="color:white"> Sign Out</a></li>
             </ul>
         </div>
     </div>
 </nav>
+
         
 <form>
     <div class="container">
@@ -149,8 +150,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-2">
-                <select class="form-control" id="dayfrom">
+            <div class="form-group col-md-2" >
+                <select class="form-control" id="dayfrom" >
                     <option value="na">N/A</option>
                     <option value="sunday">Sunday</option>
                     <option value="monday">Monday</option>
