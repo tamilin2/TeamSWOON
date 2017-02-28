@@ -1,10 +1,11 @@
 /**
  * Created by Jeffers on 2/25/2017.
+ * Authenticate user's input to databaes
  */
 
 let authenticator = module.exports = {
     /**
-     * Verifies if User password matches
+     * Verifies if Connection password matches
      * @param password: original password
      * @param conf_password: copy password
      * Returns: true if equal, else false
@@ -43,9 +44,9 @@ let authenticator = module.exports = {
     },
 
     /**
-     * Verifies the User inputs an ucsd email
-     * @param email: given User email
-     * @returns true, if User enters a ucsd email
+     * Verifies the Connection inputs an ucsd email
+     * @param email: given Connection email
+     * @returns true, if Connection enters a ucsd email
      *          false, if use didn't enter a ucsd email
      */
     verify_ucsd_email: function (email) {
@@ -56,7 +57,7 @@ let authenticator = module.exports = {
     },
 
     /**
-     *  Verifies the User gave a ucsd email and matching password
+     *  Verifies the Connection gave a ucsd email and matching password
      */
     isRegisterValid: function (email, password, conf_password) {
         // Assures given password and ucsd email is correct

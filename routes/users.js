@@ -3,16 +3,16 @@
  */
 let express = require('express');
 let router = express.Router();
-let authenticator = require('./../public/js/authenticator');
+let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
 
-/*Loads create User profile page*/
+/*Loads create Connection profile page*/
 router.get('/create_user_profile', function (req, res) {
     // No errors will be pass
     res.render('pages/create_user_profile', {errors: null});
 });
 
-/*Sends new User credentials to upload page*/
+/*Sends new Connection credentials to upload page*/
 router.post('/create_user_profile', function (req, res) {
 
     /** Server validation of credentials
@@ -23,7 +23,7 @@ router.post('/create_user_profile', function (req, res) {
     queries.insert_student(req, res);
 });
 
-/*Loads edit User profile page*/
+/*Loads edit Connection profile page*/
 router.get('/edit_user_profile', function (req, res) {
     res.render('pages/edit_user_profile');
 });
@@ -38,16 +38,17 @@ router.get('/login', function (req, res) {
     res.render('pages/login', {errors: null, user:false});
 });
 
-/* User login */
+/* Connection login */
 router.post('/login',
     function (req, res) {
         queries.login(req, res);
 });
 
-/* User logout*/
+/* Connection logout*/
 router.get('/logout',
     function (req, res) {
         req.flash('success_msg', "You are logged out");
+        // Sets the current session to null to represent logging out
         req.session.name = null;
         res.redirect('/users/login');
     });

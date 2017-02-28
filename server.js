@@ -4,8 +4,6 @@ let expressLayouts = require('express-ejs-layouts');
 let bodyParser = require('body-parser');
 let expressValidator = require('express-validator');
 let session = require('express-session');
-let passport = require('passport');
-let localStrategy = require('passport-local').Strategy;
 let flash = require('connect-flash');
 let app = express();
 let port = process.env.PORT || 8080;
@@ -29,10 +27,6 @@ app.use(session({
       resave: false,
       saveUninitialized: true
 }));
-
-// Passport init
-app.use(passport.initialize());
-app.use(passport.session());
 
 // In this example, the formParam value is going to get morphed into form body format useful for printing.
 app.use(expressValidator({
@@ -60,6 +54,7 @@ app.use(function (req, res, next) {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error');
+    // Used to identify a logged in user
     res.locals.user = req.session.name;
     next();
 });

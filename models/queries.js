@@ -1,10 +1,14 @@
 /**
  * Created by Jeffers on 2/26/2017.
  */
-let authenticator = require('./../public/js/authenticator');
-let User = require('./user');
-let queries = module.exports = {
+let authenticator = require('./../routes/authenticator');
+let connection = require('./user');
 
+module.exports = {
+
+    /**
+     * Connection requesting to create profile
+     */
     insert_student: function (req, res, err) {
         let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         // MySQL query to insert into student table
@@ -15,22 +19,25 @@ let queries = module.exports = {
         let password = req.body.password;
         let password2 = req.body.password2;
 
+        // Required fields that we want
         req.checkBody('firstname', 'First name is required').notEmpty();
         req.checkBody('lastname', 'Last name is required').notEmpty();
         req.checkBody('email', 'Email is required').notEmpty();
         req.checkBody('email', 'Email is not valid').isEmail();
         req.checkBody('password', 'Password is required').notEmpty();
+        // Requires the user to enter matching passwords as confirmation
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         let errors = req.validationErrors();
 
         if (errors) {
-            // Render the page again with error notification
+            // Render the page again with error notification of missing fields
             res.render('pages/create_user_profile', {errors: errors});
         }
         else {
+            // The fields that we want to verify
             if (authenticator.isRegisterValid(email, password, password2)) {
-                console.log('Entering query', [firstname, lastname, email, phone, password]);
-                User(function (err, con) {
+                // Create new student row with given credentials on database
+                connection(function (err, con) {
                     if (err) {
                         req.flash('error_msg', 'Failed to create account');
                         res.redirect('/users/create_user_profile');
@@ -48,12 +55,15 @@ let queries = module.exports = {
                 });
             }
             else {
-                //TODO Handle incorrect credentials e.g. mismatching passwords
-                console.error("Credentials are incorrectly formatted");
+                //TODO Handle incorrect credentials e.g. Already existing ucsd email
+                console.error("Given credentials are bad");
             }
         }
     },
 
+    /**
+     * Connection requesting to log in.
+     */
     login: function (req, res) {
         // MySQL query to search student table
         let query_action = " SELECT student.first_name, student.email, student.password FROM student WHERE student.email = ? AND student.password = ?";
@@ -61,20 +71,21 @@ let queries = module.exports = {
         let email = req.body.email;
         let password = req.body.password;
 
+        // Assure these fields are filled
         req.checkBody('email', 'Email is required').notEmpty();
         req.checkBody('password', 'Password is required').notEmpty();
         let errors = req.validationErrors();
 
         if (errors) {
-            // Render the page again with error notification
+            // Render the page again with error notification of missing fields
             res.render('pages/login', {errors: errors});
         }
         else {
-            User(function (err, con) {
+            // Gets connection to database
+            connection(function (err, con) {
                 if (err) {
                     req.flash('error_msg', 'Failed to create account');
                     res.redirect('/users/create_user_profile');
-                    console.log(err);
                 }
                 else {
                     con.query(query_action, [email, password], function (err, rows) {
@@ -82,12 +93,15 @@ let queries = module.exports = {
                             req.flash('error_msg', 'Failed to connect to database');
                             res.redirect('/users/login');
                         }
+                        // Assures provided credentials return a valid account
                         else if (rows[0] == null) {
                             req.flash('error_msg', 'Email/Password is invalid');
                             res.redirect('/users/login');
                         }
+                        // Set current session as logged in
                         else {
                             req.flash('success_msg', 'Welcome ' + rows[0].first_name);
+                            // Since login success, represent session with the user's name
                             req.session.name = rows[0].first_name;
                             res.redirect('/');
                         }

@@ -19,4 +19,4 @@ let getConnection = function (cb) {
 };
 
 // Export reference to MySQL connection pool
-let User = module.exports = getConnection;
+module.exports = getConnection;
