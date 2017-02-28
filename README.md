@@ -21,3 +21,5 @@ Structure:
         Holds all .css and .js files to style pages/add jquery
     - views:
         Holds all .ejs files that format html pages
+    - model:
+        Hold the .js referencing the MySQL database
