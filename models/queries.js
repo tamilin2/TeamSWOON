@@ -56,7 +56,7 @@ let queries = module.exports = {
 
     login: function (req, res) {
         // MySQL query to search student table
-        let query = " SELECT student.first_name, student.email, student.password FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = " SELECT student.first_name, student.email, student.password FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -74,9 +74,10 @@ let queries = module.exports = {
                 if (err) {
                     req.flash('error_msg', 'Failed to create account');
                     res.redirect('/users/create_user_profile');
+                    console.log(err);
                 }
                 else {
-                    con.query(query, [email, password], function (err, rows) {
+                    con.query(query_action, [email, password], function (err, rows) {
                         if (err) {
                             req.flash('error_msg', 'Failed to connect to database');
                             res.redirect('/users/login');
@@ -86,12 +87,13 @@ let queries = module.exports = {
                             res.redirect('/users/login');
                         }
                         else {
-                            console.log('Welcome ' + rows[0].first_name);
                             req.flash('success_msg', 'Welcome ' + rows[0].first_name);
+                            req.session.name = rows[0].first_name;
                             res.redirect('/');
                         }
                     });
                 }
+                con.release();
             });
         }
 

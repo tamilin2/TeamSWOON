@@ -13,8 +13,7 @@ let pool = mysql.createPool({
 //Initial connection to test database connectivity
 let getConnection = function (cb) {
     pool.getConnection(function (err, conn) {
-        if (err) { console.error('Failed to connect to database'); }
-        else { console.log('Database connected'); }
+        if (err) { throw err; }
         cb(null, conn);
     });
 };

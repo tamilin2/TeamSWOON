@@ -3,8 +3,6 @@
  */
 let express = require('express');
 let router = express.Router();
-let passport = require('passport');
-let LocalStrategy = require('passport-local').Strategy;
 let authenticator = require('./../public/js/authenticator');
 let queries = require('./../models/queries');
 
@@ -37,7 +35,7 @@ router.get('/edit_club_profile', function (req, res) {
 
 // Login
 router.get('/login', function (req, res) {
-    res.render('pages/login', {errors: null});
+    res.render('pages/login', {errors: null, user:false});
 });
 
 /* User login */
@@ -46,6 +44,12 @@ router.post('/login',
         queries.login(req, res);
 });
 
-
+/* User logout*/
+router.get('/logout',
+    function (req, res) {
+        req.flash('success_msg', "You are logged out");
+        req.session.name = null;
+        res.redirect('/users/login');
+    });
 
 module.exports = router;
