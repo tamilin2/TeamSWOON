@@ -7,12 +7,12 @@ let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
 
 /*Loads create user profile page*/
-router.get('/create_user_profile', function (req, res) {
+router.get('/createUserProfile', function (req, res) {
     // No errors will be pass
-    res.render('pages/create_user_profile', {errors: null});
+    res.render('pages/createUserProfile', {errors: null});
 });
 /*Sends new user credentials to upload page*/
-router.post('/create_user_profile', function (req, res) {
+router.post('/createUserProfile', function (req, res) {
 
     /** Server validation of credentials
      *  -verifies passwords match
@@ -23,18 +23,18 @@ router.post('/create_user_profile', function (req, res) {
 
 
 /*Loads edit user profile page*/
-router.get('/edit_user_profile', function (req, res) {
-    res.render('pages/edit_user_profile');
+router.get('/editUserProfile', function (req, res) {
+    res.render('pages/editUserProfile');
 });
 /*Loads edit user profile page*/
-router.post('/edit_user_profile', function (req, res) {
+router.post('/editUserProfile', function (req, res) {
     res.render('pages/index');
 });
 
 
 /*Loads edit club profile page*/
-router.get('/edit_club_profile', function (req, res) {
-    res.render('pages/edit_club_profile');
+router.get('/editClubProfile', function (req, res) {
+    res.render('pages/editClubProfile');
 });
 
 

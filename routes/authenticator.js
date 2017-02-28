@@ -26,7 +26,7 @@ let authenticator = module.exports = {
         // Assures final phone number is valid, else it's null
         if (number.length != 10) {
             req.flash('error_msg', 'Invalid phone number');
-            res.redirect('/users/create_user_profile');
+            res.redirect('/users/createUserProfile');
             return "";
         }
 

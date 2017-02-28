@@ -34,7 +34,7 @@
                     </div>
 
                     <ul class="nav navbar-nav navbar-left" style="border:none;">
-                        <li><a href="/search_page" style="color:white"> Find Clubs</a></li>
+                        <li><a href="/searchPage" style="color:white"> Find Clubs</a></li>
                     </ul>
                     <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
                         <ul class="nav navbar-nav navbar-right" style="border:none;">
@@ -45,11 +45,11 @@
                                         <!-- Decides what buttons the viewer sees depending on logged status -->
                                         <% if(user != null) {%>
                                             <li><a href="#"> <%= user %> </a></li>
-                                            <li><a href="/users/edit_user_profile">Edit User Profile</a></li>
+                                            <li><a href="/users/editUserProfile">Edit User Profile</a></li>
                                             <li><a href="/users/logout">Logout</a></li>
                                         <% } %>
                                         <% if(user == null) { %>
-                                            <li><a href="/users/create_user_profile">Create User</a></li>
+                                            <li><a href="/users/createUserProfile">Create User</a></li>
                                             <li><a href="/users/login">Login</a></li>
                                         <% } %>
                                     </ul>
@@ -61,12 +61,12 @@
                 </div>
 
                 <!-- Loads messages after an event -->
-                <% if(success_msg.length > 0) {%>
-                <div align="center" class="alert alert-success"> <%= success_msg%> </div>
+                <% if(successMsg.length > 0) {%>
+                <div align="center" class="alert alert-success"> <%= successMsg%> </div>
                 <% } %>
 
-                <% if(error_msg.length > 0) {%>
-                <div align="center" class="alert alert-danger"> <%= error_msg%> </div>
+                <% if(errorMsg.length > 0) {%>
+                <div align="center" class="alert alert-danger"> <%= errorMsg%> </div>
                 <% } %>
 
                 <% if(error.length > 0) {%>
@@ -76,7 +76,7 @@
         </header>
 
             <!-- Page content added here -->
-            <%- defineContent('body_page')%>
+            <%- defineContent('bodyPage')%>
 
         <footer class="footer">
             <p>

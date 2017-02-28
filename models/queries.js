@@ -31,7 +31,7 @@ module.exports = {
 
         if (errors) {
             // Render the page again with error notification of missing fields
-            res.render('pages/create_user_profile', {errors: errors});
+            res.render('pages/createUserProfile', {errors: errors});
         }
         else {
 
@@ -39,17 +39,17 @@ module.exports = {
             connection(function (err, conn) {
                 if (err) {
                     req.flash('error_msg', 'Bad connection with database');
-                    res.redirect('/users/create_user_profile');
+                    res.redirect('/users/createUserProfile');
                 }
                 else {
                     conn.query(query, [firstname, lastname, email, phone, password], function (err) {
                         conn.release();
                         if (err) {
-                            req.flash('error_msg', (err.message).substr(13,17) + email);
-                            res.redirect('/users/create_user_profile');
+                            req.flash('errorMsg', (err.message).substr(13,17) + email);
+                            res.redirect('/users/createUserProfile');
                         }
                         else {
-                            req.flash('success_msg', 'Registration complete; Login');
+                            req.flash('successMsg', 'Registration complete; Login');
                             res.redirect('/users/login');
                         }
                     });
@@ -86,18 +86,18 @@ module.exports = {
                 else {
                     con.query(query_action, [email, password], function (err, rows) {
                         if (err) {
-                            req.flash('error_msg', 'Failed to connect to database');
+                            req.flash('errorMsg', 'Failed to connect to database');
                             res.redirect('/users/login');
                         }
                         // Assures provided credentials return a valid account
                         else if (rows[0] == null) {
-                            req.flash('error_msg', 'Email/Password is invalid');
+                            req.flash('errorMsg', 'Email/Password is invalid');
                             res.redirect('/users/login');
                         }
                         // Set current session as logged in
                         else {
                             let user = rows[0];
-                            req.flash('success_msg', 'Welcome ' + user.first_name);
+                            req.flash('successMsg', 'Welcome ' + user.first_name);
                             // Since login success, represent session with the user's name
                             req.session.name = user.first_name + " " + user.last_name;
                             res.redirect('/');

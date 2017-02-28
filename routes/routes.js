@@ -11,13 +11,13 @@ router.get('/', function (req, res) {
 });
 
 /*Loads home page*/
-router.get('/club_page', function (req, res) {
-    res.render('pages/club_page');
+router.get('/clubPage', function (req, res) {
+    res.render('pages/clubPage');
 });
 
 /*Loads home page*/
-router.get('/search_page', function (req, res) {
-    res.render('pages/search_page');
+router.get('/searchPage', function (req, res) {
+    res.render('pages/searchPage');
 });
 
 // Communicates this router to server.js
