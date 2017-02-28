@@ -42,10 +42,10 @@
                                 <li class="dropdown navitem">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">Profile<span ></span></a>
                                     <ul class="dropdown-menu">
-                                        <!--<li><a href="/users/edit_club_profile">Edit Club Profile</a></li>-->
-
                                         <!-- Decides what buttons the viewer sees depending on logged status -->
                                         <% if(user != null) {%>
+                                            <li><a href="#"> <%= user %> </a></li>
+                                            <li><a href="/users/edit_user_profile">Edit User Profile</a></li>
                                             <li><a href="/users/logout">Logout</a></li>
                                         <% } %>
                                         <% if(user == null) { %>

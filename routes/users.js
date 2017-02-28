@@ -6,43 +6,47 @@ let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
 
-/*Loads create Connection profile page*/
+/*Loads create user profile page*/
 router.get('/create_user_profile', function (req, res) {
     // No errors will be pass
     res.render('pages/create_user_profile', {errors: null});
 });
-
-/*Sends new Connection credentials to upload page*/
+/*Sends new user credentials to upload page*/
 router.post('/create_user_profile', function (req, res) {
 
     /** Server validation of credentials
      *  -verifies passwords match
      *  -verifies age is correct
      */
-    //TODO Handle same ucsd email case
     queries.insert_student(req, res);
 });
 
-/*Loads edit Connection profile page*/
+
+/*Loads edit user profile page*/
 router.get('/edit_user_profile', function (req, res) {
     res.render('pages/edit_user_profile');
 });
+/*Loads edit user profile page*/
+router.post('/edit_user_profile', function (req, res) {
+    res.render('pages/index');
+});
+
 
 /*Loads edit club profile page*/
 router.get('/edit_club_profile', function (req, res) {
     res.render('pages/edit_club_profile');
 });
 
-// Login
-router.get('/login', function (req, res) {
-    res.render('pages/login', {errors: null, user:false});
-});
 
+// Loads user login
+router.get('/login', function (req, res) {
+    res.render('pages/login', {errors: null, user:null});
+});
 /* Connection login */
-router.post('/login',
-    function (req, res) {
+router.post('/login', function (req, res) {
         queries.login(req, res);
 });
+
 
 /* Connection logout*/
 router.get('/logout',

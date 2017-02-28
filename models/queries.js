@@ -9,21 +9,21 @@ module.exports = {
     /**
      * Connection requesting to create profile
      */
-    insert_student: function (req, res, err) {
+    insert_student: function (req, res) {
         let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         // MySQL query to insert into student table
         let firstname = req.body.firstname;
         let lastname = req.body.lastname;
         let email = req.body.email;
-        let phone = authenticator.parse_phoneNum(req.body.phone);
+        let phone = authenticator.parse_phoneNum(req, res);
         let password = req.body.password;
         let password2 = req.body.password2;
 
         // Required fields that we want
         req.checkBody('firstname', 'First name is required').notEmpty();
         req.checkBody('lastname', 'Last name is required').notEmpty();
-        req.checkBody('email', 'Email is required').notEmpty();
-        req.checkBody('email', 'Email is not valid').isEmail();
+        req.checkBody('phone', 'Require phone number').notEmpty();
+        req.checkBody('email', 'Required email is not valid').isEmail();
         req.checkBody('password', 'Password is required').notEmpty();
         // Requires the user to enter matching passwords as confirmation
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
@@ -34,30 +34,27 @@ module.exports = {
             res.render('pages/create_user_profile', {errors: errors});
         }
         else {
-            // The fields that we want to verify
-            if (authenticator.isRegisterValid(email, password, password2)) {
-                // Create new student row with given credentials on database
-                connection(function (err, con) {
-                    if (err) {
-                        req.flash('error_msg', 'Failed to create account');
-                        res.redirect('/users/create_user_profile');
-                    }
-                    else {
-                        con.query(query, [firstname, lastname, email, phone, password], function (err) {
-                            if (err) {
-                                req.flash('error_msg', 'Failed to connect to database');
-                                res.redirect('/users/create_user_profile');
-                            }
-                        req.flash('success_msg', 'Registration complete; Login');
-                        res.redirect('/users/login');
-                        });
-                    }
-                });
-            }
-            else {
-                //TODO Handle incorrect credentials e.g. Already existing ucsd email
-                console.error("Given credentials are bad");
-            }
+
+            // Create new student row with given credentials on database
+            connection(function (err, conn) {
+                if (err) {
+                    req.flash('error_msg', 'Bad connection with database');
+                    res.redirect('/users/create_user_profile');
+                }
+                else {
+                    conn.query(query, [firstname, lastname, email, phone, password], function (err) {
+                        conn.release();
+                        if (err) {
+                            req.flash('error_msg', (err.message).substr(13,17) + email);
+                            res.redirect('/users/create_user_profile');
+                        }
+                        else {
+                            req.flash('success_msg', 'Registration complete; Login');
+                            res.redirect('/users/login');
+                        }
+                    });
+                }
+            });
         }
     },
 
@@ -66,7 +63,7 @@ module.exports = {
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = " SELECT student.first_name, student.email, student.password FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = " SELECT student.first_name, student.last_name, student.email ,student.password FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -84,8 +81,7 @@ module.exports = {
             // Gets connection to database
             connection(function (err, con) {
                 if (err) {
-                    req.flash('error_msg', 'Failed to create account');
-                    res.redirect('/users/create_user_profile');
+                    res.render('/users/login', {errors: errors});
                 }
                 else {
                     con.query(query_action, [email, password], function (err, rows) {
@@ -100,9 +96,10 @@ module.exports = {
                         }
                         // Set current session as logged in
                         else {
-                            req.flash('success_msg', 'Welcome ' + rows[0].first_name);
+                            let user = rows[0];
+                            req.flash('success_msg', 'Welcome ' + user.first_name);
                             // Since login success, represent session with the user's name
-                            req.session.name = rows[0].first_name;
+                            req.session.name = user.first_name + " " + user.last_name;
                             res.redirect('/');
                         }
                     });
