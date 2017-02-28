@@ -3,8 +3,10 @@
  */
 let express = require('express');
 let router = express.Router();
-let authenticator = require('./authenticator');
-let queries = require('./queries');
+let passport = require('passport');
+let LocalStrategy = require('passport-local').Strategy;
+let authenticator = require('./../public/js/authenticator');
+let queries = require('./../models/queries');
 
 /*Loads create User profile page*/
 router.get('/create_user_profile', function (req, res) {
@@ -35,12 +37,13 @@ router.get('/edit_club_profile', function (req, res) {
 
 // Login
 router.get('/login', function (req, res) {
-    res.render('pages/login');
+    res.render('pages/login', {errors: null});
 });
 
 /* User login */
-router.post('/login', function (req, res) {
-    console.log(req.body.username, req.body.password);
+router.post('/login',
+    function (req, res) {
+        queries.login(req, res);
 });
 
 

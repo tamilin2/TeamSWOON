@@ -1,8 +1,8 @@
 /**
  * Created by Jeffers on 2/26/2017.
  */
-let authenticator = require('./authenticator');
-let User = require('../models/user');
+let authenticator = require('./../public/js/authenticator');
+let User = require('./user');
 let queries = module.exports = {
 
     insert_student: function (req, res, err) {
@@ -52,5 +52,48 @@ let queries = module.exports = {
                 console.error("Credentials are incorrectly formatted");
             }
         }
+    },
+
+    login: function (req, res) {
+        // MySQL query to search student table
+        let query = " SELECT student.first_name, student.email, student.password FROM student WHERE student.email = ? AND student.password = ?";
+
+        let email = req.body.email;
+        let password = req.body.password;
+
+        req.checkBody('email', 'Email is required').notEmpty();
+        req.checkBody('password', 'Password is required').notEmpty();
+        let errors = req.validationErrors();
+
+        if (errors) {
+            // Render the page again with error notification
+            res.render('pages/login', {errors: errors});
+        }
+        else {
+            User(function (err, con) {
+                if (err) {
+                    req.flash('error_msg', 'Failed to create account');
+                    res.redirect('/users/create_user_profile');
+                }
+                else {
+                    con.query(query, [email, password], function (err, rows) {
+                        if (err) {
+                            req.flash('error_msg', 'Failed to connect to database');
+                            res.redirect('/users/login');
+                        }
+                        else if (rows[0] == null) {
+                            req.flash('error_msg', 'Email/Password is invalid');
+                            res.redirect('/users/login');
+                        }
+                        else {
+                            console.log('Welcome ' + rows[0].first_name);
+                            req.flash('success_msg', 'Welcome ' + rows[0].first_name);
+                            res.redirect('/');
+                        }
+                    });
+                }
+            });
+        }
+
     }
 };
