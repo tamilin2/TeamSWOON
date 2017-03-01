@@ -11,8 +11,7 @@ let authenticator = module.exports = {
      *      - true, if formatted correctly
      *      - false, if formatted incorrectly
      */
-    parse_phoneNum: function (req, res) {
-        let phone_number = req.body.phone;
+    parse_phoneNum: function (phone_number) {
         let number = "";
 
         for (let idx = 0; idx < phone_number.length; idx++) {
@@ -22,14 +21,36 @@ let authenticator = module.exports = {
                 number += curr_dig;
             }
         }
-
-        // Assures final phone number is valid, else it's null
-        if (number.length != 10) {
-            req.flash('error_msg', 'Invalid phone number');
-            res.redirect('/users/createUserProfile');
-            return "";
-        }
-
         return number;
+    },
+
+    /**
+     * verifies given phone number is valid
+     */
+    verify_phone: function (req, res, phone) {
+        // Assures final phone number is valid
+        if (phone.length == 10) {
+            return true;
+        }
+        console.log("Bad phone");
+        req.flash('errorMsg', 'Invalid phone number');
+        return false;
+    },
+
+    /**
+     * Verifies given email is a ucsd.edu email
+     */
+    verify_email: function (req, res, email) {
+        // Assures email address ends in @ucsd.edu to be a ucsd email
+        if(email.substring(email.length-9) === '@ucsd.edu') {
+            return true;
+        }
+        console.log("Bad email");
+        req.flash('errorMsg', 'Invalid ucsd email');
+        return false;
+    },
+
+    capitalize_name : function (name) {
+        return name.charAt(0).toUpperCase() + name.slice(1);
     }
 };

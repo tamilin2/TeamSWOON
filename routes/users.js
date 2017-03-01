@@ -51,9 +51,10 @@ router.post('/login', function (req, res) {
 /* Connection logout*/
 router.get('/logout',
     function (req, res) {
-        req.flash('success_msg', "You are logged out");
+        req.flash('successMsg', "You are logged out");
         // Sets the current session to null to represent logging out
         req.session.name = null;
+        req.session.email= null;
         res.redirect('/users/login');
     });
 

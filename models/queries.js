@@ -10,12 +10,14 @@ module.exports = {
      * Connection requesting to create profile
      */
     insert_student: function (req, res) {
-        let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         // MySQL query to insert into student table
+        let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+
+        //Gets all user data passed from the view
         let firstname = req.body.firstname;
         let lastname = req.body.lastname;
         let email = req.body.email;
-        let phone = authenticator.parse_phoneNum(req, res);
+        let phone = authenticator.parse_phoneNum(req.body.phone);
         let password = req.body.password;
         let password2 = req.body.password2;
 
@@ -33,12 +35,14 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/createUserProfile', {errors: errors});
         }
+        else if(!authenticator.verify_email(req, res, email) || !authenticator.verify_phone(req, res, phone)) {
+            res.redirect('/users/createUserProfile');
+        }
         else {
-
             // Create new student row with given credentials on database
             connection(function (err, conn) {
                 if (err) {
-                    req.flash('error_msg', 'Bad connection with database');
+                    req.flash('errorMsg', 'Bad connection with database');
                     res.redirect('/users/createUserProfile');
                 }
                 else {
@@ -49,7 +53,7 @@ module.exports = {
                             res.redirect('/users/createUserProfile');
                         }
                         else {
-                            req.flash('successMsg', 'Registration complete; Login');
+                            req.flash('successMsg', 'Registration complete : You may login');
                             res.redirect('/users/login');
                         }
                     });
@@ -77,6 +81,9 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/login', {errors: errors});
         }
+        else if(!authenticator.verify_email(req, res, email)) {
+            res.redirect('/users/login');
+        }
         else {
             // Gets connection to database
             connection(function (err, con) {
@@ -97,9 +104,10 @@ module.exports = {
                         // Set current session as logged in
                         else {
                             let user = rows[0];
-                            req.flash('successMsg', 'Welcome ' + user.first_name);
-                            // Since login success, represent session with the user's name
-                            req.session.name = user.first_name + " " + user.last_name;
+                            // Since login success, represent session with the user's name and email
+                            req.session.name = authenticator.capitalize_name(user.first_name) + " " + authenticator.capitalize_name(user.last_name);
+                            req.session.email = user.email;
+                            req.flash('successMsg', 'Welcome ' + req.session.name);
                             res.redirect('/');
                         }
                     });
@@ -107,6 +115,5 @@ module.exports = {
                 con.release();
             });
         }
-
     }
 };
