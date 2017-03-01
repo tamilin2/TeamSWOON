@@ -5,4 +5,5 @@ var fade_out = function() {
    $("#userAlert").fadeOut().empty();
 }
 
-setTimeout(fade_out, 3000);
+// Fade component after 3.2 seconds
+setTimeout(fade_out, 3200);
