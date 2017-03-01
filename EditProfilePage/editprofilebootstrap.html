@@ -10,42 +10,42 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="editprofile.js"></script>
     </head>
 
-<body>    
-<nav class="navbar navbar-default" style="background-color: rgb(40,40,40); border-radius: 0; height: 60px; border:none; z-index:9;">
+<body>
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span>
             </button>
             <a style="color:white; font-weight: 550; " class="navbar-brand" href="#">SWOON</a>
         </div>
         
-        <ul class="nav navbar-nav navbar-left" style="border:none;">
-            <li><a href="#" style="color:white"> Find Clubs</a></li>
-        </ul>
         <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
-           <ul class="nav navbar-nav navbar-right" style="border:none;">
-                <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">
                 <li class="dropdown navitem">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">Profile<span ></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style=" color:white">Clubs<span ></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="editprofilebootstrap.html">Page</a></li>
+                            <li><a href="clubpage.html">Page</a></li>
                             <li><a href="clublist.html">Page</a></li>
                             <li><a href="#">Page</a></li>
                         </ul>
                 </li>
             </ul>
+            
+            
+            <ul class="nav navbar-nav navbar-right" style="border:none;">
+                <li><a href="#" style="color:white"> Search</a></li>
                 <li><a href="#" style="color:white"> Sign Out</a></li>
             </ul>
         </div>
     </div>
 </nav>
-
         
 <form>
     <div class="container">
@@ -141,154 +141,374 @@
         <div class="row">
             <h2>Schedule:</h2>
         </div>
+        
         <div class="row">
-            <div class="col-md-2">
-                <h4>From:</h4>
+            <div class="col-sm-4">
+                <h4>Monday</h4>
+                <input type="checkbox" name ="mon12a"> 12am
+                <input type="checkbox" name ="mon1230a"> 1230am<br>
+                <input type="checkbox" name ="mon1a"> 1am
+                <input type="checkbox" name ="mon130a"> 1230am<br>
+                <input type="checkbox" name ="mon2a">2am
+                <input type="checkbox" name ="mon230a"> 1230am<br>
+                <input type="checkbox" name ="mon3a"> 3am
+                <input type="checkbox" name ="mon330a"> 1230am<br>
+                <input type="checkbox" name ="mon4a"> 4am
+                <input type="checkbox" name ="mon430a"> 1230am<br>
+                <input type="checkbox" name ="mon5a"> 5am
+                <input type="checkbox" name ="mon530a"> 1230am<br>
+                <input type="checkbox" name ="mon6a"> 6am
+                <input type="checkbox" name ="mon630a"> 1230am<br>
+                <input type="checkbox" name ="mon7a"> 7am
+                <input type="checkbox" name ="mon730a"> 1230am<br>
+                <input type="checkbox" name ="mon8a"> 8am
+                <input type="checkbox" name ="mon830a"> 1230am<br>
+                <input type="checkbox" name ="mon9a"> 9am
+                <input type="checkbox" name ="mon930a"> 1230am<br>
+                <input type="checkbox" name ="mon10a"> 10am
+                <input type="checkbox" name ="mon1030a"> 1230am<br>
+                <input type="checkbox" name ="mon11a"> 11am
+                <input type="checkbox" name ="mon1130a"> 1230am<br>
+                <input type="checkbox" name ="mon12p"> 12pm
+                <input type="checkbox" name ="mon1230p"> 1230am<br>
+                <input type="checkbox" name ="mon1p"> 1pm
+                <input type="checkbox" name ="mon130p"> 1230am<br>
+                <input type="checkbox" name ="mon2p"> 2pm
+                <input type="checkbox" name ="mon230p"> 1230am<br>
+                <input type="checkbox" name ="mon3p"> 3pm
+                <input type="checkbox" name ="mon330p"> 1230am<br>
+                <input type="checkbox" name ="mon4p"> 4pm
+                <input type="checkbox" name ="mon430p"> 1230am<br>
+                <input type="checkbox" name ="mon5p"> 5pm
+                <input type="checkbox" name ="mon530p"> 1230am<br>
+                <input type="checkbox" name ="mon6p"> 6pm
+                <input type="checkbox" name ="mon630p"> 1230am<br>
+                <input type="checkbox" name ="mon7p"> 7pm
+                <input type="checkbox" name ="mon730p"> 1230am<br>
+                <input type="checkbox" name ="mon8p"> 8pm
+                <input type="checkbox" name ="mon830p"> 1230am<br>
+                <input type="checkbox" name ="mon9p"> 9pm
+                <input type="checkbox" name ="mon930p"> 1230am<br>
+                <input type="checkbox" name ="mon10p"> 10pm
+                <input type="checkbox" name ="mon1030p"> 1230am<br>
+                <input type="checkbox" name ="mon11p"> 11pm
+                <input type="checkbox" name ="mon1130p"> 1230am<br>
             </div>
-            <div class="col-md-2 col-md-offset-4">
-                <h4>To:</h4>
+            <div class="col-sm-4">
+                <h4>Tuesday</h4>
+                <input type="checkbox" name ="tue12a"> 12am
+                <input type="checkbox" name ="tue1230a"> 1230am<br>
+                <input type="checkbox" name ="tue1a"> 1am
+                <input type="checkbox" name ="tue130a"> 1230am<br>
+                <input type="checkbox" name ="tue2a">2am
+                <input type="checkbox" name ="tue230a"> 1230am<br>
+                <input type="checkbox" name ="tue3a"> 3am
+                <input type="checkbox" name ="tue330a"> 1230am<br>
+                <input type="checkbox" name ="tue4a"> 4am
+                <input type="checkbox" name ="tue430a"> 1230am<br>
+                <input type="checkbox" name ="tue5a"> 5am
+                <input type="checkbox" name ="tue530a"> 1230am<br>
+                <input type="checkbox" name ="tue6a"> 6am
+                <input type="checkbox" name ="tue630a"> 1230am<br>
+                <input type="checkbox" name ="tue7a"> 7am
+                <input type="checkbox" name ="tue730a"> 1230am<br>
+                <input type="checkbox" name ="tue8a"> 8am
+                <input type="checkbox" name ="tue830a"> 1230am<br>
+                <input type="checkbox" name ="tue9a"> 9am
+                <input type="checkbox" name ="tue930a"> 1230am<br>
+                <input type="checkbox" name ="tue10a"> 10am
+                <input type="checkbox" name ="tue1030a"> 1230am<br>
+                <input type="checkbox" name ="tue11a"> 11am
+                <input type="checkbox" name ="tue1130a"> 1230am<br>
+                <input type="checkbox" name ="tue12p"> 12pm
+                <input type="checkbox" name ="tue1230p"> 1230am<br>
+                <input type="checkbox" name ="tue1p"> 1pm
+                <input type="checkbox" name ="tue130p"> 1230am<br>
+                <input type="checkbox" name ="tue2p"> 2pm
+                <input type="checkbox" name ="tue230p"> 1230am<br>
+                <input type="checkbox" name ="tue3p"> 3pm
+                <input type="checkbox" name ="tue330p"> 1230am<br>
+                <input type="checkbox" name ="tue4p"> 4pm
+                <input type="checkbox" name ="tue430p"> 1230am<br>
+                <input type="checkbox" name ="tue5p"> 5pm
+                <input type="checkbox" name ="tue530p"> 1230am<br>
+                <input type="checkbox" name ="tue6p"> 6pm
+                <input type="checkbox" name ="tue630p"> 1230am<br>
+                <input type="checkbox" name ="tue7p"> 7pm
+                <input type="checkbox" name ="tue730p"> 1230am<br>
+                <input type="checkbox" name ="tue8p"> 8pm
+                <input type="checkbox" name ="tue830p"> 1230am<br>
+                <input type="checkbox" name ="tue9p"> 9pm
+                <input type="checkbox" name ="tue930p"> 1230am<br>
+                <input type="checkbox" name ="tue10p"> 10pm
+                <input type="checkbox" name ="tue1030p"> 1230am<br>
+                <input type="checkbox" name ="tue11p"> 11pm
+                <input type="checkbox" name ="tue1130p"> 1230am<br>
+            </div>
+            <div class="col-sm-4">
+                <h4>Wednesday</h4>
+                <input type="checkbox" name ="wed12a"> 12am
+                <input type="checkbox" name ="wed1230a"> 1230am<br>
+                <input type="checkbox" name ="wed1a"> 1am
+                <input type="checkbox" name ="wed130a"> 1230am<br>
+                <input type="checkbox" name ="wed2a">2am
+                <input type="checkbox" name ="wed230a"> 1230am<br>
+                <input type="checkbox" name ="wed3a"> 3am
+                <input type="checkbox" name ="wed330a"> 1230am<br>
+                <input type="checkbox" name ="wed4a"> 4am
+                <input type="checkbox" name ="wed430a"> 1230am<br>
+                <input type="checkbox" name ="wed5a"> 5am
+                <input type="checkbox" name ="wed530a"> 1230am<br>
+                <input type="checkbox" name ="wed6a"> 6am
+                <input type="checkbox" name ="wed630a"> 1230am<br>
+                <input type="checkbox" name ="wed7a"> 7am
+                <input type="checkbox" name ="wed730a"> 1230am<br>
+                <input type="checkbox" name ="wed8a"> 8am
+                <input type="checkbox" name ="wed830a"> 1230am<br>
+                <input type="checkbox" name ="wed9a"> 9am
+                <input type="checkbox" name ="wed930a"> 1230am<br>
+                <input type="checkbox" name ="wed10a"> 10am
+                <input type="checkbox" name ="wed1030a"> 1230am<br>
+                <input type="checkbox" name ="wed11a"> 11am
+                <input type="checkbox" name ="wed1130a"> 1230am<br>
+                <input type="checkbox" name ="wed12p"> 12pm
+                <input type="checkbox" name ="wed1230p"> 1230am<br>
+                <input type="checkbox" name ="wed1p"> 1pm
+                <input type="checkbox" name ="wed130p"> 1230am<br>
+                <input type="checkbox" name ="wed2p"> 2pm
+                <input type="checkbox" name ="wed230p"> 1230am<br>
+                <input type="checkbox" name ="wed3p"> 3pm
+                <input type="checkbox" name ="wed330p"> 1230am<br>
+                <input type="checkbox" name ="wed4p"> 4pm
+                <input type="checkbox" name ="wed430p"> 1230am<br>
+                <input type="checkbox" name ="wed5p"> 5pm
+                <input type="checkbox" name ="wed530p"> 1230am<br>
+                <input type="checkbox" name ="wed6p"> 6pm
+                <input type="checkbox" name ="wed630p"> 1230am<br>
+                <input type="checkbox" name ="wed7p"> 7pm
+                <input type="checkbox" name ="wed730p"> 1230am<br>
+                <input type="checkbox" name ="wed8p"> 8pm
+                <input type="checkbox" name ="wed830p"> 1230am<br>
+                <input type="checkbox" name ="wed9p"> 9pm
+                <input type="checkbox" name ="wed930p"> 1230am<br>
+                <input type="checkbox" name ="wed10p"> 10pm
+                <input type="checkbox" name ="wed1030p"> 1230am<br>
+                <input type="checkbox" name ="wed11p"> 11pm
+                <input type="checkbox" name ="wed1130p"> 1230am<br>
             </div>
         </div>
-        <div class="row ">
-            <div class="form-group col-md-2" >
-                <select class="form-control" id="dayfrom" >
-                    <option value="na">N/A</option>
-                    <option value="sunday">Sunday</option>
-                    <option value="monday">Monday</option>
-                    <option value="tuesday">Tuesday</option>
-                    <option value="wednesday">Wednesday</option>
-                    <option value="thursday">Thursday</option>
-                    <option value="friday">Friday</option>
-                    <option value="saturday">Saturday</option>
-                </select>
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>Thursday</h4>
+                <input type="checkbox" name ="thurs12a"> 12am
+                <input type="checkbox" name ="thurs1230a"> 1230am<br>
+                <input type="checkbox" name ="thurs1a"> 1am
+                <input type="checkbox" name ="thurs130a"> 1230am<br>
+                <input type="checkbox" name ="thurs2a">2am
+                <input type="checkbox" name ="thurs230a"> 1230am<br>
+                <input type="checkbox" name ="thurs3a"> 3am
+                <input type="checkbox" name ="thurs330a"> 1230am<br>
+                <input type="checkbox" name ="thurs4a"> 4am
+                <input type="checkbox" name ="thurs430a"> 1230am<br>
+                <input type="checkbox" name ="thurs5a"> 5am
+                <input type="checkbox" name ="thurs530a"> 1230am<br>
+                <input type="checkbox" name ="thurs6a"> 6am
+                <input type="checkbox" name ="thurs630a"> 1230am<br>
+                <input type="checkbox" name ="thurs7a"> 7am
+                <input type="checkbox" name ="thurs730a"> 1230am<br>
+                <input type="checkbox" name ="thurs8a"> 8am
+                <input type="checkbox" name ="thurs830a"> 1230am<br>
+                <input type="checkbox" name ="thurs9a"> 9am
+                <input type="checkbox" name ="thurs930a"> 1230am<br>
+                <input type="checkbox" name ="thurs10a"> 10am
+                <input type="checkbox" name ="thurs1030a"> 1230am<br>
+                <input type="checkbox" name ="thurs11a"> 11am
+                <input type="checkbox" name ="thurs1130a"> 1230am<br>
+                <input type="checkbox" name ="thurs12p"> 12pm
+                <input type="checkbox" name ="thurs1230p"> 1230am<br>
+                <input type="checkbox" name ="thurs1p"> 1pm
+                <input type="checkbox" name ="thurs130p"> 1230am<br>
+                <input type="checkbox" name ="thurs2p"> 2pm
+                <input type="checkbox" name ="thurs230p"> 1230am<br>
+                <input type="checkbox" name ="thurs3p"> 3pm
+                <input type="checkbox" name ="thurs330p"> 1230am<br>
+                <input type="checkbox" name ="thurs4p"> 4pm
+                <input type="checkbox" name ="thurs430p"> 1230am<br>
+                <input type="checkbox" name ="thurs5p"> 5pm
+                <input type="checkbox" name ="thurs530p"> 1230am<br>
+                <input type="checkbox" name ="thurs6p"> 6pm
+                <input type="checkbox" name ="thurs630p"> 1230am<br>
+                <input type="checkbox" name ="thurs7p"> 7pm
+                <input type="checkbox" name ="thurs730p"> 1230am<br>
+                <input type="checkbox" name ="thurs8p"> 8pm
+                <input type="checkbox" name ="thurs830p"> 1230am<br>
+                <input type="checkbox" name ="thurs9p"> 9pm
+                <input type="checkbox" name ="thurs930p"> 1230am<br>
+                <input type="checkbox" name ="thurs10p"> 10pm
+                <input type="checkbox" name ="thurs1030p"> 1230am<br>
+                <input type="checkbox" name ="thurs11p"> 11pm
+                <input type="checkbox" name ="thurs1130p"> 1230am<br>
             </div>
-            <div class="form-group col-md-3">
-                <select class="form-control" id="timefrom">
-                    <option value="na">N/A</option>
-                    <option value="12am">12:00am</option>
-                    <option value="1230am">12:30am</option>
-                    <option value="1am">1:00am</option>
-                    <option value="130am">1:30am</option>
-                    <option value="2am">2:00am</option>
-                    <option value="230am">2:30am</option>
-                    <option value="3am">3:00am</option>
-                    <option value="330am">3:30am</option>
-                    <option value="4am">4:00am</option>
-                    <option value="430am">4:30am</option>
-                    <option value="5am">5:00am</option>
-                    <option value="530am">5:30am</option>
-                    <option value="6am">6:00am</option>
-                    <option value="630am">6:30am</option>
-                    <option value="7am">7:00am</option>
-                    <option value="730am">7:30am</option>
-                    <option value="8am">8:00am</option>
-                    <option value="830am">8:30am</option>
-                    <option value="9am">9:00am</option>
-                    <option value="930am">9:30am</option>
-                    <option value="10am">10:00am</option>
-                    <option value="1030am">10:30am</option>
-                    <option value="11am">11:00am</option>
-                    <option value="1130am">11:30am</option>
-                    <option value="12pm">12:00pm</option>
-                    <option value="1230pm">12:30pm</option>
-                    <option value="1pm">1:00pm</option>
-                    <option value="130pm">1:30pm</option>
-                    <option value="2pm">2:00pm</option>
-                    <option value="230pm">2:30pm</option>
-                    <option value="3pm">3:00pm</option>
-                    <option value="330pm">3:30pm</option>
-                    <option value="4pm">4:00pm</option>
-                    <option value="430pm">4:30pm</option>
-                    <option value="5pm">5:00pm</option>
-                    <option value="530pm">5:30pm</option>
-                    <option value="6pm">6:00pm</option>
-                    <option value="630pm">6:30pm</option>
-                    <option value="7pm">7:00pm</option>
-                    <option value="730pm">7:30pm</option>
-                    <option value="8pm">8:00pm</option>
-                    <option value="830pm">8:30pm</option>
-                    <option value="9pm">9:00pm</option>
-                    <option value="930pm">9:30pm</option>
-                    <option value="10pm">10:00pm</option>
-                    <option value="1030pm">10:30pm</option>
-                    <option value="11pm">11:00pm</option>
-                    <option value="1130pm">11:30pm</option>
-                </select>
+            <div class="col-sm-4">
+                <h4>Friday</h4>
+                <input type="checkbox" name ="fri12a"> 12am
+                <input type="checkbox" name ="fri1230a"> 1230am<br>
+                <input type="checkbox" name ="fri1a"> 1am
+                <input type="checkbox" name ="fri130a"> 1230am<br>
+                <input type="checkbox" name ="fri2a">2am
+                <input type="checkbox" name ="fri230a"> 1230am<br>
+                <input type="checkbox" name ="fri3a"> 3am
+                <input type="checkbox" name ="fri330a"> 1230am<br>
+                <input type="checkbox" name ="fri4a"> 4am
+                <input type="checkbox" name ="fri430a"> 1230am<br>
+                <input type="checkbox" name ="fri5a"> 5am
+                <input type="checkbox" name ="fri530a"> 1230am<br>
+                <input type="checkbox" name ="fri6a"> 6am
+                <input type="checkbox" name ="fri630a"> 1230am<br>
+                <input type="checkbox" name ="fri7a"> 7am
+                <input type="checkbox" name ="fri730a"> 1230am<br>
+                <input type="checkbox" name ="fri8a"> 8am
+                <input type="checkbox" name ="fri830a"> 1230am<br>
+                <input type="checkbox" name ="fri9a"> 9am
+                <input type="checkbox" name ="fri930a"> 1230am<br>
+                <input type="checkbox" name ="fri10a"> 10am
+                <input type="checkbox" name ="fri1030a"> 1230am<br>
+                <input type="checkbox" name ="fri11a"> 11am
+                <input type="checkbox" name ="fri1130a"> 1230am<br>
+                <input type="checkbox" name ="fri12p"> 12pm
+                <input type="checkbox" name ="fri1230p"> 1230am<br>
+                <input type="checkbox" name ="fri1p"> 1pm
+                <input type="checkbox" name ="fri130p"> 1230am<br>
+                <input type="checkbox" name ="fri2p"> 2pm
+                <input type="checkbox" name ="fri230p"> 1230am<br>
+                <input type="checkbox" name ="fri3p"> 3pm
+                <input type="checkbox" name ="fri330p"> 1230am<br>
+                <input type="checkbox" name ="fri4p"> 4pm
+                <input type="checkbox" name ="fri430p"> 1230am<br>
+                <input type="checkbox" name ="fri5p"> 5pm
+                <input type="checkbox" name ="fri530p"> 1230am<br>
+                <input type="checkbox" name ="fri6p"> 6pm
+                <input type="checkbox" name ="fri630p"> 1230am<br>
+                <input type="checkbox" name ="fri7p"> 7pm
+                <input type="checkbox" name ="fri730p"> 1230am<br>
+                <input type="checkbox" name ="fri8p"> 8pm
+                <input type="checkbox" name ="fri830p"> 1230am<br>
+                <input type="checkbox" name ="fri9p"> 9pm
+                <input type="checkbox" name ="fri930p"> 1230am<br>
+                <input type="checkbox" name ="fri10p"> 10pm
+                <input type="checkbox" name ="fri1030p"> 1230am<br>
+                <input type="checkbox" name ="fri11p"> 11pm
+                <input type="checkbox" name ="fri1130p"> 1230am<br>
             </div>
-            <div class="form-group col-md-2">
-                <select class="form-control" id="dayfrom">
-                    <option value="na">N/A</option>
-                    <option value="sunday">Sunday</option>
-                    <option value="monday">Monday</option>
-                    <option value="tuesday">Tuesday</option>
-                    <option value="wednesday">Wednesday</option>
-                    <option value="thursday">Thursday</option>
-                    <option value="friday">Friday</option>
-                    <option value="saturday">Saturday</option>
-                </select>
-            </div>
-            <div class="form-group col-md-3">
-                <select class="form-control" id="timefrom">
-                    <option value="na">N/A</option>
-                    <option value="12am">12:00am</option>
-                    <option value="1230am">12:30am</option>
-                    <option value="1am">1:00am</option>
-                    <option value="130am">1:30am</option>
-                    <option value="2am">2:00am</option>
-                    <option value="230am">2:30am</option>
-                    <option value="3am">3:00am</option>
-                    <option value="330am">3:30am</option>
-                    <option value="4am">4:00am</option>
-                    <option value="430am">4:30am</option>
-                    <option value="5am">5:00am</option>
-                    <option value="530am">5:30am</option>
-                    <option value="6am">6:00am</option>
-                    <option value="630am">6:30am</option>
-                    <option value="7am">7:00am</option>
-                    <option value="730am">7:30am</option>
-                    <option value="8am">8:00am</option>
-                    <option value="830am">8:30am</option>
-                    <option value="9am">9:00am</option>
-                    <option value="930am">9:30am</option>
-                    <option value="10am">10:00am</option>
-                    <option value="1030am">10:30am</option>
-                    <option value="11am">11:00am</option>
-                    <option value="1130am">11:30am</option>
-                    <option value="12pm">12:00pm</option>
-                    <option value="1230pm">12:30pm</option>
-                    <option value="1pm">1:00pm</option>
-                    <option value="130pm">1:30pm</option>
-                    <option value="2pm">2:00pm</option>
-                    <option value="230pm">2:30pm</option>
-                    <option value="3pm">3:00pm</option>
-                    <option value="330pm">3:30pm</option>
-                    <option value="4pm">4:00pm</option>
-                    <option value="430pm">4:30pm</option>
-                    <option value="5pm">5:00pm</option>
-                    <option value="530pm">5:30pm</option>
-                    <option value="6pm">6:00pm</option>
-                    <option value="630pm">6:30pm</option>
-                    <option value="7pm">7:00pm</option>
-                    <option value="730pm">7:30pm</option>
-                    <option value="8pm">8:00pm</option>
-                    <option value="830pm">8:30pm</option>
-                    <option value="9pm">9:00pm</option>
-                    <option value="930pm">9:30pm</option>
-                    <option value="10pm">10:00pm</option>
-                    <option value="1030pm">10:30pm</option>
-                    <option value="11pm">11:00pm</option>
-                    <option value="1130pm">11:30pm</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="button" class=" btn btn-primary add-schedule" >
-                    +
-                </button>
+            <div class="col-sm-4">
+                <h4>Saturday</h4>
+                <input type="checkbox" name ="sat12a"> 12am
+                <input type="checkbox" name ="sat1230a"> 1230am<br>
+                <input type="checkbox" name ="sat1a"> 1am
+                <input type="checkbox" name ="sat130a"> 1230am<br>
+                <input type="checkbox" name ="sat2a">2am
+                <input type="checkbox" name ="sat230a"> 1230am<br>
+                <input type="checkbox" name ="sat3a"> 3am
+                <input type="checkbox" name ="sat330a"> 1230am<br>
+                <input type="checkbox" name ="sat4a"> 4am
+                <input type="checkbox" name ="sat430a"> 1230am<br>
+                <input type="checkbox" name ="sat5a"> 5am
+                <input type="checkbox" name ="sat530a"> 1230am<br>
+                <input type="checkbox" name ="sat6a"> 6am
+                <input type="checkbox" name ="sat630a"> 1230am<br>
+                <input type="checkbox" name ="sat7a"> 7am
+                <input type="checkbox" name ="sat730a"> 1230am<br>
+                <input type="checkbox" name ="sat8a"> 8am
+                <input type="checkbox" name ="sat830a"> 1230am<br>
+                <input type="checkbox" name ="sat9a"> 9am
+                <input type="checkbox" name ="sat930a"> 1230am<br>
+                <input type="checkbox" name ="sat10a"> 10am
+                <input type="checkbox" name ="sat1030a"> 1230am<br>
+                <input type="checkbox" name ="sat11a"> 11am
+                <input type="checkbox" name ="sat1130a"> 1230am<br>
+                <input type="checkbox" name ="sat12p"> 12pm
+                <input type="checkbox" name ="sat1230p"> 1230am<br>
+                <input type="checkbox" name ="sat1p"> 1pm
+                <input type="checkbox" name ="sat130p"> 1230am<br>
+                <input type="checkbox" name ="sat2p"> 2pm
+                <input type="checkbox" name ="sat230p"> 1230am<br>
+                <input type="checkbox" name ="sat3p"> 3pm
+                <input type="checkbox" name ="sat330p"> 1230am<br>
+                <input type="checkbox" name ="sat4p"> 4pm
+                <input type="checkbox" name ="sat430p"> 1230am<br>
+                <input type="checkbox" name ="sat5p"> 5pm
+                <input type="checkbox" name ="sat530p"> 1230am<br>
+                <input type="checkbox" name ="sat6p"> 6pm
+                <input type="checkbox" name ="sat630p"> 1230am<br>
+                <input type="checkbox" name ="sat7p"> 7pm
+                <input type="checkbox" name ="sat730p"> 1230am<br>
+                <input type="checkbox" name ="sat8p"> 8pm
+                <input type="checkbox" name ="sat830p"> 1230am<br>
+                <input type="checkbox" name ="sat9p"> 9pm
+                <input type="checkbox" name ="sat930p"> 1230am<br>
+                <input type="checkbox" name ="sat10p"> 10pm
+                <input type="checkbox" name ="sat1030p"> 1230am<br>
+                <input type="checkbox" name ="sat11p"> 11pm
+                <input type="checkbox" name ="sat1130p"> 1230am<br>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>Sunday</h4>
+                <input type="checkbox" name ="sun12a"> 12am
+                <input type="checkbox" name ="sun1230a"> 1230am<br>
+                <input type="checkbox" name ="sun1a"> 1am
+                <input type="checkbox" name ="sun130a"> 1230am<br>
+                <input type="checkbox" name ="sun2a">2am
+                <input type="checkbox" name ="sun230a"> 1230am<br>
+                <input type="checkbox" name ="sun3a"> 3am
+                <input type="checkbox" name ="sun330a"> 1230am<br>
+                <input type="checkbox" name ="sun4a"> 4am
+                <input type="checkbox" name ="sun430a"> 1230am<br>
+                <input type="checkbox" name ="sun5a"> 5am
+                <input type="checkbox" name ="sun530a"> 1230am<br>
+                <input type="checkbox" name ="sun6a"> 6am
+                <input type="checkbox" name ="sun630a"> 1230am<br>
+                <input type="checkbox" name ="sun7a"> 7am
+                <input type="checkbox" name ="sun730a"> 1230am<br>
+                <input type="checkbox" name ="sun8a"> 8am
+                <input type="checkbox" name ="sun830a"> 1230am<br>
+                <input type="checkbox" name ="sun9a"> 9am
+                <input type="checkbox" name ="sun930a"> 1230am<br>
+                <input type="checkbox" name ="sun10a"> 10am
+                <input type="checkbox" name ="sun1030a"> 1230am<br>
+                <input type="checkbox" name ="sun11a"> 11am
+                <input type="checkbox" name ="sun1130a"> 1230am<br>
+                <input type="checkbox" name ="sun12p"> 12pm
+                <input type="checkbox" name ="sun1230p"> 1230am<br>
+                <input type="checkbox" name ="sun1p"> 1pm
+                <input type="checkbox" name ="sun130p"> 1230am<br>
+                <input type="checkbox" name ="sun2p"> 2pm
+                <input type="checkbox" name ="sun230p"> 1230am<br>
+                <input type="checkbox" name ="sun3p"> 3pm
+                <input type="checkbox" name ="sun330p"> 1230am<br>
+                <input type="checkbox" name ="sun4p"> 4pm
+                <input type="checkbox" name ="sun430p"> 1230am<br>
+                <input type="checkbox" name ="sun5p"> 5pm
+                <input type="checkbox" name ="sun530p"> 1230am<br>
+                <input type="checkbox" name ="sun6p"> 6pm
+                <input type="checkbox" name ="sun630p"> 1230am<br>
+                <input type="checkbox" name ="sun7p"> 7pm
+                <input type="checkbox" name ="sun730p"> 1230am<br>
+                <input type="checkbox" name ="sun8p"> 8pm
+                <input type="checkbox" name ="sun830p"> 1230am<br>
+                <input type="checkbox" name ="sun9p"> 9pm
+                <input type="checkbox" name ="sun930p"> 1230am<br>
+                <input type="checkbox" name ="sun10p"> 10pm
+                <input type="checkbox" name ="sun1030p"> 1230am<br>
+                <input type="checkbox" name ="sun11p"> 11pm
+                <input type="checkbox" name ="sun1130p"> 1230am<br>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-2 col-md-offset-10">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-success">Update Profile</button>
             </div>
         </div>
     </div>    
