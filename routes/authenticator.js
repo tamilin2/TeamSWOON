@@ -62,7 +62,7 @@ let authenticator = module.exports = {
      * Ensures a user's session shows they're logged on
      */
     ensureLoggedIn: function (req, res, next) {
-        if (req.session.name !== undefined) {
+        if (req.session.email !== undefined) {
             return next();
         }
         else {

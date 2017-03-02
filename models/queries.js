@@ -7,7 +7,7 @@ let connection = require('./user');
 module.exports = {
 
     /**
-     * Connection requesting to create profile
+     * User requesting to create profile
      */
     insert_student: function (req, res) {
         // MySQL query to insert into student table
@@ -57,17 +57,84 @@ module.exports = {
                             res.redirect('/users/login');
                         }
                     });
+                    conn.release();
                 }
             });
         }
     },
 
     /**
-     * Connection requesting to log in.
+     * User requesting to update profile
+     */
+    update_student: function (req, res) {
+        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+
+        let fname = req.body.firstname;
+        let lname = req.body.lastname;
+        let phone = req.body.phone;
+        let email = req.body.email;
+        let password = req.body.password;
+        let password2 = req.body.password2;
+
+        console.log(req.body);
+
+        /* Notifies user if request to update with null data */
+        if (!fname && !lname && !phone && !email && !password && !password2) {
+            req.flash('errorMsg', 'No data entered');
+            res.redirect('/users/editUserProfile');
+            return;
+        }
+        req.checkBody('password', 'Passwords don\'t match').equals(password2);
+        let errors = req.validationErrors();
+
+        if (errors) {
+            res.render('pages/editUserProfile', {errors: errors});
+        }
+        else {
+            //TODO Go through all non-null fields and replace current student row with new data
+            if (!fname) {
+                fname = req.session.fname;
+            }
+            if (!lname) {
+                lname = req.session.lname;
+            }
+            if (!email) {
+                email = req.session.email;
+            }
+            if (!phone) {
+                phone = req.session.phone;
+            }
+            if (!password) {
+                password = req.session.password;
+            }
+
+            connection(function (err, conn) {
+                if (err) {
+                    req.flash('errorMsg', 'Bad connection with database');
+                    res.redirect('/users/editUserProfile');
+                }
+                else {
+                    conn.query(query, [fname, lname, email, phone, password], function (err, rows) {
+                        if (err) {
+                            req.flash('errorMsg', 'Failed to update account');
+                            res.redirect('/users/editUserProfile');
+                        }
+                        else {
+                            req.flash('successMsg', 'Updated profile');
+                            res.redirect('/');
+                        }
+                    });
+                }
+            });
+        }
+    },
+
+    /**
+     * User requesting to log in.
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = " SELECT student.first_name, student.last_name, student.email FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone, student.password FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -105,14 +172,17 @@ module.exports = {
                         else {
                             let user = rows[0];
                             // Since login success, represent session with the user's name and email
-                            req.session.name = authenticator.capitalize_name(user.first_name) + " " + authenticator.capitalize_name(user.last_name);
+                            req.session.fname = authenticator.capitalize_name(user.first_name)
+                            req.session.lname = authenticator.capitalize_name(user.last_name);
                             req.session.email = user.email;
-                            req.flash('successMsg', 'Welcome ' + req.session.name);
+                            req.session.phone = user.phone;
+                            req.session.password = user.password;
+                            req.flash('successMsg', "Welcome", req.session.fname, " ",req.session.lname);
                             res.redirect('/');
                         }
                     });
+                    con.release();
                 }
-                con.release();
             });
         }
     }

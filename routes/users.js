@@ -23,7 +23,7 @@ router.post('/createUserProfile', function (req, res) {
 
 
 /*Loads create club profile page*/
-router.get('/createClubProfile', function (req, res) {
+router.get('/createClubProfile', authenticator.ensureLoggedIn, function (req, res) {
     // No errors will be pass
     res.render('pages/createClubProfile', {errors: null});
 });
@@ -31,6 +31,7 @@ router.get('/createClubProfile', function (req, res) {
 router.post('/createClubProfile', function (req, res) {
     //TODO query insert club
     console.log('Create');
+    console.log(req.body.interest);
 });
 
 
@@ -42,6 +43,7 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 router.post('/editUserProfile', function (req, res) {
     //TODO query replace student
     console.log('Update');
+    queries.update_student(req, res);
 });
 
 
@@ -50,7 +52,7 @@ router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res)
     res.render('pages/editClubProfile');
 });
 /*Sends club profile changes to db*/
-router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res) {
+router.post('/editClubProfile',function (req, res) {
     //TODO query replace club
     console.log('Update');
 });
