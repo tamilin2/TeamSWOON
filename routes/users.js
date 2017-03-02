@@ -40,7 +40,7 @@ router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res)
 
 // Loads user login
 router.get('/login', function (req, res) {
-    res.render('pages/login', {errors: null, user:null});
+    res.render('pages/login', {errors: null, user: null});
 });
 /* Connection login */
 router.post('/login', function (req, res) {

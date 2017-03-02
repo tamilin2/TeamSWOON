@@ -45,7 +45,6 @@ let authenticator = module.exports = {
         if(email.substring(email.length-9) === '@ucsd.edu') {
             return true;
         }
-        console.log("Bad email");
         req.flash('errorMsg', 'Invalid ucsd email');
         return false;
     },
