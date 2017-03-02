@@ -11,7 +11,7 @@ router.get('/createUserProfile', function (req, res) {
     // No errors will be pass
     res.render('pages/createUserProfile', {errors: null});
 });
-/*Sends new user credentials to upload page*/
+/*Sends new user credentials to db*/
 router.post('/createUserProfile', function (req, res) {
 
     /** Server validation of credentials
@@ -22,19 +22,37 @@ router.post('/createUserProfile', function (req, res) {
 });
 
 
+/*Loads create club profile page*/
+router.get('/createClubProfile', function (req, res) {
+    // No errors will be pass
+    res.render('pages/createClubProfile', {errors: null});
+});
+/*Sends new club credentials to db*/
+router.post('/createClubProfile', function (req, res) {
+    //TODO query insert club
+    console.log('Create');
+});
+
+
 /*Loads edit user profile page if user is logged in*/
 router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res) {
     res.render('pages/editUserProfile');
 });
-/*Loads edit user profile page*/
+/*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    res.render('pages/index');
+    //TODO query replace student
+    console.log('Update');
 });
 
 
 /*Loads edit club profile page if user is club leader*/
 router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res) {
     res.render('pages/editClubProfile');
+});
+/*Sends club profile changes to db*/
+router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res) {
+    //TODO query replace club
+    console.log('Update');
 });
 
 
