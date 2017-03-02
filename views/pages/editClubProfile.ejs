@@ -4,58 +4,138 @@
 
 <body>
     <h2 class="page-header">Edit Club Profile</h2>
-
-    <form action="/users/editClubProfile" method="GET">
-        <div class="container">
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label for="clubname">Club Name:</label>
-                    <input type="text" class="form-control" id="clubname" />
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="email">Contact Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="@ucsd.edu"/>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" class="form-control" id="phone" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label for="website">Website:</label>
-                    <input type="url" class="form-control" id="website" />
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="interests">Categories:</label>
-                    <input type="text" class="form-control" id="interests" placeholder="Categorize your club" />
-                </div>
-            </div>
-
-            <div class="row">
-
-                <div class="form-group col-md-12">
-                    <label for="description">Description:</label>
-                    <textarea type="text" class="form-control" id="description" rows="5" placeholder="Tell people what your club is all about."></textarea>
-                </div>
-            </div>
-            <div class="row">
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label>From:</label>
-                </div>
-                <div class="col-md-6">
-                    <label>To:</label>
-                </div>
-            </div>
-        </div>
-    </form>
     <form>
         <div class="container">
+            <div class="row">
+
+                <div class="form-group col-md-4">
+                    <label for="email">Contact email:</label>
+                    <input type="email" class="form-control" id="email" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone number:</label>
+                    <input type="tel" class="form-control" id="phone" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label >Website:</label>
+                    <input type="url" class="form-control" id="website" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-8">
+                    <label for="description">Description:</label>
+                    <textarea type="text" class="form-control" id="description" rows=5 placeholder="Tell people what your club is all about."></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Interests:</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Academics</h3>
+                    <input type="checkbox" name="STEM" value="STEM"/> STEM <br>
+                    <input type="checkbox" name="med" value="med" /> Med/Pre-Med/Health <br>
+                    <input type="checkbox" name="Social_Sciences" value="Social_Sciences" /> Social Sciences <br>
+                    <input type="checkbox" name="Comm" value="comm" /> Communications/Languages/Linguistics <br>
+                    <input type="checkbox" name="Arts" value="Arts" /> Arts <br>
+                    <input type="checkbox" name="other_academics" value="other_academics" /> Other Academics <br>
+                </div>
+                <div class="col-md-4">
+                    <h3>Arts</h3>
+                    <input type="checkbox" name="digital_arts" value="digital_arts" /> Digital Arts <br>
+                    <input type="checkbox" name="Music" value="Music" /> Music <br>
+                    <input type="checkbox" name="Dance" value="Dance" /> Dance <br>
+                    <input type="checkbox" name="Painting" value="Painting" /> Painting <br>
+                    <input type="checkbox" name="Theatre" value="Theatre" /> Theatre <br>
+                    <input type="checkbox" name="Photography" value="Photography" /> Photography/Videography <br>
+                    <input type="checkbox" name="Literature" value="Literature" /> Literature/Poetry <br>
+                    <input type="checkbox" name="Other_Arts" value="Other_Arts" /> Other Arts <br>
+                </div>
+                <div class="col-md-4">
+                    <h3>Sports and Athletics</h3>
+                    <input type="checkbox" name="Team_Sports" value="Team_Sports" /> Team Sports <br>
+                    <input type="checkbox" name="Individual_Sports" value="Individual_Sports" /> Individual Sports <br>
+                    <input type="checkbox" name="Official_Teams" value="Official_Teams" /> Official Teams <br>
+                    <input type="checkbox" name="Intramural_Teams" value="Intramural_Teams" /> Intramural Teams <br>
+                    <input type="checkbox" name="Unaffiliated_Sports" value="Unaffiliated_Sports" /> Unaffiliated Sports <br>
+                    <input type="checkbox" name="Martial_Arts" value="Martial_Arts" /> Martial Arts <br>
+                    <input type="checkbox" name="Outdoors" value="Outdoors" /> Outdoors <br>
+                    <input type="checkbox" name="Other_Sports" value="Other_Sports" /> Other Sports and Athletics <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Service</h3>
+                    <input type="checkbox" name="Activism" value="Activism" /> Activism <br>
+                    <input type="checkbox" name="Environmental" value="Environmental" /> Environmental <br>
+                    <input type="checkbox" name="Volunteer" value="Volunteer" /> Volunteer <br>
+                    <input type="checkbox" name="Other_Service" value="Other_Service" /> Other Service <br>
+                </div>
+                <div class="col-md-4">
+                    <h3>Religious and Spiritual</h3>
+                    <input type="checkbox" name="Christianity" value="Christianity" /> Christianity/Catholicism <br>
+                    <input type="checkbox" name="Islam" value="Islam" /> Islam <br>
+                    <input type="checkbox" name="Hinduism" value="Hinduism" /> Hinduism <br>
+                    <input type="checkbox" name="Buddhism" value="Buddhism" /> Buddhism <br>
+                    <input type="checkbox" name="Sikhism" value="Sikhism" /> Sikhism <br>
+                    <input type="checkbox" name="Judaism" value="Judaism" /> Judaism <br>
+                    <input type="checkbox" name="Other_Religious" value="Other_Religious" /> Other Religious or Spiritual <br>
+                </div>
+                <div class="col-md-4">
+                    <h3>Greek Life</h3>
+                    <input type="checkbox" name="Fraternity" value="Fraternity" /> Fraternity <br>
+                    <input type="checkbox" name="Sorority" value="Sorority" /> Sorority <br>
+                    <input type="checkbox" name="CoEd" value="CoEd" /> Co-Ed <br>
+                    <input type="checkbox" name="Other_Greek" value="Other_Greek" /> Other Greek <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Social</h3>
+                    <input type="checkbox" name="Gaming" value="Gaming" /> Gaming <br>
+                    <input type="checkbox" name="Exercise" value="Exercise" /> Exercise <br>
+                    <input type="checkbox" name="Music" value="Music" /> Music <br>
+                    <input type="checkbox" name="Movies" value="Movies" /> Movies and TV <br>
+                    <input type="checkbox" name="Other_Social" value="Other_Social" /> Other Social <br>
+                </div>
+                <div class="col-md-4">
+                    <h3>Cultural</h3>
+                    <input type="checkbox" name="Indian" value="Indian" /> Indian <br>
+                    <input type="checkbox" name="Chinese" value="Chinese" /> Chinese <br>
+                    <input type="checkbox" name="Japanese" value="Japanese" /> Japanese <br>
+                    <input type="checkbox" name="Korean" value="Korean" /> Korean <br>
+                    <input type="checkbox" name="Other_Asian" value="Other_Asian" /> Other Asian <br>
+                    <input type="checkbox" name="Filipino" value="Filipino" /> Filpino <br>
+                    <input type="checkbox" name="African" value="African" /> African <br>
+                    <input type="checkbox" name="Latino" value="Latino" /> Hispanic/Latin <br>
+                    <input type="checkbox" name="European" value="European" /> European <br>
+                    <input type="checkbox" name="MidEast" value="MidEast" /> Middle Eastern/Arab <br>
+                    <input type="checkbox" name="LGBT" value="LGBT" /> LGBT <br>
+                    <input type="checkbox" name="Other_Cultural" value="Other_Cultural" /> Other Cultural <br>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Meeting Times:</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label >From:</label>
+                </div>
+                <div class="col-md-6">
+                    <label >To:</label>
+                </div>
+            </div>
             <div class="row">
                 <div class="form-group col-md-2">
                     <select class="form-control" id="dayfrom">
@@ -188,26 +268,16 @@
                         <option value="1130pm">11:30pm</option>
                     </select>
                 </div>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-10">
-                        <button type="button" id="meetbtn" class="btn btn-success">Add Meeting time</button>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for=>Location:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-2 col-md-offset-10">
+                    <button type="submit" id="meetbtn" class="btn btn-success">Save Club Information</button>
                 </div>
             </div>
         </div>
-    </form>
-
-    <div class="container">
-        <div class="row lastrow" style="margin-top:15px">
-            <div class="col-md-6" id="meeetinglist">
-                <h2 id="meetingheader">Scheduled Meeting Times:</h2>
-            </div>
-            <div class="col-md-4" id="interesttable">
-                <h2 id="categoryheader">Saved Categories:</h2>
-            </div>
-            <div class="col-md-2" id="buttonbox" style="margin-top:20px">
-                <button type="button" class="btn btn-success">Create Club</button>
-            </div>
-        </div>
-    </div>
+    </form>*
 </body>

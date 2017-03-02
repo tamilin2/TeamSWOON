@@ -50,7 +50,37 @@ let authenticator = module.exports = {
         return false;
     },
 
+    /**
+     * Capitalizes the first letter of a string to formalize a pronoun
+     * @param name : string name
+     * @returns the name with pronoun style
+     */
     capitalize_name : function (name) {
         return name.charAt(0).toUpperCase() + name.slice(1);
+    },
+
+    /**
+     * Ensures a user's session shows they're logged on
+     */
+    ensureLoggedIn: function (req, res, next) {
+        if (req.session.name !== undefined) {
+            return next();
+        }
+        else {
+            res.redirect('/users/login');
+        }
+    },
+
+    /**
+     * Ensures a user is a club leader of the current club
+     */
+    ensureIsCreator: function (req, res, next) {
+        // if(req.session.isCreator !== undefined) {
+        //     return next();
+        // }
+        // else {
+        //
+        // }
     }
+
 };

@@ -22,8 +22,8 @@ router.post('/createUserProfile', function (req, res) {
 });
 
 
-/*Loads edit user profile page*/
-router.get('/editUserProfile', function (req, res) {
+/*Loads edit user profile page if user is logged in*/
+router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res) {
     res.render('pages/editUserProfile');
 });
 /*Loads edit user profile page*/
@@ -32,8 +32,8 @@ router.post('/editUserProfile', function (req, res) {
 });
 
 
-/*Loads edit club profile page*/
-router.get('/editClubProfile', function (req, res) {
+/*Loads edit club profile page if user is club leader*/
+router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res) {
     res.render('pages/editClubProfile');
 });
 
@@ -52,9 +52,9 @@ router.post('/login', function (req, res) {
 router.get('/logout',
     function (req, res) {
         req.flash('successMsg', "Log out successful");
-        // Sets the current session to null to represent logging out
-        req.session.name = null;
-        req.session.email= null;
+        // Sets the current session to undefined to represent logging out
+        req.session.name = undefined;
+        req.session.email= undefined;
         res.redirect('/users/login');
     });
 

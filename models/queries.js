@@ -67,7 +67,7 @@ module.exports = {
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = " SELECT student.first_name, student.last_name, student.email ,student.password FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = " SELECT student.first_name, student.last_name, student.email FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
