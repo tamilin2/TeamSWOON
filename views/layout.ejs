@@ -66,7 +66,7 @@
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">Profile<span ></span></a>
                                     <ul class="dropdown-menu">
                                         <!-- Decides what buttons the viewer sees depending on logged status -->
-                                        <% if(user != undefined) {%>
+                                        <% if(email != undefined) {%>
                                             <li><a href="#"><%= user %></a></li>
                                             <li><a href="/users/createClubProfile">Create Club</a></li>
                                             <li><a href="/users/editUserProfile" >Edit Profile</a></li>
@@ -74,7 +74,7 @@
                                             <li><a href="#">Settings</a></li>
                                             <li><a href="/users/logout" >Logout</a></li>
                                         <% } %>
-                                        <% if(user == undefined) { %>
+                                        <% if(email == undefined) { %>
                                             <li><a href="/users/createUserProfile" >Create User</a></li>
                                             <li><a href="/users/login" >Login</a></li>
                                         <% } %>
