@@ -41,8 +41,6 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    //TODO query replace student
-    console.log('Update');
     queries.update_student(req, res);
 });
 
@@ -58,7 +56,7 @@ router.post('/editClubProfile',function (req, res) {
 });
 
 
-// Loads user login
+// Loads user login page
 router.get('/login', function (req, res) {
     res.render('pages/login', {errors: null, user: null});
 });
@@ -73,9 +71,14 @@ router.get('/logout',
     function (req, res) {
         req.flash('successMsg', "Log out successful");
         // Sets the current session to undefined to represent logging out
-        req.session.name = undefined;
+        req.session.fname= undefined;
+        req.session.lname= undefined;
         req.session.email= undefined;
-        res.redirect('/users/login');
+        req.session.phone= undefined;
+        req.session.password= undefined;
+
+        // Send logged off user back to home page
+        res.redirect('/');
     });
 
 module.exports = router;

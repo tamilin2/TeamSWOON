@@ -49,6 +49,7 @@ module.exports = {
                     conn.query(query, [firstname, lastname, email, phone, password], function (err) {
                         conn.release();
                         if (err) {
+                            // Error in duplicate email
                             req.flash('errorMsg', (err.message).substr(13,17) + email);
                             res.redirect('/users/createUserProfile');
                         }
@@ -90,7 +91,6 @@ module.exports = {
             res.render('pages/editUserProfile', {errors: errors});
         }
         else {
-            //TODO Go through all non-null fields and replace current student row with new data
             if (!fname) {
                 fname = req.session.fname;
             }
