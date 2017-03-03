@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Edit Profile Page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="editprofile.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="editprofile.js"></script>
+    </head>
+
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a style="color:white; font-weight: 550; " class="navbar-brand" href="#">SWOON</a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
+            <ul class="nav navbar-nav">
+                <li class="dropdown navitem">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style=" color:white">Clubs<span ></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="clubpage.html">Page</a></li>
+                            <li><a href="clublist.html">Page</a></li>
+                            <li><a href="#">Page</a></li>
+                        </ul>
+                </li>
+            </ul>
+            
+            
+            <ul class="nav navbar-nav navbar-right" style="border:none;">
+                <li><a href="#" style="color:white"> Search</a></li>
+                <li><a href="#" style="color:white"> Sign Out</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+        
+<form>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Interests:</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Academics</h3>
+                <input type="checkbox" name="STEM" value="STEM"/> STEM <br>
+                <input type="checkbox" name="med" value="med" /> Med/Pre-Med/Health <br>
+                <input type="checkbox" name="Social_Sciences" value="Social_Sciences" /> Social Sciences <br>
+                <input type="checkbox" name="Comm" value="comm" /> Communications/Languages/Linguistics <br>
+                <input type="checkbox" name="Arts" value="Arts" /> Arts <br>
+                <input type="checkbox" name="other_academics" value="other_academics" /> Other Academics <br>
+            </div>
+            <div class="col-md-4">
+                <h3>Arts</h3>
+                <input type="checkbox" name="digital_arts" value="digital_arts" /> Digital Arts <br>
+                <input type="checkbox" name="Music" value="Music" /> Music <br>
+                <input type="checkbox" name="Dance" value="Dance" /> Dance <br>
+                <input type="checkbox" name="Painting" value="Painting" /> Painting <br>
+                <input type="checkbox" name="Theatre" value="Theatre" /> Theatre <br>
+                <input type="checkbox" name="Photography" value="Photography" /> Photography/Videography <br>
+                <input type="checkbox" name="Literature" value="Literature" /> Literature/Poetry <br>
+                <input type="checkbox" name="Other_Arts" value="Other_Arts" /> Other Arts <br>
+            </div>
+            <div class="col-md-4">
+                <h3>Sports and Athletics</h3>
+                <input type="checkbox" name="Team_Sports" value="Team_Sports" /> Team Sports <br>
+                <input type="checkbox" name="Individual_Sports" value="Individual_Sports" /> Individual Sports <br>
+                <input type="checkbox" name="Official_Teams" value="Official_Teams" /> Official Teams <br>
+                <input type="checkbox" name="Intramural_Teams" value="Intramural_Teams" /> Intramural Teams <br>
+                <input type="checkbox" name="Unaffiliated_Sports" value="Unaffiliated_Sports" /> Unaffiliated Sports <br>
+                <input type="checkbox" name="Martial_Arts" value="Martial_Arts" /> Martial Arts <br>
+                <input type="checkbox" name="Outdoors" value="Outdoors" /> Outdoors <br>
+                <input type="checkbox" name="Other_Sports" value="Other_Sports" /> Other Sports and Athletics <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Service</h3>
+                <input type="checkbox" name="Activism" value="Activism" /> Activism <br>
+                <input type="checkbox" name="Environmental" value="Environmental" /> Environmental <br>
+                <input type="checkbox" name="Volunteer" value="Volunteer" /> Volunteer <br>
+                <input type="checkbox" name="Other_Service" value="Other_Service" /> Other Service <br>
+            </div>
+            <div class="col-md-4">
+                <h3>Religious and Spiritual</h3>
+                <input type="checkbox" name="Christianity" value="Christianity" /> Christianity/Catholicism <br>
+                <input type="checkbox" name="Islam" value="Islam" /> Islam <br>
+                <input type="checkbox" name="Hinduism" value="Hinduism" /> Hinduism <br>
+                <input type="checkbox" name="Buddhism" value="Buddhism" /> Buddhism <br>
+                <input type="checkbox" name="Sikhism" value="Sikhism" /> Sikhism <br>
+                <input type="checkbox" name="Judaism" value="Judaism" /> Judaism <br>
+                <input type="checkbox" name="Other_Religious" value="Other_Religious" /> Other Religious or Spiritual <br>
+            </div>
+            <div class="col-md-4">
+                <h3>Greek Life</h3>
+                <input type="checkbox" name="Fraternity" value="Fraternity" /> Fraternity <br>
+                <input type="checkbox" name="Sorority" value="Sorority" /> Sorority <br>
+                <input type="checkbox" name="CoEd" value="CoEd" /> Co-Ed <br>
+                <input type="checkbox" name="Other_Greek" value="Other_Greek" /> Other Greek <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Social</h3>
+                <input type="checkbox" name="Gaming" value="Gaming" /> Gaming <br>
+                <input type="checkbox" name="Exercise" value="Exercise" /> Exercise <br>
+                <input type="checkbox" name="Music" value="Music" /> Music <br>
+                <input type="checkbox" name="Movies" value="Movies" /> Movies and TV <br>
+                <input type="checkbox" name="Other_Social" value="Other_Social" /> Other Social <br>
+            </div>
+            <div class="col-md-4">
+                <h3>Cultural</h3>
+                <input type="checkbox" name="Indian" value="Indian" /> Indian <br>
+                <input type="checkbox" name="Chinese" value="Chinese" /> Chinese <br>
+                <input type="checkbox" name="Japanese" value="Japanese" /> Japanese <br>
+                <input type="checkbox" name="Korean" value="Korean" /> Korean <br>
+                <input type="checkbox" name="Other_Asian" value="Other_Asian" /> Other Asian <br>
+                <input type="checkbox" name="Filipino" value="Filipino" /> Filpino <br>
+                <input type="checkbox" name="African" value="African" /> African <br>
+                <input type="checkbox" name="Latino" value="Latino" /> Hispanic/Latin <br>
+                <input type="checkbox" name="European" value="European" /> European <br>
+                <input type="checkbox" name="MidEast" value="MidEast" /> Middle Eastern/Arab <br>
+                <input type="checkbox" name="LGBT" value="LGBT" /> LGBT <br>
+                <input type="checkbox" name="Other_Cultural" value="Other_Cultural" /> Other Cultural <br>
+            </div>
+        </div>
+        <div class="row">
+            <h2>Schedule:</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-primary add_form_field">+</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn disabled btn-primary" id="remove-form-field">-</button>
+            </div>
+        </div>
+        <div class="row" id="primary-row">
+            <div class="col-sm-3 form-group">
+                <label for="day">Day:</label>
+                <select class="form-control" name="day" id="day">
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                </select>
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="start-time">From:</label>
+                <input type="time" class="form-control" name="start-time" id="start-time">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="end-time">From:</label>
+                <input type="time" class="form-control" name="end-time" id="end-time">
+            </div>
+        </div>
+        
+        <div class="row" id="submit-row">
+            <div class="col-md-2 col-md-offset-10">
+                <button type="submit" class="btn btn-success">Update Profile</button>
+            </div>
+        </div>
+    </div>    
+        
+</form>
+    
+    
+</body>
+
+
+
+
+</html>
