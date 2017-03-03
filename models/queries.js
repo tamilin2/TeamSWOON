@@ -166,7 +166,7 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query( query, [clubname, 'jyen@ucsd.edu', email, phone, website, description ], function (err) {
+                    conn.query( query, [clubname, req.session.email, email, phone, website, description ], function (err) {
                         conn.release();
                         if (err) {
                             req.flash('errorMsg', 'Failed to create club : Bad credential');
