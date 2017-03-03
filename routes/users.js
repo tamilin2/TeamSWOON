@@ -30,8 +30,7 @@ router.get('/createClubProfile', authenticator.ensureLoggedIn, function (req, re
 /*Sends new club credentials to db*/
 router.post('/createClubProfile', function (req, res) {
     //TODO query insert club
-    console.log('Create');
-    console.log(req.body.interest);
+    queries.insert_club(req, res);
 });
 
 

@@ -91,6 +91,7 @@ module.exports = {
             res.render('pages/editUserProfile', {errors: errors});
         }
         else {
+            // If input field is empty then insert old data back into db entry
             if (!fname) {
                 fname = req.session.fname;
             }
@@ -113,6 +114,7 @@ module.exports = {
                     res.redirect('/users/editUserProfile');
                 }
                 else {
+                    // Replace existing db entry with modified data
                     conn.query(query, [fname, lname, email, phone, password], function (err, rows) {
                         if (err) {
                             req.flash('errorMsg', 'Failed to update account');
@@ -129,11 +131,63 @@ module.exports = {
     },
 
     /**
+     * User requesting to create club profile
+     */
+    insert_club: function (req, res) {
+        // MySQL query to insert into student table
+        let query = "insert into club (name, leader_email, club_email, phone, social_link, description) values (?, ?, ?, ?, ?, ?) ";
+
+        //Gets all user data passed from the view
+        let clubname = req.body.clubname;
+        let email = req.body.email;
+        let phone = authenticator.parse_phoneNum(req.body.phone);
+        let website = req.body.website;
+        let description = req.body.description;
+        let interests = req.body.interest;
+
+        // Required fields that we want
+        req.checkBody('clubname', 'Club name is required').notEmpty();
+        req.checkBody('phone', 'Require phone number').notEmpty();
+        req.checkBody('email', 'Required email is not valid').isEmail();
+        req.checkBody('description', 'Club description is required').notEmpty();
+
+        let errors = req.validationErrors();
+
+        // Throws error notification if there exists errors or interest tags weren't filled
+        if (errors || interests.length === 0) {
+            // Render the page again with error notification of missing fields
+            res.render('pages/createClubProfile', {errors: errors});
+        }
+        else {
+        // Create new student row with given credentials on database
+            connection(function (err, conn) {
+                if (err) {
+                    req.flash('errorMsg', 'Bad connection with database');
+                    res.redirect('/users/createUserProfile');
+                }
+                else {
+                    conn.query( query, [clubname, 'jyen@ucsd.edu', email, phone, website, description ], function (err) {
+                        conn.release();
+                        if (err) {
+                            req.flash('errorMsg', 'Failed to create club : Bad credential');
+                            res.redirect('/users/createClubProfile');
+                        }
+                        else {
+                            req.flash('successMsg', 'Club created');
+                            res.redirect('/');
+                        }
+                    });
+                }
+            });
+        }
+    },
+
+    /**
      * User requesting to log in.
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone, student.password FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -170,13 +224,14 @@ module.exports = {
                         // Set current session as logged in
                         else {
                             let user = rows[0];
+
                             // Since login success, represent session with the user's name and email
                             req.session.fname = authenticator.capitalize_name(user.first_name)
                             req.session.lname = authenticator.capitalize_name(user.last_name);
                             req.session.email = user.email;
                             req.session.phone = user.phone;
-                            req.session.password = user.password;
-                            req.flash('successMsg', "Welcome", req.session.fname, " ",req.session.lname);
+
+                            req.flash('successMsg', "Welcome", req.session.fname);
                             res.redirect('/');
                         }
                     });
