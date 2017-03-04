@@ -1,62 +1,398 @@
 <%- contentFor('bodyPage')%>
+<head>
+    <title>Search Page</title>
+    <meta name="description" content="To display search results">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<form>
-    <ul class="nav nav-pills nav-stacked left-menu" id="stacked-menu" style="background-color: rgb(45,45,45); position: fixed; min-width:15%; width: 15%; height: 100%; margin-top: -1.6%;">
-        <li>
-            <a href="#" data-target="#interest" data-toggle="collapse" data-parent="#stacked-menu" style="border-radius: 0; background-color: rgb(45,45,45); color: white;">Interest<span class="caret arrow"></span></a>
+    <!-- for Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-            <ul class="nav nav-pills nav-stacked collapse" id="interest">
-                <li><a href="#" data-target="#button1" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">SubCategory 1<span class="caret arrow"></span></a>
+    <script>
+        $("#start-time").change(function() {
+            document.getElementById("end-time").min < document.getElementById("start-time").value;
+        });
+    </script>
+</head>
 
-                    <ul class="nav nav-pills nav stacked collapse" id="button1">
-                        <label class="btn btn-primary active" style="border-radius: 0; background-color: rgb(100,100,100); color: white; width: 150%">
-                            <li><input type="checkbox" name="options" id="option1" value="Radio"> Radio 1 </li>
-                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Radio 2 </li>
-                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Radio 3 </li>
-                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Radio 4 </li>
-                        </label>
-                    </ul>
-                </li>
+<style>
+    body {
+        background-color: whitesmoke;
+    }
+    .search-result {
+        float: left;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        margin: 10px 0px;
+        padding: 5px;
+        color: black;
+        background-color: white;
+    }
 
-                <li><a href="#" data-target="#button2" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">SubCategory 2<span class="caret arrow"></span></a>
+    .search-result:hover {
+        border-color: dodgerblue;
+    }
 
-                    <ul class="nav nav-pills nav stacked collapse" id="button2">
-                        <label class="btn btn-primary active" style="border-radius: 0; background-color: rgb(100,100,100); color: white; width: 150%">
-                            <li><input type="checkbox" name="options" id="option1" value="Radio"> Radio 1 </li>
-                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Radio 2 </li>
-                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Radio 3 </li>
-                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Radio 4 </li>
-                        </label>
-                    </ul>
-                </li>
+    #pict {
+        width: 100px;
+        height: 100px;
+        margin-right: 5px;
+        float: left;
+        outline: 1px solid grey;
+    }
 
-                <li><a href="#" data-target="#button3" data-toggle="collapse" data-parent="#interest" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">SubCategory 3<span class="caret arrow"></span></a>
+    #name {
+        font-size: 24px;
+        height: 0px;
+    }
 
-                    <ul class="nav nav-pills nav stacked collapse" id="button3">
-                        <label class="btn btn-primary active" style="border-radius: 0; background-color: rgb(100,100,100); color: white; width: 150%">
-                            <li><input type="checkbox" name="options" id="option1" value="Radio"> Radio 1 </li>
-                            <li><input type="checkbox" name="options" id="option2" value="Radio"> Radio 2 </li>
-                            <li><input type="checkbox" name="options" id="option3" value="Radio"> Radio 3 </li>
-                            <li><input type="checkbox" name="options" id="option4" value="Radio"> Radio 4 </li>
-                        </label>
-                    </ul>
-                </li>
+    #tags {
+        color: darkgray;
+    }
 
-            </ul>
-        </li>
+    #sidebar {
+        border: 1px solid lightgrey;
+        border-radius: 0px 5px 5px 5px;
+        margin-left: -15px;
+        padding: 5px;
+        background-color: white;
+    }
 
-        <li>
-            <a href="#" data-target="#schedule" data-toggle="collapse" data-parent="#stacked-menu" style="border-radius: 0; background-color: rgb(45,45,45); color: white;">Schedule<span class="caret arrow"></span></a>
-            <ul class="nav nav-pills nav-stacked collapse" id="schedule">
-                <li><a href="#" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">View One</a></li>
-                <li><a href="#" style="border-radius: 0; background-color: rgb(55,55,55); color: white;">View Two</a></li>
-                <li><a href="#" style="borde-r-radius: 0; background-color: rgb(55,55,55); color: white;">View Three</a></li>
-            </ul>
-        </li>
-    </ul>
-</form>
-<form>
+    .list-group-item:hover {
+        background-color: whitesmoke;
+        border-left: 1px solid dodgerblue!important;
+    }
 
-</form>
+    .panel-heading:hover {
+        border: 1px solid dodgerblue;
+    }
 
-</html>
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:focus {
+        text-decoration: none;
+    }
+
+    #filter {
+        border-bottom: 1px solid lightgrey;
+        text-align: center;
+        padding-bottom: 2px;
+    }
+
+    .schedule-labels {
+        text-decoration: none!important;
+        padding-left: 5px;
+        font-weight: normal;
+        color:#337ab7;
+    }
+
+    #weekday {
+        margin: 0px;
+    }
+
+    .SubCategories {
+        color: black;
+    }
+
+    .SubCategories:focus {
+        font-weight: bold;
+    }
+
+    #logo {
+        height: 25px;
+        width: 100px;
+    }
+
+    #top {
+        background-color: white;
+        padding: 0px;
+        margin: 0px;
+        margin-left: -15px;
+        margin-right: -15px;
+        border: 1px solid lightgrey;
+        border-radius: 0px;
+    }
+
+    #pickday {
+        height: 34px;
+    }
+
+    .form-inline {
+        margin-top: 0px;
+    }
+
+    #Nav-List {
+        float: right;
+    }
+
+    #search-btn {
+        color:#337ab7;
+    }
+
+    #search-btn:hover {
+        background-color:#337ab7;
+        color:black;
+    }
+
+</style>
+<body>
+<div class="container-fluid">
+
+    <!--<nav id="top" class="navbar navbar-toggleable-md navbar-light bg-faded">-->
+        <!--<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">-->
+            <!--<span class="navbar-toggler-icon"></span>-->
+        <!--</button>-->
+        <!--<a class="navbar-brand" href="/"><img id="logo" alt="Brand" src="https://ucsd.edu/_resources/img/logo_UCSD.png"></a>-->
+        <!--<div class="collapse navbar-collapse" id="navbarNavDropdown">-->
+            <!--<ul id="Nav-List" class="navbar-nav">-->
+                <!--<form class="form-inline">-->
+                    <!--<input id="search-input" class="form-control mr-sm-2" type="text" placeholder="Search Clubs">-->
+                    <!--<button id="search-btn" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+                <!--</form>-->
+                <!--<li class="nav-item dropdown">-->
+                    <!--<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                        <!--<% if(user !== undefined) { %>-->
+                            <!--<%= user%>-->
+                        <!--<% } %>-->
+                    <!--</a>-->
+                    <!--<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+                        <!--<% if(user !== undefined) { %>-->
+                            <!--<a class="dropdown-item" href="#">Profile</a>-->
+                            <!--<a class="dropdown-item" href="/users/editUserProfile">Edit Profile</a>-->
+                            <!--<a class="dropdown-item" href="/users/createClubProfile">Create Club</a>-->
+                            <!--<a class="dropdown-item" href="/users/logout">Sign Out</a>-->
+                        <!--<% } else {%>-->
+                        <!--<a class="dropdown-item" href="/users/createUserProfile">Create Account</a>-->
+                        <!--<a class="dropdown-item" href="/users/login">Sign In</a>-->
+                        <!--<% }%>-->
+                    <!--</div>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</nav>-->
+
+    <!-- Centeral Row -->
+    <div class="row">
+        <!-- Class for Side NavBar -->
+        <div class="col-sm-3 col-lg-2">
+            <div id="sidebar">
+
+                <!-- Title for Nav Bar -->
+                <h4 id="filter">
+                    Filter Clubs
+                </h4>
+
+                <!-- Panel group with tag filters-->
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse99">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Academic
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse99" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">STEM</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Med/Pre-med/Health</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Social Sciences</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Communications</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Arts</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Academics</li></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse2">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Arts
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">Digital Arts</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Music</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Dance</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Painting</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Theatre</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Photography</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Literature/Poetry</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Arts</li></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse3">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Sports/Athletics
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">Team Sports</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Individual Sports</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Offical UCSD Teams</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Intramural Teams</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Unaffiliated</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Martial Arts</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Outdoors</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Sports</li></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse4">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Service
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse4" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">Activism</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Environmental</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Volunteering</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Service</li></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse5">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Religious/Spiritual
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse5" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">Christianity/Catholicism</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Islam</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Hinduism</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Buddhism</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Sikhism</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Judasim</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Religious/Spiritual</li></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse6">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Greek Life
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse6" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">Fraternity</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Sorority</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Co-Ed</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Greek</li></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse7">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Social
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse7" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">Gaming</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Exercise</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Music</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Movies and TV</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Social</li></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" href="#collapse8">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Cultural
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapse8" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <a class="SubCategories" href=#><li class="list-group-item">Indiam</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Chinese</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Japanese</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Korean</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Asian</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Filpino</li></a>
+                                <a class="SubCategories" href=#> <li class="list-group-item">African</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Hispanic/Latin</li></a>
+                                <a class="SubCategories" href=#> <li class="list-group-item">European</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Middle Eastern</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Other Cultural</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <h4 id="filter">
+                    Schedule
+                </h4>
+                <form>
+                    <div id="weekday" class="form-group">
+                        <label class="schedule-labels" for="Day-of-week">Day of the Week:</label>
+                        <select id="pickday" class="form-control" id="Day-of-week">
+                            <option value="monday">Monday</option>
+                            <option value="tuesday">Tuesday</option>
+                            <option value="wednesday">Wednesday</option>
+                            <option value="thursday">Thursday</option>
+                            <option value="friday">Friday</option>
+                            <option value="saturday">Saturday</option>
+                            <option value="sunday">Sunday</option>
+                        </select>
+                    </div>
+                    <label class="schedule-labels" for="start-time-input">Start Time:</label>
+                    <input class="form-control" type="time" value="08:00:00" step="900" id="start-time-input">
+                    <label class="schedule-labels" for="end-time-input">End Time:</label>
+                    <input class="form-control" type="time" value="20:00:00" step="900" min="" id="end-time-input">
+                </form>
+                <br>
+                <button type="button" class="btn btn-default btn-block">Filter</button>
+            </div>
+        </div>
+        <div class="col-sm-9 col-lg-10">
+            <!-- your page content -->
+            <div class="search-result">
+                <p>
+                    <a href=#club>
+                        <img id="pict" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
+                    </a>
+                    <a id="name" href=#club>This is the Name</a>
+                    <br> <i id="tags">These - are - Tags</i><br>This is a description of the club the club is really cool and you should join it cause  its cool and wakcky and fun ...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</body>

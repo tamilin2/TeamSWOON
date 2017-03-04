@@ -169,7 +169,7 @@ module.exports = {
                     conn.query( query, [clubname, req.session.email, email, phone, website, description ], function (err) {
                         conn.release();
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club : Bad credential');
+                            req.flash('errorMsg', 'Failed to create club : Bad credentials');
                             res.redirect('/users/createClubProfile');
                         }
                         else {
@@ -180,6 +180,34 @@ module.exports = {
                 }
             });
         }
+    },
+
+    getClub: function (req, res) {
+        let query_action = "SELECT * FROM club";
+        connection(function (err, con) {
+            if (err) {
+                res.render('/users/login', {errors: errors});
+            }
+            else {
+                con.query(query_action, function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Failed to connect to database');
+                        res.redirect('/users/login');
+                    }
+                    // Assures the query returns a club entry
+                    else if (rows[0] == null) {
+                        req.flash('errorMsg', 'No clubs exists');
+                        res.redirect('/searchPage');
+                    }
+                    else {
+                        let club = rows[0];
+                        console.log(club.name, club.leader_email, club. club_email, club.social_link, club. phone, club.description );
+                        res.render('pages/clubPage', {club: club});
+                    }
+                });
+                con.release();
+            }
+        });
     },
 
     /**

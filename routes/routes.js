@@ -4,6 +4,7 @@
  */
 let express = require('express');
 let router = express.Router();
+let queries = require('../models/queries');
 
 /*Loads home page*/
 router.get('/', function (req, res) {
@@ -12,7 +13,7 @@ router.get('/', function (req, res) {
 
 /*Loads home page*/
 router.get('/clubPage', function (req, res) {
-    res.render('pages/clubPage');
+    queries.getClub(req, res);
 });
 
 /*Loads home page*/
