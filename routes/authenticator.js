@@ -24,6 +24,16 @@ let authenticator = module.exports = {
         return number;
     },
 
+    /*
+     * Takes 10 digit phone number and format it under (<area code>)<3 digits>-<4 digits>
+     */
+    format_phone :function (phone) {
+      let phoneNum = "(";
+      phoneNum += phone.substring(0,3) + ")" + phone.substring(3,6)+"-"+phone.substring(6);
+
+      return phoneNum;
+    },
+
     /**
      * verifies given phone number is valid
      */

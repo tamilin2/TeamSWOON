@@ -201,7 +201,7 @@ module.exports = {
                     }
                     else {
                         let club = rows[0];
-                        console.log(club.name, club.leader_email, club. club_email, club.social_link, club. phone, club.description );
+                        club.phone = authenticator.format_phone(club.phone);
                         res.render('pages/clubPage', {club: club});
                     }
                 });
