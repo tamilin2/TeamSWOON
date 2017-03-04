@@ -348,16 +348,26 @@
             </div>
         </div>
         <div class="col-sm-9 col-lg-10">
+            <% if (search !== null) {%>
+                <h2 class="page-header">Search result: <%= search %></h2>
+            <% } %>
+
             <!-- your page content -->
-            <div class="search-result">
-                <p>
-                    <a href=#club>
-                        <img id="pict" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
-                    </a>
-                    <a id="name" href=#club>This is the Name</a>
-                    <br> <i id="tags">These - are - Tags</i><br>This is a description of the club the club is really cool and you should join it cause  its cool and wakcky and fun ...
-                </p>
-            </div>
+            <% if(clubs) {%>
+                <% clubs.forEach(function (clubs) { %>
+                    <div class="search-result">
+                        <p>
+                            <a href=#club>
+                                <img id="pict" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
+                            </a>
+                            <a id="name" href=#club><%= clubs.name%></a>
+                            <br> <i id="tags">These - are - Tags</i><br> <%= clubs.description%>
+                        </p>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No results found</p>
+            <% } %>
         </div>
     </div>
 </div>

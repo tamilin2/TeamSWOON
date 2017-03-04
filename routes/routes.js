@@ -18,11 +18,11 @@ router.get('/clubPage', function (req, res) {
 
 /*Loads search page*/
 router.get('/searchPage', function (req, res) {
-    res.render('pages/searchPage');
+    res.render('pages/searchPage', {clubs: null, search: null});
 });
 /*Loads search page by name*/
 router.post('/searchPage', function (req, res) {
-    // Search is only request if search value is not empty
+    // Search is only requested if search value is not empty
     if (req.body.searchbar.length > 0) { queries.getClubByName(req,res); }
 });
 

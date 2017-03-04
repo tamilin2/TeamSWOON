@@ -226,7 +226,7 @@ module.exports = {
      * System requesting club info by name
      */
     getClubByName: function (req, res) {
-        let query_action = "SELECT * FROM club WHERE club.name LIKE ? LIMIT 10";
+        let query_action = "SELECT * FROM club WHERE club.name LIKE ? ";
 
         connection(function (err, con) {
             if (err) {
@@ -240,24 +240,12 @@ module.exports = {
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        req.flash('errorMsg', 'No clubs exists');
-                        res.redirect('/searchPage');
+                        res.render('pages/searchPage', {clubs: null, search: req.body.searchbar});
                     }
-                    // Query returns 1 result so load club page
-                    else if (rows.length == 1) {
-                        res.render('pages/clubPage', {club: rows[0]});
-                    }
-                    // Query returns 2 or more results so load them on search page
+                    // Query returns found clubs so load them on search page
                     else {
                         //TODO load clubs onto search page
-                        for ( let idx = 0; idx < rows.length; idx++) {
-                            let club = rows[idx];
-                            club.phone = authenticator.format_phone(club.phone);
-                            // res.render('pages/searchPage', {club: club});
-                            console.log(club.name);
-                            console.log(club.club_email);
-                            console.log(club.description + "\n");
-                        }
+                        res.render('pages/searchPage', {clubs: rows, search : req.body.searchbar});
                     }
                 });
                 con.release();
