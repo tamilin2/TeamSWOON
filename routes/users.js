@@ -29,7 +29,7 @@ router.get('/createClubProfile', authenticator.ensureLoggedIn, function (req, re
 });
 /*Sends new club credentials to db*/
 router.post('/createClubProfile', function (req, res) {
-    //TODO query insert club
+    //TODO integrate interests with club creation
     queries.insert_club(req, res);
 });
 

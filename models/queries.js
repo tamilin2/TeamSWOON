@@ -173,8 +173,15 @@ module.exports = {
                             res.redirect('/users/createClubProfile');
                         }
                         else {
-                            req.flash('successMsg', 'Club created');
-                            res.redirect('/');
+                            let club = {
+                                name : clubname,
+                                phone : authenticator.format_phone(phone),
+                                club_email: email,
+                                social_link: website,
+                                description : description,
+                                leader_email : req.session.email
+                            };
+                            res.render('pages/clubPage', {club: club});
                         }
                     });
                 }
@@ -182,8 +189,12 @@ module.exports = {
         }
     },
 
-    getClub: function (req, res) {
-        let query_action = "SELECT * FROM club";
+    /**
+     * System requesting club info of all clubs
+     */
+    //TODO refactor to clarify usage
+    getAllClubs: function (req, res) {
+        let query_action = "SELECT * FROM club LIMIT 15";
         connection(function (err, con) {
             if (err) {
                 res.render('/users/login', {errors: errors});
@@ -192,7 +203,7 @@ module.exports = {
                 con.query(query_action, function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
-                        res.redirect('/users/login');
+                        res.redirect('/');
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
@@ -200,6 +211,7 @@ module.exports = {
                         res.redirect('/searchPage');
                     }
                     else {
+                        // TODO Change this to return search page of found clubs
                         let club = rows[0];
                         club.phone = authenticator.format_phone(club.phone);
                         res.render('pages/clubPage', {club: club});
@@ -208,6 +220,49 @@ module.exports = {
                 con.release();
             }
         });
+    },
+
+    /**
+     * System requesting club info by name
+     */
+    getClubByName: function (req, res) {
+        let query_action = "SELECT * FROM club WHERE club.name LIKE ? LIMIT 10";
+
+        connection(function (err, con) {
+            if (err) {
+                res.render('/', {errors: errors});
+            }
+            else {
+                con.query(query_action, ['%'+req.body.searchbar+'%'],function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Failed to connect to database');
+                        res.redirect('/');
+                    }
+                    // Assures the query returns a club entry
+                    else if (rows[0] == null) {
+                        req.flash('errorMsg', 'No clubs exists');
+                        res.redirect('/searchPage');
+                    }
+                    // Query returns 1 result so load club page
+                    else if (rows.length == 1) {
+                        res.render('pages/clubPage', {club: rows[0]});
+                    }
+                    // Query returns 2 or more results so load them on search page
+                    else {
+                        //TODO load clubs onto search page
+                        for ( let idx = 0; idx < rows.length; idx++) {
+                            let club = rows[idx];
+                            club.phone = authenticator.format_phone(club.phone);
+                            // res.render('pages/searchPage', {club: club});
+                            console.log(club.name);
+                            console.log(club.club_email);
+                            console.log(club.description + "\n");
+                        }
+                    }
+                });
+                con.release();
+            }
+        })
     },
 
     /**

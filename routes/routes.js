@@ -11,14 +11,19 @@ router.get('/', function (req, res) {
     res.render('pages/index');
 });
 
-/*Loads home page*/
+/*Loads club page*/
 router.get('/clubPage', function (req, res) {
-    queries.getClub(req, res);
+    queries.getAllClubs(req, res);
 });
 
-/*Loads home page*/
+/*Loads search page*/
 router.get('/searchPage', function (req, res) {
     res.render('pages/searchPage');
+});
+/*Loads search page by name*/
+router.post('/searchPage', function (req, res) {
+    // Search is only request if search value is not empty
+    if (req.body.searchbar.length > 0) { queries.getClubByName(req,res); }
 });
 
 // Communicates this router to server.js
