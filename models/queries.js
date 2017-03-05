@@ -134,7 +134,7 @@ module.exports = {
     insert_club: function (req, res) {
         // MySQL query to insert into student table
         let query = "insert into club (name, leader_email, club_email, phone, social_link, description) values (?, ?, ?, ?, ?, ?) ";
-
+        let query_cl = "insert into club_interest (club_interest_id, club_name, interest) values (LAST_INSERT_ID(), ?, ?) ";
         //Gets all user data passed from the view
         let clubname = req.body.clubname;
         let email = req.body.email;
@@ -164,10 +164,21 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query( query, [clubname, req.session.user.email, email, phone, website, description ], function (err) {
+                    conn.query( query, [clubname, req.session.user.email, email, phone, website, description], function (err) {
+                        if (err) {
+                            req.flash('errorMsg', 'Failed to create club : Creation');
+                        }
+                        else {
+                            console.log("Club query in.")
+                        }
+                    });
+                    /*
+                     * Only works with a single interest selection.
+                     */
+                    conn.query( query_cl, [clubname, interests], function (err) {
                         conn.release();
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club : Bad credentials');
+                            req.flash('errorMsg', 'Failed to create club : Interests');
                             res.redirect('/users/createClubProfile');
                         }
                         else {
@@ -179,6 +190,7 @@ module.exports = {
                                 description : description,
                                 leader_email : req.session.user.email
                             };
+                            console.log("Club interests in.")
                             res.render('pages/clubPage', {club: club});
                         }
                     });
