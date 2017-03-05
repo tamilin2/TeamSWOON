@@ -18,10 +18,6 @@ router.post('/clubPage', function (req, res) {
 
 /*Loads search page*/
 router.get('/searchPage', function (req, res) {
-    res.render('pages/searchPage', {clubs: null, search: null});
-});
-/*Loads all clubs to be shown*/
-router.get('/viewAllClubs', function (req, res) {
     queries.getAllClubs(req, res);
 });
 /*Loads search page by name*/

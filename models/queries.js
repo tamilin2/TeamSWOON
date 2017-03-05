@@ -231,9 +231,9 @@ module.exports = {
                         res.redirect('/');
                         throw err;
                     }
-                    // Assures the query returns a club entry
+                    // When no clubs shows up
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: null, search: null});
+                        res.render('pages/searchPage', {clubs: undefined, search: null});
                     }
                     // Query returns found clubs so load them on search page
                     else {
@@ -263,7 +263,7 @@ module.exports = {
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: null, search: req.body.searchbar});
+                        res.render('pages/searchPage', {clubs: undefined, search: req.body.searchbar});
                     }
                     // Query returns found clubs so load them on search page
                     else {
