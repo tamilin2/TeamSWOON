@@ -44,6 +44,7 @@
         margin-right: 5px;
         float: left;
         outline: 1px solid grey;
+        border: 0;
     }
 
     #name {
@@ -371,9 +372,8 @@
                     <div class="search-result">
                         <form id="search-result-box" action="/clubPage" method="POST">
                             <p>
-                                <a href="#" onclick="document.getElementById('search-result-box').submit();">
-                                    <img id="pict" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
-                                </a>
+                                <!-- Set club image and name as links to club profile-->
+                                <input type="image" id="pict" name="clubname" value="<%= clubs[idx].name%>" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
                                 <input id="clubNameLink" type="submit" name="clubname" value="<%= clubs[idx].name%>">
                                 <br> <i id="tags">These - are - Tags</i><br> <%= clubs[idx].description%>
                             </p>
