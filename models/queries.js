@@ -194,7 +194,7 @@ module.exports = {
      */
     //TODO refactor to clarify usage
     getAllClubs: function (req, res) {
-        let query_action = "SELECT * FROM club LIMIT 15";
+        let query_action = "SELECT * FROM club LIMIT 20";
         connection(function (err, con) {
             if (err) {
                 res.render('/users/login', {errors: errors});
@@ -207,14 +207,11 @@ module.exports = {
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        req.flash('errorMsg', 'No clubs exists');
-                        res.redirect('/searchPage');
+                        res.render('pages/searchPage', {clubs: null, search: null});
                     }
+                    // Query returns found clubs so load them on search page
                     else {
-                        // TODO Change this to return search page of found clubs
-                        let club = rows[0];
-                        club.phone = authenticator.format_phone(club.phone);
-                        res.render('pages/clubPage', {club: club});
+                        res.render('pages/searchPage', {clubs: rows, search : null});
                     }
                 });
                 con.release();
