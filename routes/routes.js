@@ -12,8 +12,8 @@ router.get('/', function (req, res) {
 });
 
 /*Loads club page*/
-router.get('/clubPage', function (req, res) {
-    queries.getAllClubs(req, res);
+router.post('/clubPage', function (req, res) {
+    queries.getClub(req, res);
 });
 
 /*Loads search page*/

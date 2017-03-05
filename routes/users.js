@@ -70,11 +70,7 @@ router.get('/logout',
     function (req, res) {
         req.flash('successMsg', "Log out successful");
         // Sets the current session to undefined to represent logging out
-        req.session.fname= undefined;
-        req.session.lname= undefined;
-        req.session.email= undefined;
-        req.session.phone= undefined;
-        req.session.password= undefined;
+        req.session.user = undefined;
 
         // Send logged off user back to home page
         res.redirect('/');

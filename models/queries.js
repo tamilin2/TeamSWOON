@@ -76,8 +76,6 @@ module.exports = {
         let password = req.body.password;
         let password2 = req.body.password2;
 
-        console.log(req.body);
-
         /* Notifies user if request to update with null data */
         if (!fname && !lname && !phone && !email && !password && !password2) {
             req.flash('errorMsg', 'No data entered');
@@ -166,7 +164,7 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query( query, [clubname, req.session.email, email, phone, website, description ], function (err) {
+                    conn.query( query, [clubname, req.session.user.email, email, phone, website, description ], function (err) {
                         conn.release();
                         if (err) {
                             req.flash('errorMsg', 'Failed to create club : Bad credentials');
@@ -179,7 +177,7 @@ module.exports = {
                                 club_email: email,
                                 social_link: website,
                                 description : description,
-                                leader_email : req.session.email
+                                leader_email : req.session.user.email
                             };
                             res.render('pages/clubPage', {club: club});
                         }
@@ -190,11 +188,38 @@ module.exports = {
     },
 
     /**
-     * System requesting club info of all clubs
+     * Get a single club's info for club page profile
      */
-    //TODO refactor to clarify usage
+    getClub : function (req, res) {
+        let clubname = req.body.clubname;
+
+        let query_action = "SELECT * FROM club WHERE club.name = ?";
+
+        connection(function (err, con) {
+            con.query(query_action, [clubname],function (err, rows) {
+                if (err) {
+                    req.flash('errorMsg', 'Failed to query to database');
+                    res.redirect('/');
+                }
+                // Assures the query returns a club entry
+                else if (rows[0] == null) {
+                    req.flash('errorMsg', 'Failed to get club profile');
+                    res.redirect('/');
+                }
+                // Query returns found clubs so load them on search page
+                else {
+                    res.render('pages/clubPage', {club: rows[0]});
+                }
+            });
+            con.release();
+        })
+    },
+
+    /**
+     * System requesting club info of all clubs to post on search page
+     */
     getAllClubs: function (req, res) {
-        let query_action = "SELECT * FROM club LIMIT 20";
+        let query_action = "SELECT * FROM club Order By club.name ASC LIMIT 20 ";
         connection(function (err, con) {
             if (err) {
                 res.render('/users/login', {errors: errors});
@@ -204,6 +229,7 @@ module.exports = {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
+                        throw err;
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
@@ -223,7 +249,7 @@ module.exports = {
      * System requesting club info by name
      */
     getClubByName: function (req, res) {
-        let query_action = "SELECT * FROM club WHERE club.name LIKE ? ";
+        let query_action = "SELECT * FROM club WHERE club.name LIKE ? Order by club.name";
 
         connection(function (err, con) {
             if (err) {
@@ -241,7 +267,6 @@ module.exports = {
                     }
                     // Query returns found clubs so load them on search page
                     else {
-                        //TODO load clubs onto search page
                         res.render('pages/searchPage', {clubs: rows, search : req.body.searchbar});
                     }
                 });
@@ -294,12 +319,14 @@ module.exports = {
                             let user = rows[0];
 
                             // Since login success, represent session with the user's name and email
-                            req.session.fname = authenticator.capitalize_name(user.first_name)
-                            req.session.lname = authenticator.capitalize_name(user.last_name);
-                            req.session.email = user.email;
-                            req.session.phone = user.phone;
+                            req.session.user = {
+                                fname : user.first_name,
+                                lname : user.last_name,
+                                email : user.email,
+                                phone : user.phone
+                            };
 
-                            req.flash('successMsg', "Welcome", req.session.fname);
+                            req.flash('successMsg', "Welcome", req.session.user.fname);
                             res.redirect('/');
                         }
                     });

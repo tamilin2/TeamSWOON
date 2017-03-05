@@ -27,7 +27,6 @@
         float: left;
         border: 1px solid lightgrey;
         border-radius: 5px;
-        text-overflow: ellipsis;
         width: 100%;
         margin: 10px 0px;
         padding: 5px;
@@ -140,6 +139,18 @@
     #search-btn:hover {
         background-color:#337ab7;
         color:black;
+    }
+
+    input#clubNameLink {
+        background: none;
+        outline: none;
+        border: none;
+        color: #337ab7;
+    }
+
+    #clubNameLink:hover{
+        text-decoration: none;
+        color: #3e9ae6;
     }
 
 </style>
@@ -356,17 +367,19 @@
 
             <!-- your page content -->
             <% if(clubs) {%>
-                <% clubs.forEach(function (clubs) { %>
+                <% for( let idx in clubs) { %>
                     <div class="search-result">
-                        <p>
-                            <a href=#club>
-                                <img id="pict" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
-                            </a>
-                            <a id="name" href=#club><%= clubs.name%></a>
-                            <br> <i id="tags">These - are - Tags</i><br> <%= clubs.description%>
-                        </p>
+                        <form id="search-result-box" action="/clubPage" method="POST">
+                            <p>
+                                <a href="#" onclick="document.getElementById('search-result-box').submit();">
+                                    <img id="pict" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
+                                </a>
+                                <input id="clubNameLink" type="submit" name="clubname" value="<%= clubs[idx].name%>">
+                                <br> <i id="tags">These - are - Tags</i><br> <%= clubs[idx].description%>
+                            </p>
+                        </form>
                     </div>
-                <% }); %>
+                <% } %>
             <% } else { %>
                 <p>No results found</p>
             <% } %>
