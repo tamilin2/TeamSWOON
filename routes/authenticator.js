@@ -51,8 +51,8 @@ let authenticator = module.exports = {
      * Verifies given email is a ucsd.edu email
      */
     verify_email: function (req, res, email) {
-        // Assures email address ends in @ucsd.edu to be a ucsd email
-        if(email.substring(email.length-9) === '@ucsd.edu') {
+        // Assures email address ends in ucsd.edu to be a ucsd email
+        if(email.substring(email.length-8) === 'ucsd.edu') {
             return true;
         }
         req.flash('errorMsg', 'Invalid ucsd email');
@@ -72,7 +72,7 @@ let authenticator = module.exports = {
      * Ensures a user's session shows they're logged on
      */
     ensureLoggedIn: function (req, res, next) {
-        if (req.session.user.email !== undefined) {
+        if (req.session.user !== undefined) {
             return next();
         }
         else {
