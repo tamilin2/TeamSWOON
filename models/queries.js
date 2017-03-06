@@ -24,8 +24,8 @@ module.exports = {
         // Required fields that we want
         req.checkBody('firstname', 'First name is required').notEmpty();
         req.checkBody('lastname', 'Last name is required').notEmpty();
-        // req.checkBody('phone', 'Require phone number').notEmpty();
-        // req.checkBody('email', 'Required email is not valid').isEmail();
+        req.checkBody('phone', 'Phone number is required').notEmpty();
+        req.checkBody('email', 'UCSD Email is required').isEmail();
         req.checkBody('password', 'Password is required').notEmpty();
         // Requires the user to enter matching passwords as confirmation
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
@@ -35,7 +35,13 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/createUserProfile', {errors: errors});
         }
-        else if(!authenticator.verify_phone(req, res, phone) || !authenticator.verify_email(req, res, email)) {
+        else if(!authenticator.verify_phone(req, res, phone) && !authenticator.verify_email(req, res, email)) {
+            res.redirect('/users/createUserProfile');
+        }
+        else if(!authenticator.verify_phone(req, res, phone)) {
+            res.redirect('/users/createUserProfile');
+        }
+        else if(!authenticator.verify_email(req, res, email)) {
             res.redirect('/users/createUserProfile');
         }
         else {
