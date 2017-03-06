@@ -44,15 +44,27 @@ router.post('/editUserProfile', function (req, res) {
     queries.update_student(req, res);
 });
 
-
-/*Loads edit club profile page if user is club leader*/
-router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res) {
+/*Loads edit club profile if user is creator*/
+router.get('/editClubProfile',function (req, res) {
+    res.render('pages/editClubProfile')
+});
+/**
+ * System sends club info to server
+ */
+router.post('/postClub', function (req, res) {
+    req.session.club = {
+        name : req.body.clubName,
+        email : req.body.clubEmail,
+        leader_email : req.body.clubLeaderEmail,
+        description : req.body.description,
+        phone : req.body.phone,
+        socialLink : req.body.socialLink
+    };
     res.render('pages/editClubProfile');
 });
 /*Sends club profile changes to db*/
 router.post('/editClubProfile',function (req, res) {
-    //TODO query replace club
-    console.log('Update');
+    queries.edit_club(req, res);
 });
 
 
@@ -71,10 +83,12 @@ router.get('/logout',
     function (req, res) {
         req.flash('successMsg', "Log out successful");
         // Sets the current session to undefined to represent logging out
-        req.session.user.fname = undefined;
-        req.session.user.lname = undefined;
-        req.session.user.email = undefined;
-        req.session.user.phone = undefined;
+        if (req.session.user !== undefined) {
+            req.session.user.fname = undefined;
+            req.session.user.lname = undefined;
+            req.session.user.email = undefined;
+            req.session.user.phone = undefined;
+        }
         req.session.user = undefined;
 
         // Send logged off user back to home page

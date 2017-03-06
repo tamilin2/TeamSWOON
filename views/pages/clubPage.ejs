@@ -31,7 +31,7 @@
 
 <title><%= club.name%></title>
 
-<form>
+<form action="/users/postClub" method="POST">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -71,7 +71,18 @@
             <div class="col-sm-8">
                 <!-- Club Description -->
                 <div class="section" id="description">
-                    <h2> <%= club.name%><br> </h2>
+                    <h2> <%= club.name%> <br> </h2>
+                    <% if( user !== undefined && club.leader_email === user.email) { %>
+                        <div>
+                            <input type="hidden" name="clubName" value="<%= club.name%>">
+                            <input type="hidden" name="clubEmail" value="<%= club.club_email%>">
+                            <input type="hidden" name="clubLeaderEmail" value="<%= club.leader_email%>">
+                            <input type="hidden" name="description" value="<%= club.description%>">
+                            <input type="hidden" name="phone" value="<%= club.phone%>">
+                            <input type="hidden" name="socialLink" value="<%= club.social_link%>">
+                        </div>
+                        <input type="submit" value="Edit Club">
+                    <% } %>
                     <h3>Description</h3>
                     <p id="desc"><%= club.description%></p>
                 </div>

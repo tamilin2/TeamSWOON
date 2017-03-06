@@ -76,7 +76,7 @@ module.exports = {
         let password = req.body.password;
         let password2 = req.body.password2;
 
-        /* Notifies user if request to update with null data */
+        /* Notifies user if request to update with all null data */
         if (!fname && !lname && !phone && !email && !password && !password2) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editUserProfile');
@@ -188,6 +188,82 @@ module.exports = {
     },
 
     /**
+     * User requesting to edit club profile
+     */
+    edit_club : function (req, res) {
+        //TODO Query to replace club entry
+        let query = "replace into club (name, leader_email, club_email, phone, social_link, description) values (?, ?, ?, ?, ?, ?) ";
+
+        let name = req.body.name;
+        let email = req.body.email;
+        let leader_email= req.body.leader_email;
+        let description= req.body.description;
+        let phone= req.body.phone;
+        let socialLink = req.body.socialLink;
+
+        /* Notifies user if request to update with all null data */
+        if (!name && !email&& !leader_email&& !description&& !phone&& !socialLink) {
+            req.flash('errorMsg', 'No data entered');
+            res.redirect('/users/editClubProfile');
+            return;
+        }
+
+        // If input field is empty then insert old data back into db entry
+        if (!name) {
+            name = req.session.club.name;
+        }
+        if (!email) {
+            email= req.session.club.email;
+        }
+        if (!leader_email) {
+            leader_email= req.session.club.leader_email;
+        }
+        if (!description) {
+            description = req.session.club.description;
+        }
+        if (!socialLink) {
+            socialLink = req.session.club.socialLink;
+        }
+        // If phone is null, use old formatted club number
+        if (!phone) {
+            phone = authenticator.parse_phoneNum(req.session.club.phone);
+        }
+        // New phone entry is given so format it
+        else {
+            phone = authenticator.parse_phoneNum(phone);
+        }
+
+        // Querying with verified input data
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editClubProfile');
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(query, [name, leader_email, email, phone, socialLink, description ], function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Failed to update account');
+                        res.redirect('/users/editClubProfile');
+                    }
+                    else {
+                        req.session.club = [ name, email, leader_email , description, socialLink, phone];
+                        let club = {
+                            name : name,
+                            club_email : email,
+                            leader_email : leader_email,
+                            description : description,
+                            phone : authenticator.format_phone(phone),
+                            social_link : socialLink
+                        };
+                        res.render('pages/clubPage', {club: club});
+                    }
+                });
+            }
+        });
+    },
+
+    /**
      * Get a single club's info for club page profile
      */
     getClub : function (req, res) {
@@ -208,6 +284,7 @@ module.exports = {
                 }
                 // Query returns found clubs so load them on search page
                 else {
+                    rows[0].phone = authenticator.format_phone(rows[0].phone);
                     res.render('pages/clubPage', {club: rows[0]});
                 }
             });
