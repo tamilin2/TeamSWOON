@@ -18,6 +18,7 @@ router.post('/createUserProfile', function (req, res) {
      *  -verifies passwords match
      *  -verifies age is correct
      */
+    // TODO Integrate schedule and interest to student profile
     queries.insert_student(req, res);
 });
 
@@ -70,6 +71,10 @@ router.get('/logout',
     function (req, res) {
         req.flash('successMsg', "Log out successful");
         // Sets the current session to undefined to represent logging out
+        req.session.user.fname = undefined;
+        req.session.user.lname = undefined;
+        req.session.user.email = undefined;
+        req.session.user.phone = undefined;
         req.session.user = undefined;
 
         // Send logged off user back to home page
