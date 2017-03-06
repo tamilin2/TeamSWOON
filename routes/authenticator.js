@@ -52,7 +52,7 @@ let authenticator = module.exports = {
      */
     verify_email: function (req, res, email) {
         // Assures email address ends in ucsd.edu to be a ucsd email
-        if(email.substring(email.length-8) === 'ucsd.edu') {
+        if(email.substring(email.length-9) === '@ucsd.edu') {
             return true;
         }
         console.log("Invalid email");
