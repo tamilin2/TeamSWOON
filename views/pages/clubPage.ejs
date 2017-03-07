@@ -60,7 +60,7 @@
                         <dt>Phone:</dt>
                         <dd id="phone"><%= club.phone%></dd>
                         <dt>Email:</dt>
-                        <dd id="email"><a href="mailto:someone@example.com?Subject=Hello" target="_top"><i  title= "Send Mail" class="fa fa-envelope"></i></a>  <%= club.club_email%></dd>
+                        <dd id="email"><a href="mailto:someone@example.com?Subject=Hello" target="_top"><i  title= "Send Mail" class="fa fa-envelope"></i></a>  <%= club.clubEmail%></dd>
                     </dl>
                     <div id="icon">
                         <a href=<%= club.social_link%> <i title="Facebook" class="fa fa-facebook-official"style="font-size:24px;"></a>
@@ -71,18 +71,23 @@
             <div class="col-sm-8">
                 <!-- Club Description -->
                 <div class="section" id="description">
-                    <h2> <%= club.name%> <br> </h2>
-                    <% if( user !== undefined && club.leader_email === user.email) { %>
-                        <div>
-                            <input type="hidden" name="clubName" value="<%= club.name%>">
-                            <input type="hidden" name="clubEmail" value="<%= club.club_email%>">
-                            <input type="hidden" name="clubLeaderEmail" value="<%= club.leader_email%>">
-                            <input type="hidden" name="description" value="<%= club.description%>">
-                            <input type="hidden" name="phone" value="<%= club.phone%>">
-                            <input type="hidden" name="socialLink" value="<%= club.social_link%>">
-                        </div>
-                        <input type="submit" class="btn btn-success" value="Edit Club">
-                    <% } %>
+                    <div>
+                        <h2>
+                            <%= club.name%>
+                            <% if( user !== undefined && club.leaderEmail === user.email) { %>
+                            <input type="submit" class="btn btn-success" value="Edit Club">
+
+                            <div>
+                                <input type="hidden" name="clubName" value="<%= club.name%>">
+                                <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
+                                <input type="hidden" name="clubLeaderEmail" value="<%= club.leaderEmail%>">
+                                <input type="hidden" name="description" value="<%= club.description%>">
+                                <input type="hidden" name="phone" value="<%= club.phone%>">
+                                <input type="hidden" name="socialLink" value="<%= club.socialLink%>">
+                            </div>
+                            <% } %>
+                        </h2>
+                    </div>
                     <h3>Description</h3>
                     <p id="desc"><%= club.description%></p>
                 </div>

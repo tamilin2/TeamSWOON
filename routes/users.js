@@ -53,15 +53,16 @@ router.get('/editClubProfile',function (req, res) {
  * System sends club info to server
  */
 router.post('/postClub', function (req, res) {
-    req.session.club = {
-        name : req.body.clubName,
-        email : req.body.clubEmail,
-        leader_email : req.body.clubLeaderEmail,
-        description : req.body.description,
+    let club = {
+        clubName : req.body.clubName,
+        clubEmail: req.body.clubEmail,
+        clubLeaderEmail: req.body.clubLeaderEmail,
+        description: req.body.description,
         phone : req.body.phone,
         socialLink : req.body.socialLink
     };
-    res.render('pages/editClubProfile');
+    req.session.club = club;
+    res.render('pages/editClubProfile', {club : club});
 });
 /*Sends club profile changes to db*/
 router.post('/editClubProfile',function (req, res) {

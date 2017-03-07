@@ -204,17 +204,17 @@ module.exports = {
      * User requesting to edit club profile
      */
     edit_club : function (req, res) {
-        let query = "replace into club (name, leader_email, club_email, phone, social_link, description) values (?, ?, ?, ?, ?, ?) ";
+        let query = "replace into club (name, leaderEmail, clubEmail, phone, socialLink, description) values (?, ?, ?, ?, ?, ?) ";
 
-        let name = req.body.name;
+        let name = req.body.clubName;
         let email = req.body.email;
-        let leader_email= req.body.leader_email;
+        let leaderEmail= req.session.club.clubLeaderEmail;
         let description= req.body.description;
         let phone= req.body.phone;
         let socialLink = req.body.socialLink;
 
         /* Notifies user if request to update with all null data */
-        if (!name && !email&& !leader_email&& !description&& !phone&& !socialLink) {
+        if (!name && !email && !description&& !phone&& !socialLink) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editClubProfile');
             return;
@@ -226,9 +226,6 @@ module.exports = {
         }
         if (!email) {
             email= req.session.club.email;
-        }
-        if (!leader_email) {
-            leader_email= req.session.club.leader_email;
         }
         if (!description) {
             description = req.session.club.description;
@@ -253,20 +250,21 @@ module.exports = {
             }
             else {
                 // Replace existing db entry with modified data
-                conn.query(query, [name, leader_email, email, phone, socialLink, description ], function (err, rows) {
+                conn.query(query, [name, leaderEmail, email, phone, socialLink, description ], function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to update account');
                         res.redirect('/users/editClubProfile');
+                        throw err;
                     }
                     else {
-                        req.session.club = [ name, email, leader_email , description, socialLink, phone];
+                        req.session.club = [ name, email, leaderEmail , description, socialLink, phone];
                         let club = {
                             name : name,
-                            club_email : email,
-                            leader_email : leader_email,
+                            clubEmail : email,
+                            leaderEmail : leaderEmail,
                             description : description,
                             phone : authenticator.format_phone(phone),
-                            social_link : socialLink
+                            socialLink : socialLink
                         };
                         res.render('pages/clubPage', {club: club});
                     }
@@ -330,6 +328,7 @@ module.exports = {
                 // Query returns found clubs so load them on search page
                 else {
                     rows[0].phone = authenticator.format_phone(rows[0].phone);
+                    console.log(rows[0]);
                     res.render('pages/clubPage', {club: rows[0]});
                 }
             });
