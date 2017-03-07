@@ -11,7 +11,7 @@ let pool = mysql.createPool({
     interactive_timeout : 40000,
     wait_timeout    : 40000,
     // Since connection limit is 4 on free trial server
-    connectionLimit : 4
+    connectionLimit : 8
 });
 
 //Initial connection to test database connectivity
