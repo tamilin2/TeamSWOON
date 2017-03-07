@@ -25,7 +25,7 @@ module.exports = {
         req.checkBody('firstname', 'First name is required').notEmpty();
         req.checkBody('lastname', 'Last name is required').notEmpty();
         req.checkBody('phone', 'Require phone number').notEmpty();
-        req.checkBody('email', 'Required email is not valid').isEmail();
+        req.checkBody('email', 'Require UCSD email').isEmail();
         req.checkBody('password', 'Password is required').notEmpty();
         // Requires the user to enter matching passwords as confirmation
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
@@ -191,7 +191,6 @@ module.exports = {
      * User requesting to edit club profile
      */
     edit_club : function (req, res) {
-        //TODO Query to replace club entry
         let query = "replace into club (name, leader_email, club_email, phone, social_link, description) values (?, ?, ?, ?, ?, ?) ";
 
         let name = req.body.name;
@@ -259,6 +258,39 @@ module.exports = {
                         res.render('pages/clubPage', {club: club});
                     }
                 });
+                conn.release();
+            }
+        });
+    },
+
+    /**
+     * User requesting to delete club profile
+     */
+    delete_club : function (req, res) {
+        let query = "Delete FROM club WHERE club.name = ? AND club.club_email = ?";
+
+        let name = req.session.club.name;
+        let email = req.session.club.email;
+
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editClubProfile');
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(query, [name, email], function (err, rows) {
+                    if (err) {
+                        throw err;
+                        // req.flash('errorMsg', 'Bad connection with database');
+                        // res.redirect('/users/editClubProfile');
+                    }
+                    else {
+                        req.flash('successMsg', 'Successfully deleted club');
+                        res.redirect('/');
+                    }
+                });
+                conn.release();
             }
         });
     },

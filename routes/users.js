@@ -5,6 +5,7 @@ let express = require('express');
 let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
+let prompt = require('prompt');
 
 /*Loads create user profile page*/
 router.get('/createUserProfile', function (req, res) {
@@ -65,6 +66,14 @@ router.post('/postClub', function (req, res) {
 /*Sends club profile changes to db*/
 router.post('/editClubProfile',function (req, res) {
     queries.edit_club(req, res);
+});
+/**
+ * User requests to delete club
+ */
+router.post('/deleteClub', function (req, res) {
+    if (req.body.delete === 'delete') {
+        queries.delete_club(req,res);
+    }
 });
 
 

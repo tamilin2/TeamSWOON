@@ -281,5 +281,22 @@
                 </div>
             </div>
         </div>
-    </form>*
+    </form>
+    <br>
+    <!-- Script to confirm club deletion -->
+    <script language="JavaScript">
+        function confirmDelete() {
+            return confirm('Confirm delete club?') === true;
+        }
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <form action="/users/deleteClub" method="POST">
+                    <button type="submit" class="btn btn-danger" onClick="<%- "return confirmDelete()"%>" name="delete" value="delete">Delete Club</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
