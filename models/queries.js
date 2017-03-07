@@ -4,19 +4,6 @@
 let authenticator = require('./../routes/authenticator');
 let connection = require('./user');
 
-// var nodemailer = require('nodemailer');
-// var transporter = nodemailer.createTransport();
-
-/* Example code to send emails */
-// transporter.sendMail({
-//     from: 'sender@address',
-//     to: 'receiver@address',
-//     subject: 'hello',
-//     html: '<b>hello world!</b>',
-//     text: 'hello world!'
-// });
-
-
 module.exports = {
 
     /**

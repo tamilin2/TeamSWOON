@@ -5,7 +5,8 @@ let express = require('express');
 let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
-let prompt = require('prompt');
+var nodemailer = require('nodemailer');
+let config = require('../config');
 
 /*Loads create user profile page*/
 router.get('/createUserProfile', function (req, res) {
@@ -22,7 +23,39 @@ router.post('/createUserProfile', function (req, res) {
     // TODO Integrate schedule and interest to student profile
     queries.insert_student(req, res);
 });
+/**
+ * System sends confirmation email to ucsd address
+ */
+router.post('/sendAuthEmail', function (req, res) {
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            //TODO Authenticate your Gmail account here
+            /* config.email/pass is locally set email and password to use nodemailer */
+            user: config.email || null,
+            pass: config.pass || null
+        }
+    });
 
+    let mailOptions = {
+        from: 'no-reply@ucsd.edu',
+        to: 'test@ucsd.edu',
+        subject: 'Testing email',
+        text: 'New email',
+        html: '<p>New email</p>'
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+            console.error(err);
+            res.redirect('/');
+        }
+        else {
+            console.log('Message sent: ' + info.response);
+            res.redirect('/');
+        }
+    });
+});
 
 /*Loads create club profile page*/
 router.get('/createClubProfile', authenticator.ensureLoggedIn, function (req, res) {
