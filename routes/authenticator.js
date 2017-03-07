@@ -42,7 +42,6 @@ let authenticator = module.exports = {
         if (phone.length == 10) {
             return true;
         }
-        console.log("Bad phone");
         req.flash('errorMsg', 'Invalid phone number');
         return false;
     },

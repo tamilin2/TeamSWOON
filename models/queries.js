@@ -37,8 +37,8 @@ module.exports = {
         // Required fields that we want
         req.checkBody('firstname', 'First name is required').notEmpty();
         req.checkBody('lastname', 'Last name is required').notEmpty();
-        req.checkBody('phone', 'Require phone number').notEmpty();
-        req.checkBody('email', 'Require UCSD email').isEmail();
+        req.checkBody('phone', 'Phone number is required').notEmpty();
+        req.checkBody('email', 'UCSD Email is required').notEmpty();
         req.checkBody('password', 'Password is required').notEmpty();
         // Requires the user to enter matching passwords as confirmation
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
@@ -48,7 +48,7 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/createUserProfile', {errors: errors});
         }
-        else if(!authenticator.verify_email(req, res, email) || !authenticator.verify_phone(req, res, phone)) {
+        else if(!authenticator.verify_email(req, res, email) && !authenticator.verify_phone(req, res, phone)) {
             res.redirect('/users/createUserProfile');
         }
         else {
@@ -67,7 +67,7 @@ module.exports = {
                             res.redirect('/users/createUserProfile');
                         }
                         else {
-                            req.flash('successMsg', 'Registration complete : You may login');
+                            req.flash('successMsg', 'Registration complete: You may login');
                             res.redirect('/users/login');
                         }
                     });
