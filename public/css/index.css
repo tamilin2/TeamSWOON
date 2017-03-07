@@ -4,6 +4,17 @@ body {
   font-family: sans-serif;
 }
 
+/* Block for Navbar styling */
+#logo-img {
+  width: 155px;
+}
+
+#navbar {
+  background-color: white;
+  padding: 0px;
+  margin: 0px;
+}
+
 .Container {
   width: 100%;
   min-width: 500px;

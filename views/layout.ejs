@@ -24,68 +24,45 @@
     <!--Main navbar layout for website-->
     <body>
         <header>
-            <nav class="navbar navbar-default" style="background-color: rgb(40,40,40); border-radius: 0; height: 60px; border:none; z-index:9;">
+            <nav id="navbar" class="navbar navbar-default">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a style="color:white; font-weight: 550; " class="navbar-brand" href="/">SWOON</a>
+                        <a class="navbar-brand" href="/"><img id="logo-img" alt="Brand" src="https://ucsd.edu/_resources/img/logo_UCSD.png"></a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="navbarstuff" style="border:none;">
-                        <ul class="nav navbar-nav">
-                            <li class="navitem"><a style="color:white" class="navbutton" href="/searchPage">View All Clubs <span class="sr-only">(current)</span></a></li>
-                            <li class="navitem"><a style="color:white" class="navbutton" href="#">Schedule</a></li>
-                            <li class="dropdown navitem">
-                                <a style="color:white" href="#" class="dropdown-toggle navbutton" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Sports</a></li>
-                                    <li><a href="#">Music</a></li>
-                                    <li><a href="#">Art</a></li>
-                                    <li><a href="#">Dance</a></li>
-                                    <li><a href="#">Art</a></li>
-                                    <li><a href="#">Fraternity/Sorority</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <form class="navbar-form navbar-left" action="/searchPage" method="post">
-                            <div class="form-group">
-                                <input id="searchbar" type="text" class="form-control" name="searchbar" placeholder="Search">
-                            </div>
-                            <button type="submit" class="btn btn-default">Search</button>
-                        </form>
-
-                        <ul class="nav navbar-nav navbar-right" style="border:none;">
+                        <ul class="nav navbar-nav navbar-right">
                             <ul class="nav navbar-nav">
+                                <li>
+                                <form class="navbar-form navbar-left" action="/searchPage" method="post">
+                                    <div class="form-group">
+                                        <input id="searchbar" type="text" class="form-control" name="searchbar" placeholder="Search">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Search</button>
+                                </form> </li>
+                                <li class="navitem"><a class="navbutton" href="/searchPage">View All Clubs</a></li>
                                 <li class="dropdown navitem">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">Profile<span ></span></a>
+                                    <% if(user != undefined) {%>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.fname + " " + user.lname %><span ></span></a>
                                     <ul class="dropdown-menu">
-                                        <!-- Decides what buttons the viewer sees depending on logged status -->
-                                        <% if(user != undefined) {%>
-                                            <li><a href="#"><%= user.fname + " " + user.lname %></a></li>
                                             <li><a href="/users/createClubProfile">Create Club</a></li>
                                             <li><a href="/users/editUserProfile" >Edit Profile</a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="#">Settings</a></li>
                                             <li><a href="/users/logout" >Logout</a></li>
-                                        <% } %>
-                                        <% if(user == undefined) { %>
-                                            <li><a href="/users/createUserProfile" >Create User</a></li>
-                                            <li><a href="/users/login" >Login</a></li>
-                                        <% } %>
+                                    </ul>
+                                    <% } %>
+                                    <% if(user == undefined) { %>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile<span ></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/users/createUserProfile" >Create User</a></li>
+                                        <li><a href="/users/login" >Login</a></li>
+                                    <% } %>
                                     </ul>
                                 </li>
                             </ul>
                         </ul>
                     </div>
-                </div>
 
                 <!-- Loads messages after an event -->
                 <% if(successMsg.length > 0) {%>
