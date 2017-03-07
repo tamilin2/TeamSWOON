@@ -4,28 +4,35 @@
 
 <body>
     <h2 class="page-header">Edit Club Profile</h2>
-    <form>
+    <form action="/users/editClubProfile" method="POST">
         <div class="container">
             <div class="row">
+                <div class="form-group col-md-4">
+                    <% if (club === undefined) { console.log('club is undefined'); }%>
+                    <label for="clubName">Club Name:</label>
+                    <input type="text" class="form-control" name="clubName" id="clubName" value="<%= club.clubName %>" />
+                </div>
 
                 <div class="form-group col-md-4">
                     <label for="email">Contact email:</label>
-                    <input type="email" class="form-control" id="email" />
+                    <input type="email" class="form-control" name="email" id="email" value="<%= club.clubEmail%>"/>
                 </div>
+
                 <div class="form-group col-md-4">
                     <label for="phone">Phone number:</label>
-                    <input type="tel" class="form-control" id="phone" />
+                    <input type="tel" class="form-control" name="phone" id="phone" value="<%= club.phone%>"/>
                 </div>
+
                 <div class="form-group col-md-4">
                     <label >Website:</label>
-                    <input type="url" class="form-control" id="website" />
+                    <input type="url" class="form-control" name="socialLink" id="website" value="<%= club.socialLink%>"/>
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-8">
                     <label for="description">Description:</label>
-                    <textarea type="text" class="form-control" id="description" rows=5 placeholder="Tell people what your club is all about."></textarea>
+                    <textarea type="text" class="form-control" name="description" id="description" rows=5 placeholder="Tell people what your club is all about." ><%= club.description%></textarea>
                 </div>
             </div>
             <div class="row">
@@ -279,5 +286,21 @@
                 </div>
             </div>
         </div>
-    </form>*
+    </form>
+    <br>
+    <!-- Script to confirm club deletion -->
+    <script language="JavaScript">
+        function confirmDelete() {
+            return confirm('Confirm delete club?') === true;
+        }
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <form action="/users/deleteClub" method="POST">
+                    <button type="submit" class="btn btn-danger" onClick="<%- "return confirmDelete()"%>" name="delete" value="delete">Delete Club</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>

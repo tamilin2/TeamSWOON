@@ -55,6 +55,7 @@ app.use(function (req, res, next) {
     res.locals.errorMsg = req.flash('errorMsg');
     // Used to identify a logged in user
     res.locals.user = req.session.user || undefined;
+    res.locals.club = req.session.club|| undefined;
     next();
 });
 

@@ -5,6 +5,7 @@ let express = require('express');
 let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
+let prompt = require('prompt');
 
 /*Loads create user profile page*/
 router.get('/createUserProfile', function (req, res) {
@@ -18,6 +19,7 @@ router.post('/createUserProfile', function (req, res) {
      *  -verifies passwords match
      *  -verifies age is correct
      */
+    // TODO Integrate schedule and interest to student profile
     queries.insert_student(req, res);
 });
 
@@ -40,18 +42,40 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    queries.update_student(req, res);
+    let user = req.session.user;
+    queries.update_student(req, res, {user : user});
 });
 
-
-/*Loads edit club profile page if user is club leader*/
-router.get('/editClubProfile', authenticator.ensureLoggedIn ,function (req, res) {
-    res.render('pages/editClubProfile');
+/*Loads edit club profile if user is creator*/
+router.get('/editClubProfile',function (req, res) {
+    res.render('pages/editClubProfile')
+});
+/**
+ * System sends club info to server
+ */
+router.post('/postClub', function (req, res) {
+    let club = {
+        clubName : req.body.clubName,
+        clubEmail: req.body.clubEmail,
+        clubLeaderEmail: req.body.clubLeaderEmail,
+        description: req.body.description,
+        phone : req.body.phone,
+        socialLink : req.body.socialLink
+    };
+    req.session.club = club;
+    res.render('pages/editClubProfile', {club : club});
 });
 /*Sends club profile changes to db*/
 router.post('/editClubProfile',function (req, res) {
-    //TODO query replace club
-    console.log('Update');
+    queries.edit_club(req, res);
+});
+/**
+ * User requests to delete club
+ */
+router.post('/deleteClub', function (req, res) {
+    if (req.body.delete === 'delete') {
+        queries.delete_club(req,res);
+    }
 });
 
 
@@ -70,6 +94,12 @@ router.get('/logout',
     function (req, res) {
         req.flash('successMsg', "Log out successful");
         // Sets the current session to undefined to represent logging out
+        if (req.session.user !== undefined) {
+            req.session.user.fname = undefined;
+            req.session.user.lname = undefined;
+            req.session.user.email = undefined;
+            req.session.user.phone = undefined;
+        }
         req.session.user = undefined;
 
         // Send logged off user back to home page

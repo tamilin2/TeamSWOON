@@ -1,4 +1,4 @@
-let mysql = require('mysql');
+const mysql = require('mysql');
 
 // Creates a pool of connections to draw from to connect to MySQL
 let pool = mysql.createPool({
@@ -6,8 +6,12 @@ let pool = mysql.createPool({
     user            :  'bba003a662e9c4',
     password        :  '17ce3e64',
     database        :  'swoondb',
+    // 60 seconds until connection times out
+    connect_timeout :  60,
+    interactive_timeout : 40000,
+    wait_timeout    : 40000,
     // Since connection limit is 4 on free trial server
-    connectionLimit : 4
+    connectionLimit : 8
 });
 
 //Initial connection to test database connectivity
