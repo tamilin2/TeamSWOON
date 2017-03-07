@@ -11,6 +11,24 @@ router.get('/', function (req, res) {
     res.render('pages/index');
 });
 
+/**
+ * Loads email club page
+ */
+router.get('/contactClub', function (req,res) {
+    let fromEmail = ""; let toEmail = "";
+    // Catches undefined access
+    if (req.session.user !== undefined) { fromEmail = req.session.user.email;}
+    if (req.session.club !== undefined) { toEmail = req.session.club.clubEmail;}
+
+
+    let emails = {
+        to : toEmail ,
+        from : fromEmail
+    };
+
+    console.log(emails);
+    res.render('pages/contactClub', {errors : null, emails : emails});
+});
 /*Loads club page*/
 router.post('/clubPage', function (req, res) {
     queries.getClub(req, res);

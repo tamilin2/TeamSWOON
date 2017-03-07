@@ -1,0 +1,39 @@
+<%- contentFor('bodyPage')%>
+<title>Email Page</title>
+
+<h2 class="page-header">Compose Email</h2>
+
+<!-- If errors exists then show them -->
+<% if(errors) {%>
+<% errors.forEach(function (errors) { %>
+<div class="alert alert-danger">
+    <%= errors.msg %>
+</div>
+<% }); %>
+<% } %>
+
+<form action="/users/sendEmail" method="POST">
+    <div class="container">
+        <div class="form-group">
+            <label for="toEmail">To:</label>
+            <input type="email" class="form-control" name="toEmail" value="<%= emails.to%>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="fromEmail">From:</label>
+            <input type="email" class="form-control" name="fromEmail" placeholder="Enter your email" value="<%= emails.from%>" required>
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            <input type="text" class="form-control" name="subject" placeholder="Enter your subject" required>
+        </div>
+        <div class="form-group">
+            <label for="body">Body:</label>
+            <input type="text" class="form-control" name="body" placeholder="Enter your message">
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>

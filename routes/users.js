@@ -26,7 +26,7 @@ router.post('/createUserProfile', function (req, res) {
 /**
  * System sends confirmation email to ucsd address
  */
-router.post('/sendAuthEmail', function (req, res) {
+router.post('/sendEmail', function (req, res) {
     let transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -38,20 +38,21 @@ router.post('/sendAuthEmail', function (req, res) {
     });
 
     let mailOptions = {
-        from: 'no-reply@ucsd.edu',
-        to: 'test@ucsd.edu',
-        subject: 'Testing email',
-        text: 'New email',
-        html: '<p>New email</p>'
+        from: req.body.fromEmail,
+        to: req.body.toEmail,
+        subject: req.body.subject,
+        text: req.body.body,
+        html: "<p>" + req.body.body + "</p>"
     };
 
     transporter.sendMail(mailOptions, function (err, info) {
         if (err) {
             console.error(err);
+            req.flash('errorMsg','Email failed to sent');
             res.redirect('/');
         }
         else {
-            console.log('Message sent: ' + info.response);
+            req.flash('successMsg', 'Email sent to: ', mailOptions.to);
             res.redirect('/');
         }
     });

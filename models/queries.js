@@ -336,8 +336,12 @@ module.exports = {
                 }
                 // Query returns found clubs so load them on search page
                 else {
-                    rows[0].phone = authenticator.format_phone(rows[0].phone);
-                    res.render('pages/clubPage', {club: rows[0]});
+                    let club = rows[0];
+                    club.phone = authenticator.format_phone(club.phone);
+
+                    // Saves last interacted club
+                    req.session.club = club;
+                    res.render('pages/clubPage', {club: club});
                 }
             });
             con.release();
