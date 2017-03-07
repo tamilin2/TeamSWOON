@@ -27,6 +27,21 @@
         text-align: center;
         background-color: white;
     }
+
+    #edit-club-btn {
+        float: right;
+        margin-top: inherit;
+        color:#337ab7;
+    }
+
+    #club-name {
+        float: left;
+    }
+    
+    #club-description {
+        clear: both;
+    }
+
 </style>
 
 <title><%= club.name%></title>
@@ -71,28 +86,21 @@
             <div class="col-sm-8">
                 <!-- Club Description -->
                 <div class="section" id="description">
-                    <div>
-                        <h2>
-                            <%= club.name%>
-                            <% if( user !== undefined && club.leaderEmail === user.email) { %>
-                            <input type="submit" class="btn btn-success" value="Edit Club">
-
-                            <div>
-                                <input type="hidden" name="clubName" value="<%= club.name%>">
-                                <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
-                                <input type="hidden" name="clubLeaderEmail" value="<%= club.leaderEmail%>">
-                                <input type="hidden" name="description" value="<%= club.description%>">
-                                <input type="hidden" name="phone" value="<%= club.phone%>">
-                                <input type="hidden" name="socialLink" value="<%= club.socialLink%>">
-                            </div>
-                            <% } %>
-                        </h2>
-                    </div>
-                    <h3>Description</h3>
-                    <p id="desc"><%= club.description%></p>
+                    <h2 id="club-name"> <%= club.name%> <br> </h2>
+                    <% if( user !== undefined && club.leaderEmail === user.email) { %>
+                    <input id="edit-club-btn" type="submit" class="btn btn-default" value="Edit Club">
+                        <div>
+                            <input type="hidden" name="clubName" value="<%= club.name%>">
+                            <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
+                            <input type="hidden" name="clubLeaderEmail" value="<%= club.leaderEmail%>">
+                            <input type="hidden" name="description" value="<%= club.description%>">
+                            <input type="hidden" name="phone" value="<%= club.phone%>">
+                            <input type="hidden" name="socialLink" value="<%= club.socialLink%>">
+                        </div>
+                    <% } %>
+                    <p id="club-description"> <h3>Description</h3> <%= club.description%>
                 </div>
             </div>
         </div>
-
     </div>
 </form>

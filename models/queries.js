@@ -104,19 +104,19 @@ module.exports = {
         else {
             // If input field is empty then insert old data back into db entry
             if (!fname) {
-                fname = req.session.fname;
+                fname = req.session.user.fname;
             }
             if (!lname) {
-                lname = req.session.lname;
+                lname = req.session.user.lname;
             }
             if (!email) {
-                email = req.session.email;
+                email = req.session.user.email;
             }
             if (!phone) {
-                phone = req.session.phone;
+                phone = req.session.user.phone;
             }
             if (!password) {
-                password = req.session.password;
+                password = req.session.user.password;
             }
 
             connection(function (err, conn) {
@@ -128,10 +128,18 @@ module.exports = {
                     // Replace existing db entry with modified data
                     conn.query(query, [fname, lname, email, phone, password], function (err, rows) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to update account');
+                            req.flash('errorMsg', 'Failed to update account', err);
                             res.redirect('/users/editUserProfile');
                         }
                         else {
+                            // Since update success, represent session with the user's new credential
+                            req.session.user = {
+                                fname : fname,
+                                lname : lname,
+                                email : email,
+                                phone : phone,
+                                password : password
+                            };
                             req.flash('successMsg', 'Updated profile');
                             res.redirect('/');
                         }
@@ -146,13 +154,13 @@ module.exports = {
      */
     insert_club: function (req, res) {
         // MySQL query to insert into student table
-        let query = "insert into club (name, leader_email, club_email, phone, social_link, description) values (?, ?, ?, ?, ?, ?) ";
+        let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink, img) values (?, ?, ?, ?, ?, ?, ?) ";
 
         //Gets all user data passed from the view
         let clubname = req.body.clubname;
         let email = req.body.email;
         let phone = authenticator.parse_phoneNum(req.body.phone);
-        let website = req.body.website;
+        let socialLink = req.body.website;
         let description = req.body.description;
         let interests = req.body.interest;
 
@@ -177,20 +185,21 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query( query, [clubname, req.session.user.email, email, phone, website, description ], function (err) {
+                    //TODO Change null to img
+                    conn.query( query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
                         conn.release();
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club : Bad credentials');
+                            req.flash('errorMsg', 'Failed to create club', err);
                             res.redirect('/users/createClubProfile');
                         }
                         else {
                             let club = {
                                 name : clubname,
                                 phone : authenticator.format_phone(phone),
-                                club_email: email,
-                                social_link: website,
+                                clubEmail: email,
+                                socialLink: socialLink,
                                 description : description,
-                                leader_email : req.session.user.email
+                                leaderEmail : req.session.user.email
                             };
                             res.render('pages/clubPage', {club: club});
                         }
@@ -328,7 +337,6 @@ module.exports = {
                 // Query returns found clubs so load them on search page
                 else {
                     rows[0].phone = authenticator.format_phone(rows[0].phone);
-                    console.log(rows[0]);
                     res.render('pages/clubPage', {club: rows[0]});
                 }
             });
@@ -350,7 +358,6 @@ module.exports = {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
-                        throw err;
                     }
                     // When no clubs shows up
                     else if (rows[0] == null) {
@@ -401,7 +408,7 @@ module.exports = {
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone, student.password FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -439,14 +446,14 @@ module.exports = {
                         else {
                             let user = rows[0];
 
-                            // Since login success, represent session with the user's name and email
+                            // Since login success, represent session with the user's name credential
                             req.session.user = {
                                 fname : user.first_name,
                                 lname : user.last_name,
                                 email : user.email,
-                                phone : user.phone
+                                phone : user.phone,
+                                password : user.password
                             };
-
                             req.flash('successMsg', "Welcome", req.session.user.fname);
                             res.redirect('/');
                         }

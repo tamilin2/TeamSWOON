@@ -42,7 +42,8 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    queries.update_student(req, res);
+    let user = req.session.user;
+    queries.update_student(req, res, {user : user});
 });
 
 /*Loads edit club profile if user is creator*/
