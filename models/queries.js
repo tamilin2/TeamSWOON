@@ -49,6 +49,7 @@ module.exports = {
             res.render('pages/createUserProfile', {errors: errors});
         }
         else if(!authenticator.verify_email(req, res, email) && !authenticator.verify_phone(req, res, phone)) {
+
             res.redirect('/users/createUserProfile');
         }
         else {
@@ -155,6 +156,7 @@ module.exports = {
     insert_club: function (req, res) {
         // MySQL query to insert into student table
         let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink, img) values (?, ?, ?, ?, ?, ?, ?) ";
+        let query_cl = "insert into club_interest (club_interest_id, club_name, interest) values (LAST_INSERT_ID(), ?, ?) ";
 
         //Gets all user data passed from the view
         let clubname = req.body.clubname;
@@ -185,11 +187,21 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    //TODO Change null to img
                     conn.query( query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
+                        if (err) {
+                            req.flash('errorMsg', 'Failed to create club : Creation');
+                        }
+                        else {
+                            console.log("Club query in.")
+                        }
+                    });
+                    /*
+                     * Only works with a single interest selection.
+                     */
+                    conn.query( query_cl, [clubname, interests], function (err) {
                         conn.release();
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club', err);
+                            req.flash('errorMsg', 'Failed to create club : Interests');
                             res.redirect('/users/createClubProfile');
                         }
                         else {
@@ -201,6 +213,7 @@ module.exports = {
                                 description : description,
                                 leaderEmail : req.session.user.email
                             };
+                            console.log("Club interests in.")
                             res.render('pages/clubPage', {club: club});
                         }
                     });

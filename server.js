@@ -68,3 +68,6 @@ app.listen(port, function () {
    console.log("App started on port: " + port);
 });
 
+//method to set HTTP connecton timeout - *note: just adjust time to liking
+app.timeout = 1000;
+

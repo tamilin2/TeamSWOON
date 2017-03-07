@@ -42,7 +42,8 @@ let authenticator = module.exports = {
         if (phone.length == 10) {
             return true;
         }
-        req.flash('errorMsg', 'Invalid phone number');
+
+        req.flash('errorMsg', 'Ten digit Phone Number required (###-###-####)');
         return false;
     },
 
@@ -50,11 +51,12 @@ let authenticator = module.exports = {
      * Verifies given email is a ucsd.edu email
      */
     verify_email: function (req, res, email) {
-        // Assures email address ends in @ucsd.edu to be a ucsd email
+        // Assures email address ends in ucsd.edu to be a ucsd email
         if(email.substring(email.length-9) === '@ucsd.edu') {
             return true;
         }
-        req.flash('errorMsg', 'Invalid ucsd email');
+        console.log("Invalid email");
+        req.flash('errorMsg', ' Valid UCSD Email required (@ucsd.edu)');
         return false;
     },
 
