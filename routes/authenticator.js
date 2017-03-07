@@ -42,7 +42,7 @@ let authenticator = module.exports = {
         if (phone.length == 10) {
             return true;
         }
-        console.log("Invalid phone number");
+
         req.flash('errorMsg', 'Ten digit Phone Number required (###-###-####)');
         return false;
     },

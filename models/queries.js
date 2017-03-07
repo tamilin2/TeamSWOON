@@ -48,16 +48,8 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/createUserProfile', {errors: errors});
         }
-        else if(!authenticator.verify_phone(req, res, phone)) {
-            if(!authenticator.verify_email(req, res, email)) {}
-            res.redirect('/users/createUserProfile');
-        }
-        /*
-         * else if(!authenticator.verify_phone(req, res, phone)) {
-         *     res.redirect('/users/createUserProfile');
-         * }
-         */
-        else if(!authenticator.verify_email(req, res, email)) {
+        else if(!authenticator.verify_email(req, res, email) && !authenticator.verify_phone(req, res, phone)) {
+
             res.redirect('/users/createUserProfile');
         }
         else {
