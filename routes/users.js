@@ -92,7 +92,6 @@ router.post('/login', function (req, res) {
 /* Connection logout*/
 router.get('/logout',
     function (req, res) {
-        req.flash('successMsg', "Log out successful");
         // Sets the current session to undefined to represent logging out
         if (req.session.user !== undefined) {
             req.session.user.fname = undefined;
