@@ -6,7 +6,6 @@
 
         <!--  Relevant stylesheets for given pages  -->
         <link rel="stylesheet" type="text/css" href="/css/index.css" />
-
         <!-- Script to handle user alerts -->
         <script type="text/javascript" src="/js/userAlerts.js"></script>
 
@@ -62,16 +61,16 @@
                     </ul>
                 </div>
             </nav>
+            <div class="container-fluid">
+                <!-- Loads messages after an event -->
+                <% if(successMsg.length > 0) {%>
+                <div align="center" class="alert alert-success" id="userAlert"> <%= successMsg %> </div>
+                <% } %>
 
-            <!-- Loads messages after an event -->
-            <% if(successMsg.length > 0) {%>
-            <div align="center" class="alert alert-success" id="userAlert"> <%= successMsg %> </div>
-            <% } %>
-
-            <% if(errorMsg.length > 0) {%>
-            <div align="center" class="alert alert-danger" > <%= errorMsg%> </div>
-            <% } %>
-
+                <% if(errorMsg.length > 0) {%>
+                <div align="center" class="alert alert-danger" > <%= errorMsg%> </div>
+                <% } %>
+            </div>
         </header>
 
 

@@ -1,8 +1,8 @@
 <%- contentFor('bodyPage')%>
 <title>Create Club</title>
-
+<script type="text/javascript" src="/js/createClubProfile.js"></script>
 <body>
-    <h2 class="page-header">Create Club Profile</h2>
+    
 
     <!-- If errors exists then show them -->
     <% if(errors) {%>
@@ -15,6 +15,11 @@
 
     <form action="/users/createClubProfile" method="POST" id="contentform">
         <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2 class="page-header">Create Club Profile</h2>
+                </div>
+            </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="clubname">Club Name:</label>
@@ -29,7 +34,7 @@
                 <input type="tel" class="form-control tfield" name="phone" />
             </div>
         </div>
-
+        
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="website">Website:</label>
@@ -40,14 +45,14 @@
                 <textarea type="text" class="form-control tfield" name="description" rows="5" placeholder="Tell people what your club is all about."></textarea>
             </div>
         </div>
-
+        
         <div class="row">
             <div class="col-sm-12">
                 <h2>Categories:</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Academics</h3>
                 <input type="checkbox" name="interest" value="STEM"/> STEM <br>
                 <input type="checkbox" name="interest" value="med" /> Med/Pre-Med/Health <br>
@@ -56,7 +61,7 @@
                 <input type="checkbox" name="interest" value="Arts" /> Arts <br>
                 <input type="checkbox" name="interest" value="other_academics" /> Other Academics <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Arts</h3>
                 <input type="checkbox" name="interest" value="digital_arts" /> Digital Arts <br>
                 <input type="checkbox" name="interest" value="Music" /> Music <br>
@@ -67,7 +72,7 @@
                 <input type="checkbox" name="interest" value="Literature" /> Literature/Poetry <br>
                 <input type="checkbox" name="interest" value="Other_Arts" /> Other Arts <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Sports and Athletics</h3>
                 <input type="checkbox" name="interest" value="Team_Sports" /> Team Sports <br>
                 <input type="checkbox" name="interest" value="Individual_Sports" /> Individual Sports <br>
@@ -80,14 +85,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Service</h3>
                 <input type="checkbox" name="interest" value="Activism" /> Activism <br>
                 <input type="checkbox" name="interest" value="Environmental" /> Environmental <br>
                 <input type="checkbox" name="interest" value="Volunteer" /> Volunteer <br>
                 <input type="checkbox" name="interest" value="Other_Service" /> Other Service <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Religious and Spiritual</h3>
                 <input type="checkbox" name="interest" value="Christianity" /> Christianity/Catholicism <br>
                 <input type="checkbox" name="interest" value="Islam" /> Islam <br>
@@ -97,7 +102,7 @@
                 <input type="checkbox" name="interest" value="Judaism" /> Judaism <br>
                 <input type="checkbox" name="interest" value="Other_Religious" /> Other Religious or Spiritual <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Greek Life</h3>
                 <input type="checkbox" name="interest" value="Fraternity" /> Fraternity <br>
                 <input type="checkbox" name="interest" value="Sorority" /> Sorority <br>
@@ -106,7 +111,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Social</h3>
                 <input type="checkbox" name="interest" value="Gaming" /> Gaming <br>
                 <input type="checkbox" name="interest" value="Exercise" /> Exercise <br>
@@ -114,7 +119,7 @@
                 <input type="checkbox" name="interest" value="Movies" /> Movies and TV <br>
                 <input type="checkbox" name="interest" value="Other_Social" /> Other Social <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 interest-block">
                 <h3>Cultural</h3>
                 <input type="checkbox" name="interest" value="Indian" /> Indian <br>
                 <input type="checkbox" name="interest" value="Chinese" /> Chinese <br>
@@ -130,165 +135,51 @@
                 <input type="checkbox" name="interest" value="Other_Cultural" /> Other Cultural <br>
             </div>
         </div>
-
-
+        
+        
     </div>
 
-        <div class="container">
-            <div class="row">
-                <h2 style="margin-left:10px">Meeting Times:</h2>
+    <div class="container">
+        <div class="row">
+            <h2 style="margin-left:10px">Meeting Times:</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-primary" id="add-form-field">+</button>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="meetingfrom">From:</label>
-                </div>
-                <div class="col-md-6">
-                    <label for="meetingto">To:</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-2">
-                    <select class="form-control meetfield" name="dayfrom">
-                        <option value="na">N/A</option>
-                        <option value="sunday">Sunday</option>
-                        <option value="monday">Monday</option>
-                        <option value="tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="thursday">Thursday</option>
-                        <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <select class="form-control meetfield" name="timefrom">
-                        <option value="na">N/A</option>
-                        <option value="12am">12:00am</option>
-                        <option value="1230am">12:30am</option>
-                        <option value="1am">1:00am</option>
-                        <option value="130am">1:30am</option>
-                        <option value="2am">2:00am</option>
-                        <option value="230am">2:30am</option>
-                        <option value="3am">3:00am</option>
-                        <option value="330am">3:30am</option>
-                        <option value="4am">4:00am</option>
-                        <option value="430am">4:30am</option>
-                        <option value="5am">5:00am</option>
-                        <option value="530am">5:30am</option>
-                        <option value="6am">6:00am</option>
-                        <option value="630am">6:30am</option>
-                        <option value="7am">7:00am</option>
-                        <option value="730am">7:30am</option>
-                        <option value="8am">8:00am</option>
-                        <option value="830am">8:30am</option>
-                        <option value="9am">9:00am</option>
-                        <option value="930am">9:30am</option>
-                        <option value="10am">10:00am</option>
-                        <option value="1030am">10:30am</option>
-                        <option value="11am">11:00am</option>
-                        <option value="1130am">11:30am</option>
-                        <option value="12pm">12:00pm</option>
-                        <option value="1230pm">12:30pm</option>
-                        <option value="1pm">1:00pm</option>
-                        <option value="130pm">1:30pm</option>
-                        <option value="2pm">2:00pm</option>
-                        <option value="230pm">2:30pm</option>
-                        <option value="3pm">3:00pm</option>
-                        <option value="330pm">3:30pm</option>
-                        <option value="4pm">4:00pm</option>
-                        <option value="430pm">4:30pm</option>
-                        <option value="5pm">5:00pm</option>
-                        <option value="530pm">5:30pm</option>
-                        <option value="6pm">6:00pm</option>
-                        <option value="630pm">6:30pm</option>
-                        <option value="7pm">7:00pm</option>
-                        <option value="730pm">7:30pm</option>
-                        <option value="8pm">8:00pm</option>
-                        <option value="830pm">8:30pm</option>
-                        <option value="9pm">9:00pm</option>
-                        <option value="930pm">9:30pm</option>
-                        <option value="10pm">10:00pm</option>
-                        <option value="1030pm">10:30pm</option>
-                        <option value="11pm">11:00pm</option>
-                        <option value="1130pm">11:30pm</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-2">
-                    <select class="form-control meetfield" name="dayto">
-                        <option value="na">N/A</option>
-                        <option value="sunday">Sunday</option>
-                        <option value="monday">Monday</option>
-                        <option value="tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="thursday">Thursday</option>
-                        <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <select class="form-control meetfield" name="timeto">
-                        <option value="na">N/A</option>
-                        <option value="12am">12:00am</option>
-                        <option value="1230am">12:30am</option>
-                        <option value="1am">1:00am</option>
-                        <option value="130am">1:30am</option>
-                        <option value="2am">2:00am</option>
-                        <option value="230am">2:30am</option>
-                        <option value="3am">3:00am</option>
-                        <option value="330am">3:30am</option>
-                        <option value="4am">4:00am</option>
-                        <option value="430am">4:30am</option>
-                        <option value="5am">5:00am</option>
-                        <option value="530am">5:30am</option>
-                        <option value="6am">6:00am</option>
-                        <option value="630am">6:30am</option>
-                        <option value="7am">7:00am</option>
-                        <option value="730am">7:30am</option>
-                        <option value="8am">8:00am</option>
-                        <option value="830am">8:30am</option>
-                        <option value="9am">9:00am</option>
-                        <option value="930am">9:30am</option>
-                        <option value="10am">10:00am</option>
-                        <option value="1030am">10:30am</option>
-                        <option value="11am">11:00am</option>
-                        <option value="1130am">11:30am</option>
-                        <option value="12pm">12:00pm</option>
-                        <option value="1230pm">12:30pm</option>
-                        <option value="1pm">1:00pm</option>
-                        <option value="130pm">1:30pm</option>
-                        <option value="2pm">2:00pm</option>
-                        <option value="230pm">2:30pm</option>
-                        <option value="3pm">3:00pm</option>
-                        <option value="330pm">3:30pm</option>
-                        <option value="4pm">4:00pm</option>
-                        <option value="430pm">4:30pm</option>
-                        <option value="5pm">5:00pm</option>
-                        <option value="530pm">5:30pm</option>
-                        <option value="6pm">6:00pm</option>
-                        <option value="630pm">6:30pm</option>
-                        <option value="7pm">7:00pm</option>
-                        <option value="730pm">7:30pm</option>
-                        <option value="8pm">8:00pm</option>
-                        <option value="830pm">8:30pm</option>
-                        <option value="9pm">9:00pm</option>
-                        <option value="930pm">9:30pm</option>
-                        <option value="10pm">10:00pm</option>
-                        <option value="1030pm">10:30pm</option>
-                        <option value="11pm">11:00pm</option>
-                        <option value="1130pm">11:30pm</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-10">
-                        <button type="button" id="meetbtn" class="btn btn-success disabled">Add Meeting time</button>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-2">
-                    <input type="submit" class="btn btn-success" value="Create Club">
-                </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn disabled btn-primary" id="remove-form-field">-</button>
             </div>
         </div>
+        
+        <div class="row" id="primary-row">
+            <div class="col-sm-3 form-group">
+                <label for="day">Day:</label>
+                <select class="form-control" name="day" id="day">
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                </select>
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="start-time">From:</label>
+                <input type="time" class="form-control" name="start-time" id="start-time">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="end-time">To:</label>
+                <input type="time" class="form-control" name="end-time" id="end-time">
+            </div>
+        </div>
+        
+        <div class="row" id="submit-row">
+            <div class="col-md-2 col-md-offset-10">
+                <button type="submit" id="submitbtn" class="btn btn-success">Create Club</button>
+            </div>
+        </div>
+    </div> 
     </form>
 </body>

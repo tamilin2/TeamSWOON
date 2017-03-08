@@ -2,7 +2,7 @@
 <title>Create Profile</title>
 
 <body>
-    <h2 class="page-header">Create User Profile</h2>
+    
 
     <!-- If errors exists then show them -->
     <% if(errors) {%>
@@ -15,6 +15,11 @@
 
     <form action="/users/createUserProfile" method="POST">
         <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h2 class="page-header">Create User Profile</h2>
+                </div>
+            </div>
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="firstname">First Name: </label>
