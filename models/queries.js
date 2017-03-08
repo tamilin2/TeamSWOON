@@ -141,6 +141,39 @@ module.exports = {
     },
 
     /**
+     * User requesting to delete profile
+     */
+    delete_student: function (req, res) {
+        let query = "Delete FROM student WHERE student.email= ?";
+
+        let email = req.session.user.email;
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editUserProfile');
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(query, [email], function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Error in Query');
+                        res.redirect('/users/editUserProfile');
+                        throw err;
+                    }
+                    else {
+                        req.flash('successMsg', 'Successfully deleted user: ', req.session.user.fname);
+                        res.redirect('/');
+
+                        // Erase current user's session
+                        req.session.user = undefined;
+                    }
+                });
+                conn.release();
+            }
+        });
+    },
+
+    /**
      * User requesting to create club profile
      */
     insert_club: function (req, res) {
@@ -302,7 +335,6 @@ module.exports = {
 
         let name = req.body.clubName;
         let email = req.body.clubEmail;
-        console.log(name, " ", email);
         connection(function (err, conn) {
             if (err) {
                 req.flash('errorMsg', 'Bad connection with database');

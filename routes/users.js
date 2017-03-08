@@ -6,12 +6,16 @@ let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
 
-/*Loads create user profile page*/
+/**
+ * Loads create user profile page
+ */
 router.get('/createUserProfile', function (req, res) {
     // No errors will be pass
     res.render('pages/createUserProfile', {errors: null});
 });
-/*Sends new user credentials to db*/
+/**
+ * Sends new user credentials to db
+ */
 router.post('/createUserProfile', function (req, res) {
 
     /** Server validation of credentials
@@ -21,6 +25,7 @@ router.post('/createUserProfile', function (req, res) {
     // TODO Integrate schedule and interest to student profile
     queries.insert_student(req, res);
 });
+
 /**
  * System sends confirmation email to ucsd address
  */
@@ -48,6 +53,14 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 router.post('/editUserProfile', function (req, res) {
     let user = req.session.user;
     queries.update_student(req, res, {user : user});
+});
+/**
+ * User requests to delete profile
+ */
+router.post('/deleteUser', function (req, res) {
+   if (req.body.delete === 'delete') {
+       queries.delete_student(req, res);
+   }
 });
 
 /*Loads edit club profile if user is creator*/

@@ -64,11 +64,11 @@
             <div class="container-fluid">
                 <!-- Loads messages after an event -->
                 <% if(successMsg.length > 0) {%>
-                <div align="center" class="alert alert-success" id="userAlert"> <%= successMsg %> </div>
+                <div align="center" style="z-index: 50" class="alert alert-success" id="userAlert"> <%= successMsg %> </div>
                 <% } %>
 
                 <% if(errorMsg.length > 0) {%>
-                <div align="center" class="alert alert-danger" > <%= errorMsg%> </div>
+                <div align="center" style="z-index: 50" class="alert alert-danger" > <%= errorMsg%> </div>
                 <% } %>
             </div>
         </header>
