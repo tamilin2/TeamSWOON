@@ -3,6 +3,8 @@
  */
 let authenticator = require('./../routes/authenticator');
 let connection = require('./user');
+let nodemailer = require('nodemailer');
+let config = require('../config');
 
 module.exports = {
 
@@ -466,5 +468,40 @@ module.exports = {
                 }
             });
         }
+    },
+
+    /**
+     * User sends an email to club leader
+     */
+    sendEmail: function (req, res) {
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                //TODO Authenticate your Gmail account here
+                /* config.email/pass is locally set email and password to use nodemailer */
+                user: config.email || null,
+                pass: config.pass || null
+            }
+        });
+
+        let mailOptions = {
+            from: req.body.fromEmail,
+            to: req.body.toEmail,
+            subject: req.body.subject,
+            text: req.body.body,
+            html: "<p>" + req.body.body + "</p>"
+        };
+
+        transporter.sendMail(mailOptions, function (err, info) {
+            if (err) {
+                console.error(err);
+                req.flash('errorMsg', 'Failed to send email');
+            }
+            else {
+                console.log('Sent success');
+                req.flash('successMsg', 'Email was successfully sent');
+            }
+            res.redirect('/');
+        });
     }
 };

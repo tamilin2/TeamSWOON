@@ -5,8 +5,6 @@ let express = require('express');
 let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
-var nodemailer = require('nodemailer');
-let config = require('../config');
 
 /*Loads create user profile page*/
 router.get('/createUserProfile', function (req, res) {
@@ -27,35 +25,7 @@ router.post('/createUserProfile', function (req, res) {
  * System sends confirmation email to ucsd address
  */
 router.post('/sendEmail', function (req, res) {
-    let transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            //TODO Authenticate your Gmail account here
-            /* config.email/pass is locally set email and password to use nodemailer */
-            user: config.email || null,
-            pass: config.pass || null
-        }
-    });
-
-    let mailOptions = {
-        from: req.body.fromEmail,
-        to: req.body.toEmail,
-        subject: req.body.subject,
-        text: req.body.body,
-        html: "<p>" + req.body.body + "</p>"
-    };
-
-    transporter.sendMail(mailOptions, function (err, info) {
-        if (err) {
-            console.error(err);
-            req.flash('errorMsg','Email failed to sent');
-            res.redirect('/');
-        }
-        else {
-            req.flash('successMsg', 'Email sent to: ', mailOptions.to);
-            res.redirect('/');
-        }
-    });
+    queries.sendEmail(req,res);
 });
 
 /*Loads create club profile page*/
