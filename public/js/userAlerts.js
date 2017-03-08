@@ -7,4 +7,4 @@ var fade_out = function() {
 };
 
 // Fade component after 3.2 seconds
-setTimeout(fade_out, 5000);
+setTimeout(fade_out, 3200);

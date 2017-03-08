@@ -1,48 +1,38 @@
 $(document).ready(function() {
-    function clubProfile(name, email, phone, site, descrip, meetings) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.site = site;
-        this.description = descrip;
-        this.meetings = meetings;
+      
+    var count = 1;
+    var maxRows = 20;
+    
+    function addFields() {
+        if (count > maxRows){
+            alert("Maximum number of schedule inputs reached");
+        }
+        else {
+            var newRow = $("#primary-row").clone();
+            newRow.attr("id", function(){
+                return "primary-row"+count;});
+            newRow.insertBefore("#submit-row");
+            count++;
+            if($("#remove-form-field").hasClass("disabled")){
+                $("#remove-form-field").removeClass("disabled");
+            }
+        }
     }
-
-    function meeting(startday, starttime, startseg, endday, endtime, endseg) {
-        this.startday = startday;
-        this.starttime = starttime;
-        this.endday = endday;
-        this.endtime = endtime;
+    
+    function removeFields() {
+        if(count==1) {
+            alert("No fields to remove");
+        }
+        else {
+            var toRemove = "#primary-row" + (count-1);
+            $(toRemove).remove();
+            count--;
+            if(count == 1){
+                $("#remove-form-field").addClass("disabled");
+            }
+        }
     }
-
-    $('#clubname').change(function () {
-        var name = $("input[name=clubname]").val();
-    });
-
-    var dayfrom;
-    var timefrom;
-    var dayto;
-    var timeto;
-
-    $("#dayfrom").change(function () {
-        dayfrom = $("#dayfrom option:selected").text();
-
-    });
-
-    $("#timefrom").change(function () {
-        timefrom = $("#timefrom option:selected").text();
-    });
-
-    $("#dayto").change(function () {
-        dayto = $("#dayto option:selected").text();
-    });
-
-    $("#timeto").change(function () {
-        timeto = $("#timeto option:selected").text();
-    });
-
-    $('#meetbtn').click(function () {
-        var meetstring = "<p>" + dayfrom + " " + timefrom + " - " + dayto + " " + timeto + "</p>";
-        $("#meetingheader").append(meetstring);
-    });
+    
+    $("#add-form-field").click(addFields);
+    $("#remove-form-field").click(removeFields);
 });
