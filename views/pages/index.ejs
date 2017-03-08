@@ -1,7 +1,6 @@
 <%- contentFor('bodyPage')%>
 <title>SWOON</title>
 
-<<<<<<< HEAD
 <style>
     #home-body{
         background-image: url(http://www.lajollainnbythesea.com/bpimages/lajolla_beach.jpg);
@@ -44,16 +43,8 @@
 </style>
 
 <body id="home-body">
-    <!-- TODO if user is not logged in, load this -->
-    <% if(user == undefined) {%>
-=======
-<body>
 
     <% if(user == undefined) {%>
-        <div style="width: 100%; height: 100%; overflow: hidden; position: absolute; top: 60px; border: none; z-index:-2;">
-            <a href="#" class="button-clubs"></a>
->>>>>>> 6767ac41db70d9f0fde2633ed503d9929a7722aa
-
     <form action="/searchPage" method="post">
         <input id="home-search" type="text" name="searchbar" placeholder="Search Clubs" />
     </form>
