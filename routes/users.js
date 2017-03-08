@@ -50,6 +50,11 @@ router.post('/editUserProfile', function (req, res) {
     queries.update_student(req, res, {user : user});
 });
 
+/*Loads edit user profile page if user is logged in*/
+router.get('/userProfilePage', authenticator.ensureLoggedIn , function (req, res) {
+    res.render('pages/userProfilePage');
+});
+
 /*Loads edit club profile if user is creator*/
 router.get('/editClubProfile',function (req, res) {
     res.render('pages/editClubProfile')
