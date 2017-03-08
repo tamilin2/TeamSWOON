@@ -289,7 +289,7 @@ module.exports = {
      * User requesting to delete club profile
      */
     delete_club : function (req, res) {
-        let query = "Delete FROM club WHERE club.name = ? AND club.club_email = ?";
+        let query = "Delete FROM club WHERE club.name = ? AND club.clubEmail = ?";
 
         let name = req.session.club.name;
         let email = req.session.club.email;
