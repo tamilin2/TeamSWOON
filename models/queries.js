@@ -291,8 +291,10 @@ module.exports = {
     delete_club : function (req, res) {
         let query = "Delete FROM club WHERE club.name = ? AND club.clubEmail = ?";
 
-        let name = req.session.club.name;
-        let email = req.session.club.email;
+        let name = req.body.clubName;
+        let email = req.body.clubEmail;
+
+        console.log(name," ",email);
 
         connection(function (err, conn) {
             if (err) {
@@ -303,9 +305,9 @@ module.exports = {
                 // Replace existing db entry with modified data
                 conn.query(query, [name, email], function (err, rows) {
                     if (err) {
+                        req.flash('errorMsg', 'Bad connection with database');
+                        res.redirect('/users/editClubProfile');
                         throw err;
-                        // req.flash('errorMsg', 'Bad connection with database');
-                        // res.redirect('/users/editClubProfile');
                     }
                     else {
                         req.flash('successMsg', 'Successfully deleted club');
@@ -339,10 +341,19 @@ module.exports = {
                 // Query returns found clubs so load them on search page
                 else {
                     let club = rows[0];
+                    console.log(club);
                     club.phone = authenticator.format_phone(club.phone);
 
                     // Saves last interacted club
-                    req.session.club = club;
+                    req.session.club = {
+                        name: club.name,
+                        leaderEmail: club.leaderEmail,
+                        phone: club.phone,
+                        description: club.description,
+                        clubEmail: club.clubEmail,
+                        socialLink: club.socialLink,
+                        img: club.img
+                    }
                     res.render('pages/clubPage', {club: club});
                 }
             });
@@ -397,7 +408,7 @@ module.exports = {
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: undefined, search: req.body.searchbar});
+                        res.render('pages/searchPage', {clubs: null, search: req.body.searchbar});
                     }
                     // Query returns found clubs so load them on search page
                     else {
