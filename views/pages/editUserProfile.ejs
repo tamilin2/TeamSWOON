@@ -140,22 +140,6 @@
                 <button type="submit" class="btn btn-success">Update Profile</button>
             </div>
         </div>
-    </div>
+    </div>   
     </form>
-
-    <!-- Script to confirm user deletion -->
-    <script language="JavaScript">
-        function confirmDelete() {
-            return confirm('Confirm delete user profile?') === true;
-        }
-    </script>
-    <div class="container">
-        <div class="row" id="submit-row">
-            <div class="col-md-2 col-md-offset-10">
-                <form action="/users/deleteUser" method="POST">
-                    <br><button type="submit" name="delete" value="delete" onclick="<%- "return confirmDelete()"%>" class="btn btn-danger">Delete Profile </button>
-                </form>
-            </div>
-        </div>
-    </div>
 </body>
