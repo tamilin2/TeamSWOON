@@ -25,8 +25,6 @@ router.get('/contactClub', function (req,res) {
         to : toEmail ,
         from : fromEmail
     };
-
-    console.log(emails);
     res.render('pages/contactClub', {errors : null, emails : emails});
 });
 /*Loads club page*/

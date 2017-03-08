@@ -298,7 +298,7 @@
             <div class="form-group col-md-4">
                 <form action="/users/deleteClub" method="POST">
                     <button type="submit" class="btn btn-danger" onClick="<%- "return confirmDelete()"%>" name="delete" value="delete">Delete Club</button>
-                    <input type="hidden" name="clubName" value="<%= club.clubName%>">
+                    <input type="hidden" name="clubName" value="<%= club.name%>">
                     <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
                 </form>
             </div>

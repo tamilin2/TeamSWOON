@@ -301,9 +301,7 @@ module.exports = {
 
         let name = req.body.clubName;
         let email = req.body.clubEmail;
-
-        console.log(name," ",email);
-
+        console.log(name, " ", email);
         connection(function (err, conn) {
             if (err) {
                 req.flash('errorMsg', 'Bad connection with database');
@@ -516,7 +514,6 @@ module.exports = {
                 req.flash('errorMsg', 'Failed to send email');
             }
             else {
-                console.log('Sent success');
                 req.flash('successMsg', 'Email was successfully sent');
             }
             res.redirect('/');
