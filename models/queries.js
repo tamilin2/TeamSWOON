@@ -215,31 +215,38 @@ module.exports = {
      * User requesting to edit club profile
      */
     edit_club : function (req, res) {
-        let query = "replace into club (name, leaderEmail, clubEmail, phone, socialLink, description) values (?, ?, ?, ?, ?, ?) ";
+        let query = "replace into club (name, leaderEmail, clubEmail, phone, socialLink, description, img) values (?, ?, ?, ?, ?, ?, ?) ";
 
         let name = req.body.clubName;
-        let email = req.body.email;
-        let leaderEmail= req.session.club.clubLeaderEmail;
+        let clubEmail = req.body.clubEmail;
+        let leaderEmail= req.session.club.leaderEmail;
         let description= req.body.description;
         let phone= req.body.phone;
         let socialLink = req.body.socialLink;
 
         /* Notifies user if request to update with all null data */
-        if (!name && !email && !description&& !phone&& !socialLink) {
+        if (!name && !clubEmail && !description&& !phone&& !socialLink) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editClubProfile');
             return;
         }
 
         // If input field is empty then insert old data back into db entry
+        // Else input field is not empty so overwrite old saved data
         if (!name) {
             name = req.session.club.name;
+        } else {
+            req.session.club.name = name;
         }
-        if (!email) {
-            email= req.session.club.email;
+        if (!clubEmail) {
+            clubEmail= req.session.club.email;
+        } else {
+            req.session.club.clubEmail = clubEmail;
         }
         if (!description) {
             description = req.session.club.description;
+        } else {
+            req.session.club.description = description;
         }
         if (!socialLink) {
             socialLink = req.session.club.socialLink;
@@ -247,10 +254,10 @@ module.exports = {
         // If phone is null, use old formatted club number
         if (!phone) {
             phone = authenticator.parse_phoneNum(req.session.club.phone);
-        }
-        // New phone entry is given so format it
-        else {
+        } else {
+                // New phone entry is given so format it
             phone = authenticator.parse_phoneNum(phone);
+            req.session.club.phone = authenticator.format_phone(phone);
         }
 
         // Querying with verified input data
@@ -261,23 +268,24 @@ module.exports = {
             }
             else {
                 // Replace existing db entry with modified data
-                conn.query(query, [name, leaderEmail, email, phone, socialLink, description ], function (err, rows) {
+                //TODO replace null with img
+                conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, null], function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to update account');
                         res.redirect('/users/editClubProfile');
                         throw err;
                     }
                     else {
-                        req.session.club = [ name, email, leaderEmail , description, socialLink, phone];
-                        let club = {
-                            name : name,
-                            clubEmail : email,
-                            leaderEmail : leaderEmail,
-                            description : description,
-                            phone : authenticator.format_phone(phone),
-                            socialLink : socialLink
+                        req.session.club = {
+                            name: name,
+                            leaderEmail: leaderEmail,
+                            phone: phone,
+                            description: description,
+                            clubEmail: clubEmail,
+                            socialLink: socialLink,
+                            img: null
                         };
-                        res.render('pages/clubPage', {club: club});
+                        res.render('pages/clubPage', {club: req.session.club});
                     }
                 });
                 conn.release();
@@ -341,7 +349,6 @@ module.exports = {
                 // Query returns found clubs so load them on search page
                 else {
                     let club = rows[0];
-                    console.log(club);
                     club.phone = authenticator.format_phone(club.phone);
 
                     // Saves last interacted club
@@ -353,7 +360,7 @@ module.exports = {
                         clubEmail: club.clubEmail,
                         socialLink: club.socialLink,
                         img: club.img
-                    }
+                    };
                     res.render('pages/clubPage', {club: club});
                 }
             });
