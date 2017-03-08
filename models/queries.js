@@ -4,7 +4,8 @@
 let authenticator = require('./../routes/authenticator');
 let connection = require('./user');
 let nodemailer = require('nodemailer');
-let config = require('../config');
+// Js file to get email and password for gmail. This keeps your privacy for gmail
+let config = require('../../config');
 
 module.exports = {
 
