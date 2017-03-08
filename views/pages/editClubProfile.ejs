@@ -8,7 +8,6 @@
         <div class="container">
             <div class="row">
                 <div class="form-group col-md-4">
-                    <% if (club === undefined) { console.log('club is undefined'); }%>
                     <label for="clubName">Club Name:</label>
                     <input type="text" class="form-control" name="clubName" id="clubName" value="<%= club.clubName %>" />
                 </div>
@@ -299,6 +298,8 @@
             <div class="form-group col-md-4">
                 <form action="/users/deleteClub" method="POST">
                     <button type="submit" class="btn btn-danger" onClick="<%- "return confirmDelete()"%>" name="delete" value="delete">Delete Club</button>
+                    <input type="hidden" name="clubName" value="<%= club.clubName%>">
+                    <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
                 </form>
             </div>
         </div>
