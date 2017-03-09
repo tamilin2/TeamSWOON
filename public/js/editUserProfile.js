@@ -6,12 +6,13 @@ $(document).ready(function() {
     var count = 1;
     var maxRows = 20;
     
+    
     function addFields() {
         if (count > maxRows){
             alert("Maximum number of schedule inputs reached");
         }
         else {
-            var newRow = $("#primary-row").clone();
+            var newRow = $("#primary-row").clone(false);
             newRow.attr("id", function(){
                 return "primary-row"+count;});
             newRow.insertBefore("#submit-row");

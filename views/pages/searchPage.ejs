@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-
+    <script type="text/javascript" src="/js/searchPageEffects.js"></script>
 
     <script>
         $("#start-time").change(function() {
@@ -99,7 +99,16 @@
     }
 
     .SubCategories {
+        visibility:hidden;
         color: black;
+    }
+    .interestlabel {
+        font-weight: normal;
+    }
+    
+    input[type=checkbox]:checked {
+        background-color: whitesmoke;
+        border-left: 1px solid dodgerblue!important;
     }
 
     .SubCategories:focus {
@@ -180,12 +189,24 @@
                         </a>
                         <div id="collapse99" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <a class="SubCategories" href=#><li class="list-group-item">STEM</li></a>
-                                <a class="SubCategories" href=#><li class="list-group-item">Med/Pre-med/Health</li></a>
-                                <a class="SubCategories" href=#><li class="list-group-item">Social Sciences</li></a>
-                                <a class="SubCategories" href=#><li class="list-group-item">Communications</li></a>
-                                <a class="SubCategories" href=#><li class="list-group-item">Arts</li></a>
-                                <a class="SubCategories" href=#><li class="list-group-item">Other Academics</li></a>
+                                <li class="list-group-item"><label for="STEM" class="interestlabel">STEM</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox" id="STEM" value="STEM"/>
+                                </li>
+                                <li class="list-group-item"><label for="med" class="interestlabel">Med/Pre-Med/Health</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox" id="med" value="med" />
+                                </li>
+                                <li class="list-group-item"><label for="Social_Sciences" class="interestlabel">Social Sciences</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox" id="Social_Sciences" value="social_sciences"/>
+                                </li>
+                                <li class="list-group-item"><label for="comm" class="interestlabel">Communications</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox" id="comm" value="comm"/>
+                                </li>
+                                <li class="list-group-item"><label for="arts" class="interestlabel">Arts</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox" id="arts" value="arts"/>
+                                </li>
+                                <li class="list-group-item"><label for="other_academics" class="interestlabel">Other Academics</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox" id="other_academics" value="other_academics"/>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -320,7 +341,7 @@
                         </a>
                         <div id="collapse8" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <a class="SubCategories" href=#><li class="list-group-item">Indiam</li></a>
+                                <a class="SubCategories" href=#><li class="list-group-item">Indian</li></a>
                                 <a class="SubCategories" href=#><li class="list-group-item">Chinese</li></a>
                                 <a class="SubCategories" href=#><li class="list-group-item">Japanese</li></a>
                                 <a class="SubCategories" href=#><li class="list-group-item">Korean</li></a>
@@ -355,17 +376,19 @@
                     <input class="form-control" type="time" value="08:00:00" step="900" id="start-time-input">
                     <label class="schedule-labels" for="end-time-input">End Time:</label>
                     <input class="form-control" type="time" value="20:00:00" step="900" min="" id="end-time-input">
-                </form>
+                
                 <br>
-                <button type="button" class="btn btn-default btn-block">Filter</button>
+                <button type="submit" class="btn btn-default btn-block">Filter</button>
+                <button type="reset" class="btn btn-default btn-block" id="clr-btn">Clear Filters</button>
+                </form>
             </div>
         </div>
+
+        <!-- your page content -->
         <div class="col-sm-9 col-lg-10">
             <% if (search !== null) {%>
                 <h2 class="page-header">Search Term: <%= search %></h2>
             <% } %>
-
-            <!-- your page content -->
             <% if(clubs) {%>
                 <% for( let idx in clubs) { %>
                     <div class="search-result">

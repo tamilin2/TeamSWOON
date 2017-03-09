@@ -247,7 +247,7 @@ module.exports = {
         let errors = req.validationErrors();
 
         // Throws error notification if there exists errors or interest tags weren't filled
-        if (errors || interests.length === 0) {
+        if (errors || (interests !== undefined && interests.length === 0)) {
             // Render the page again with error notification of missing fields
             res.render('pages/createClubProfile', {errors: errors});
         }
@@ -390,9 +390,15 @@ module.exports = {
      */
     delete_club : function (req, res) {
         let query = "Delete FROM club WHERE club.name = ? AND club.clubEmail = ?";
+        let interest_query = "Delete FROM club_interest WHERE club_interest.club_name = ? ";
 
         let name = req.body.clubName;
         let email = req.body.clubEmail;
+
+        console.log(name, " ", email);
+
+        console.log('Deleting in club');
+        // Query to delete club from club list
         connection(function (err, conn) {
             if (err) {
                 req.flash('errorMsg', 'Bad connection with database');
@@ -401,6 +407,27 @@ module.exports = {
             else {
                 // Replace existing db entry with modified data
                 conn.query(query, [name, email], function (err, rows) {
+                    conn.release();
+                    if (err) {
+                        req.flash('errorMsg', 'Bad connection with database');
+                        res.redirect('/users/editClubProfile');
+                        return ;
+                    }
+                });
+            }
+        });
+
+        console.log('Deleting in club_interest');
+        // Query to delete club's interest relation in club_interest
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editClubProfile');
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(interest_query, [name], function (err, rows) {
+                    conn.release();
                     if (err) {
                         req.flash('errorMsg', 'Bad connection with database');
                         res.redirect('/users/editClubProfile');
@@ -411,7 +438,6 @@ module.exports = {
                         res.redirect('/');
                     }
                 });
-                conn.release();
             }
         });
     },
