@@ -399,6 +399,8 @@ module.exports = {
             con.release();
         })
     },
+    
+    
 
     /**
      * System requesting club info of all clubs to post on search page

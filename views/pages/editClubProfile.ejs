@@ -26,17 +26,21 @@
                     <label for="phone">Phone number:</label>
                     <input type="tel" class="form-control" name="phone" id="phone" value="<%= club.phone%>"/>
                 </div>
-
+            </div>
+            <div class="row">
                 <div class="form-group col-md-4">
                     <label >Website:</label>
                     <input type="url" class="form-control" name="socialLink" id="website" value="<%= club.socialLink%>"/>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="form-group col-md-8">
                     <label for="description">Description:</label>
                     <textarea type="text" class="form-control" name="description" id="description" rows=5 placeholder="Tell people what your club is all about." ><%= club.description%></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label for="pic">Profile Picture</label>
+                    <input type="file" class="form-control" name="pic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
                 </div>
             </div>
             <div class="row">
