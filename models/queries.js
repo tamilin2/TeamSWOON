@@ -3,9 +3,10 @@
  */
 let authenticator = require('./../routes/authenticator');
 let connection = require('./user');
+async = require('async');
 let nodemailer = require('nodemailer');
 // Js file to get email and password for gmail. This keeps your privacy for gmail
-let config = require('../../config');
+// let config = require('../../config');
 
 module.exports = {
 
@@ -14,12 +15,13 @@ module.exports = {
      */
     insert_student: function (req, res) {
         // MySQL query to insert into student table
-        let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "insert into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
 
         //Gets all user data passed from the view
         let firstname = req.body.firstname;
         let lastname = req.body.lastname;
         let email = req.body.email;
+        let about = req.body.about;
         let phone = authenticator.parse_phoneNum(req.body.phone);
         let password = req.body.password;
         let password2 = req.body.password2;
@@ -34,7 +36,7 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         let errors = req.validationErrors();
 
-        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email};
+        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email, about: about};
 
         if (errors) {
             // Render the page again with error notification of missing fields
@@ -51,7 +53,7 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query(query, [firstname, lastname, email, phone, password], function (err) {
+                    conn.query(query, [firstname, lastname, email, phone, password, about], function (err) {
                         conn.release();
                         if (err) {
                             // Error in duplicate email
@@ -142,6 +144,9 @@ module.exports = {
         }
     },
 
+    /**
+     * User requesting to update password
+     */
     update_password: function (req, res) {
         let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         let oldPassword = req.body.oldPassword;
@@ -189,45 +194,14 @@ module.exports = {
     },
 
     /**
-     * User requesting to delete profile
-     */
-    delete_student: function (req, res) {
-        let query = "Delete FROM student WHERE student.email= ?";
-
-        let email = req.session.user.email;
-        connection(function (err, conn) {
-            if (err) {
-                req.flash('errorMsg', 'Bad connection with database');
-                res.redirect('/users/editUserProfile');
-            }
-            else {
-                // Replace existing db entry with modified data
-                conn.query(query, [email], function (err, rows) {
-                    if (err) {
-                        req.flash('errorMsg', 'Error in Query');
-                        res.redirect('/users/editUserProfile');
-                        throw err;
-                    }
-                    else {
-                        req.flash('successMsg', 'Successfully deleted user: ', req.session.user.fname);
-                        res.redirect('/');
-
-                        // Erase current user's session
-                        req.session.user = undefined;
-                    }
-                });
-                conn.release();
-            }
-        });
-    },
-
-    /**
      * User requesting to create club profile
      */
     insert_club: function (req, res) {
-        // MySQL query to insert into student table
+        // MySQL query to insert into club table
         let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink, img) values (?, ?, ?, ?, ?, ?, ?) ";
-        let query_cl = "insert into club_interest (club_interest_id, club_name, interest) values (LAST_INSERT_ID(), ?, ?) ";
+
+        // MySQL query to insert into club_interest table
+        let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
 
         //Gets all user data passed from the view
         let clubname = req.body.clubname;
@@ -236,6 +210,10 @@ module.exports = {
         let socialLink = req.body.website;
         let description = req.body.description;
         let interests = req.body.interest;
+        let day = req.body.day;
+        let start = req.body.start-time;
+        let end = req.body.end-time;
+        let location = req.body.location;
 
         console.log(req.body.pic);
         // Required fields that we want
@@ -243,49 +221,68 @@ module.exports = {
         req.checkBody('phone', 'Require phone number').notEmpty();
         req.checkBody('email', 'Required email is not valid').isEmail();
         req.checkBody('description', 'Club description is required').notEmpty();
+        req.checkBody('day', 'Club meeting-day is required').notEmpty();
+        req.checkBody('start', 'Club start time is required').notEmpty();
+        req.checkBody('end', 'Club end time is required').notEmpty();
+        req.checkBody('location', 'Club location is required').notEmpty();
 
         let errors = req.validationErrors();
 
         // Throws error notification if there exists errors or interest tags weren't filled
-        if (errors || (interests !== undefined && interests.length === 0)) {
+        if (errors) {
             // Render the page again with error notification of missing fields
             res.render('pages/createClubProfile', {errors: errors});
         }
+        else if(!interests) {
+            req.flash('errorMsg', 'Please select at least one Category');
+            res.redirect('/users/createClubProfile');
+        }
         else {
-        // Create new student row with given credentials on database
             connection(function (err, conn) {
                 if (err) {
                     req.flash('errorMsg', 'Bad connection with database');
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    let clubCreated = true;
-                    conn.query( query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
-                        if (err) {
-                            req.flash('errorMsg', 'Club name or Club Contact Email has already been taken');
-                            res.redirect('/users/createClubProfile');
-                        }
-                    });
 
-                    /*
-                     * Only works with a single interest selection.
-                     */
-                    conn.query( query_cl, [clubname, interests], function (err) {
-                        conn.release();
+                    // Create new club row with given credentials on database
+                    conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club : Interests');
+                            req.flash('errorMsg', 'Failed to create club: Creation');
                             res.redirect('/users/createClubProfile');
                         }
                         else {
-                            let club = {
-                                name : clubname,
-                                phone : authenticator.format_phone(phone),
-                                clubEmail: email,
-                                socialLink: socialLink,
-                                description : description,
-                                leaderEmail : req.session.user.email
-                            };
-                            res.render('pages/clubPage', {club: club});
+                            console.log("Club query in.");
+                            // tentatively set var used to check if any errors were thrown during the following loop
+                            var errCheck = false;
+
+                            // loop through the interests array, inserting each as a row in the club_interest table
+                            for (var i = 0; i < interests.length; i++) {
+                                conn.query(query_cl, [clubname, interests[i]], function (err) {
+                                    if (err) {
+                                        errCheck = true;
+                                    }
+                                });
+                            }
+                            conn.release();
+
+                            if (errCheck) {
+                                req.flash('errorMsg', 'Failed to create club: Interests');
+                                res.redirect('/users/createClubProfile');
+                            }
+                            else {
+                                let club = {
+                                    name: clubname,
+                                    phone: authenticator.format_phone(phone),
+                                    clubEmail: email,
+                                    socialLink: socialLink,
+                                    description: description,
+                                    leaderEmail: req.session.user.email
+                                };
+
+                                console.log("Club interests in.");
+                                res.render('pages/clubPage', {club: club});
+                            }
                         }
                     });
                 }
@@ -307,7 +304,7 @@ module.exports = {
         let socialLink = req.body.socialLink;
 
         /* Notifies user if request to update with all null data */
-        if (!name && !clubEmail && !description&& !phone&& !socialLink) {
+        if (!name && !clubEmail && !description && !phone&& !socialLink) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editClubProfile');
             return;
@@ -571,7 +568,7 @@ module.exports = {
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone, student.password FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = "SELECT * FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -615,7 +612,8 @@ module.exports = {
                                 lname : user.last_name,
                                 email : user.email,
                                 phone : user.phone,
-                                password : user.password
+                                password : user.password,
+                                about: user.about
                             };
                             req.flash('successMsg', "Welcome", req.session.user.fname);
                             res.redirect('/');

@@ -13,7 +13,8 @@ router.get('/createUserProfile', function (req, res) {
         fname:"",
         lname:"",
         phone:"",
-        email:""
+        email:"",
+        about:""
     };
 
     // Session profiles saves last entered input from create User profile
@@ -22,7 +23,8 @@ router.get('/createUserProfile', function (req, res) {
             fname: req.session.profile.fname,
             lname: req.session.profile.lname,
             phone: req.session.profile.phone,
-            email: req.session.profile.email
+            email: req.session.profile.email,
+            about: req.session.profile.about
         };
     }
 
@@ -63,8 +65,9 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    queries.update_student(req, res);
+    queries.update_student(req, res, {user: req.session.user});
 });
+
 
 /*Loads change password page if user is logged in*/
 router.get('/changePassword', authenticator.ensureLoggedIn , function (req, res) {
@@ -82,7 +85,7 @@ router.get('/userProfilePage', authenticator.ensureLoggedIn , function (req, res
 
 /*Loads edit club profile if user is creator*/
 router.get('/editClubProfile',function (req, res) {
-    res.render('pages/editClubProfile')
+    res.render('pages/editClubProfile', {club: req.session.club})
 });
 /**
  * System sends club info to server
