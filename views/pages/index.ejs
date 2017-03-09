@@ -2,7 +2,6 @@
 <title>SWOON</title>
 
 <style>
-
     <% if(user == undefined) {%>
     body{
         background-image: url(http://www.lajollainnbythesea.com/bpimages/lajolla_beach.jpg);
@@ -13,9 +12,7 @@
         background-size: cover;
         border-radius: 0px;
     }
-
     <% } %>
-
     #home-search[type=text] {
         width: 140px;
         box-sizing: border-box;
@@ -32,7 +29,6 @@
         display: block;
         margin-top: 23%;
     }
-
     #home-search[type=text]:focus {
         width: 50%;
         color: white;
@@ -40,11 +36,9 @@
         outline: none;
         border-radius: 5px;
     }
-
     #home-search[type=text]:hover {
         background-color: rgba(0, 0, 0, 0.8);
     }
-
 </style>
 <style>
     #home-search-login[type=text] {
@@ -67,7 +61,6 @@
         
         
     }
-
     #home-search-login[type=text]:focus {
         width: 50%;
         color: white;
@@ -75,19 +68,15 @@
         outline: none;
         border-radius: 5px;
     }
-
     #home-search-login[type=text]:hover {
         background-color: rgba(0, 0, 0, 0.8);
     }
-
 </style>
 
     <% if(user == undefined) {%>
     <form action="/searchPage" method="post">
         <input id="home-search" type="text" name="searchbar" placeholder="Search Clubs" />
     </form>
-
-
     <% } %>
     <% if(user != undefined) {%>
         <div style="width: 70%; height: 100%; overflow: hidden; position: absolute; top: 50px; border: none; z-index:-2;">
@@ -96,16 +85,12 @@
                 <input id="home-search-login" type="text" name="searchbar" placeholder="Search Clubs" />
             </form>
             
-
             <img src="img/lajolla2.png" alt="Responsive image" style="min-width: 100%; max-width: 200%; min-height: 100%; max-height: 100%; border: none; position: relative; z-index:0; border-top: 4px solid whitesmoke; border-left: 4px solid whitesmoke"/>
             
         </div>
-
         <div style="width: 30%; height: 100%; overflow: hidden; position: absolute; right: 0; top: 50px; z-index:-2;">
             <a href="/users/userProfilePage" class="button-clubs"></a>
-
             <button onclick="location.href = '/users/userProfilePage'" type="button"  class="button-small">Profile</button>
-
             <img src="img/geisel.jpg" style="min-width: 100%; max-width: 5000px; min-height: 100%; max-height: 100%; left: -80%; position: relative;"/>
         </div>
     <% } %>
