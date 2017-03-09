@@ -2,7 +2,9 @@
 <title>SWOON</title>
 
 <style>
-    #home-body{
+
+    <% if(user == undefined) {%>
+    body{
         background-image: url(http://www.lajollainnbythesea.com/bpimages/lajolla_beach.jpg);
         background-position: center;
         background-repeat: no-repeat;
@@ -10,8 +12,9 @@
         background-origin: border-box;
         background-size: cover;
         border-radius: 0px;
-        
     }
+
+    <% } %>
 
     #home-search[type=text] {
         width: 140px;
@@ -79,12 +82,11 @@
 
 </style>
 
-<body id="home-body">
-
     <% if(user == undefined) {%>
     <form action="/searchPage" method="post">
         <input id="home-search" type="text" name="searchbar" placeholder="Search Clubs" />
     </form>
+
 
     <% } %>
     <% if(user != undefined) {%>
@@ -107,4 +109,3 @@
             <img src="img/geisel.jpg" style="min-width: 100%; max-width: 5000px; min-height: 100%; max-height: 100%; left: -80%; position: relative;"/>
         </div>
     <% } %>
-</body>
