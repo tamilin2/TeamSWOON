@@ -13,7 +13,8 @@ router.get('/createUserProfile', function (req, res) {
         fname:"",
         lname:"",
         phone:"",
-        email:""
+        email:"",
+        about:""
     };
 
     // Session profiles saves last entered input from create User profile
@@ -22,7 +23,8 @@ router.get('/createUserProfile', function (req, res) {
             fname: req.session.profile.fname,
             lname: req.session.profile.lname,
             phone: req.session.profile.phone,
-            email: req.session.profile.email
+            email: req.session.profile.email,
+            about: req.session.profile.about
         };
     }
 

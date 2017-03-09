@@ -14,12 +14,13 @@ module.exports = {
      */
     insert_student: function (req, res) {
         // MySQL query to insert into student table
-        let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "insert into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
 
         //Gets all user data passed from the view
         let firstname = req.body.firstname;
         let lastname = req.body.lastname;
         let email = req.body.email;
+        let about = req.body.about;
         let phone = authenticator.parse_phoneNum(req.body.phone);
         let password = req.body.password;
         let password2 = req.body.password2;
@@ -34,7 +35,7 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         let errors = req.validationErrors();
 
-        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email};
+        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email, about: about};
 
         if (errors) {
             // Render the page again with error notification of missing fields
@@ -51,7 +52,7 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query(query, [firstname, lastname, email, phone, password], function (err) {
+                    conn.query(query, [firstname, lastname, email, phone, password, about], function (err) {
                         conn.release();
                         if (err) {
                             // Error in duplicate email
@@ -541,7 +542,7 @@ module.exports = {
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone, student.password FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = "SELECT * FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -585,7 +586,8 @@ module.exports = {
                                 lname : user.last_name,
                                 email : user.email,
                                 phone : user.phone,
-                                password : user.password
+                                password : user.password,
+                                about: user.about
                             };
                             req.flash('successMsg', "Welcome", req.session.user.fname);
                             res.redirect('/');
