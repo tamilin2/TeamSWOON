@@ -1,6 +1,36 @@
 <%- contentFor('bodyPage')%>
 <!-- For Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Your Profile</title>
+
+<style>
+  #contact, #clubs, #description {
+        background-color: white;
+        border: 1px solid lightgrey;
+        word-wrap: break-word;
+        border-radius: 5px;
+        margin: 10px 0px;
+        padding: 0px 15px;
+    }
+
+    #icon {
+        text-align: right;
+    }
+
+    #pict {
+        width: 100%;
+        height: 307px;
+    }
+
+    #name {
+        text-align: center;
+        background-color: white;
+    }
+    #changeButtonDiv {
+        margin-bottom: 5px;
+    }
+
+</style>
 
 <div class="container">    
   <div class="row">  
@@ -16,9 +46,8 @@
                 <dt>Email:</dt>
                 <dd id="email"><a href="mailto:someone@example.com?Subject=Hello" target="_top"><i  title= "Send Mail" class="fa fa-envelope"></i></a>  somestudent@ucsd.edu</dd>
             </dl>
+            <div id="changeButtonDiv">
                 <button onclick="location.href = '#'" class="btn btn-success" id="createbtn" style="right: 0; background-color: rgb(40,40,40); border: 2px solid rgb(20,20,20)">Change Info</button>
-            <div id="icon">
-              <a href="https://www.facebook.com/"><i title="Facebook" class="fa fa-facebook-official"style="font-size:24px;"></i></a>
             </div>
             </div>
             <div id="clubs">
