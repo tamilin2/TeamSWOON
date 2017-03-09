@@ -63,8 +63,9 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    queries.update_password(req, res);
+    queries.update_student(req, res, {user: req.session.user});
 });
+
 
 /*Loads change password page if user is logged in*/
 router.get('/changePassword', authenticator.ensureLoggedIn , function (req, res) {
@@ -77,12 +78,12 @@ router.post('/changePassword', function (req, res) {
 
 /*Loads user profile page if user is logged in*/
 router.get('/userProfilePage', authenticator.ensureLoggedIn , function (req, res) {
-    res.render('pages/userProfilePage');
+    queries.getClubsCreated(req, res);
 });
 
 /*Loads edit club profile if user is creator*/
 router.get('/editClubProfile',function (req, res) {
-    res.render('pages/editClubProfile')
+    res.render('pages/editClubProfile', {club: req.session.club})
 });
 /**
  * System sends club info to server

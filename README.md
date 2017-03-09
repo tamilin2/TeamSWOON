@@ -10,9 +10,11 @@ To run website, use node in CMD:
 
 Current functions:
     - Enter home page
-    - Create/Edit user profile on database
-    - Create/Edit/View/Delete club profile
-    - Search for club by name
+    - Create/Edit/View user profile with list of created club by user
+    - Create/Edit/View/Delete club profile with a specified interest
+    - Search for club by name or interest
+    - Email club leaders
+    - Obtain Forgotten password
     - View all clubs
     
 

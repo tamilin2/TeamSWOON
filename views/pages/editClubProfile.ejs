@@ -51,7 +51,7 @@
                 <h3>Academics</h3>
                 <input type="checkbox" name="interest[]" value="STEM"/> STEM <br>
                 <input type="checkbox" name="interest[]" value="med" /> Med/Pre-Med/Health <br>
-                <input type="checkbox" name="interest[]" value="aocial_sciences" /> Social Sciences <br>
+                <input type="checkbox" name="interest[]" value="social_sciences" /> Social Sciences <br>
                 <input type="checkbox" name="interest[]" value="comm" /> Communications/Languages/Linguistics <br>
                 <input type="checkbox" name="interest[]" value="arts" /> Arts <br>
                 <input type="checkbox" name="interest[]" value="other_academics" /> Other Academics <br>
@@ -193,8 +193,6 @@
         <div class="row">
             <div class="form-group col-md-4">
                 <form action="/users/deleteClub" method="POST">
-                    <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
-                    <input type="hidden" name="clubName" value="<%= club.name%>">
                     <button type="submit" class="btn btn-danger" onClick="<%- "return confirmDelete()"%>" name="delete" value="delete">Delete Club</button>
                 </form>
             </div>
