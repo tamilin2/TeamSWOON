@@ -34,12 +34,13 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         let errors = req.validationErrors();
 
+        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email};
+
         if (errors) {
             // Render the page again with error notification of missing fields
-            res.render('pages/createUserProfile', {errors: errors});
+            res.render('pages/createUserProfile', {errors: errors, profile : req.session.profile});
         }
-        else if(!authenticator.verify_email(req, res, email) || !authenticator.verify_phone(req, res, phone)) {
-
+        else if( authenticator.verifyCredentials(req, res, email, phone)) {
             res.redirect('/users/createUserProfile');
         }
         else {
