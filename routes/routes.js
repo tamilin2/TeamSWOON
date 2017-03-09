@@ -43,5 +43,18 @@ router.post('/searchPage', function (req, res) {
     else { queries.getAllClubs(req,res); }
 });
 
+/**
+ * User requests email/password credentials sent to their email
+ */
+router.get('/credentialRequest', function (req, res) {
+   res.render('pages/credentialRequest');
+});
+/**
+ * User requests email/password credentials sent to their email
+ */
+router.post('/credentialRequest', function (req, res) {
+    queries.requestAccount(req, res);
+});
+
 // Communicates this router to server.js
 module.exports = router;

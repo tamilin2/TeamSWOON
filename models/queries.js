@@ -552,5 +552,62 @@ module.exports = {
             }
             res.redirect('/');
         });
+    },
+
+    /**
+     * System sends user their account credentials via given email
+     */
+    requestAccount: function (req, res) {
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                //TODO Authenticate your Gmail account here
+                /* config.email/pass is locally set email and password to use nodemailer */
+                user: config.email || null,
+                pass: config.pass || null
+            }
+        });
+
+        let userEmail = req.body.email;
+
+        let query = "SELECT student.password FROM student WHERE student.email = ?";
+
+        connection(function (err, con) {
+            con.query(query, [userEmail],function (err, rows) {
+                if (err) {
+                    req.flash('errorMsg', 'Failed to query to database');
+                    res.redirect('/credentialRequest');
+                }
+                // Assures the query returns a club entry
+                else if (rows[0] == null) {
+                    req.flash('errorMsg', 'Email not found');
+                    res.redirect('/credentialRequest');
+                }
+                // Query returns found clubs so load them on search page
+                else {
+                    let userPassword = rows[0].password;
+                    let bodyMsg = "Your requested account credentials are the following:\nEmail: " + userEmail + "\nPassword: " + userPassword;
+                    let mailOptions = {
+                        from: 'noreply@ucsd.edu',
+                        to: userEmail,
+                        subject: 'Request Account Recovery',
+                        text: bodyMsg,
+                        html: "<p>" + bodyMsg + "</p>"
+                    };
+
+                    transporter.sendMail(mailOptions, function (err, info) {
+                        if (err) {
+                            console.error(err);
+                            req.flash('errorMsg', 'Failed to send email');
+                        }
+                        else {
+                            req.flash('successMsg', 'Email was successfully sent to: ', userEmail);
+                        }
+                        res.redirect('/');
+                    });
+                }
+            });
+            con.release();
+        });
     }
 };
