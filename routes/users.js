@@ -5,13 +5,28 @@ let express = require('express');
 let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
-var nodemailer = require('nodemailer');
-let config = require('../config');
 
 /*Loads create user profile page*/
 router.get('/createUserProfile', function (req, res) {
-    // No errors will be pass
-    res.render('pages/createUserProfile', {errors: null});
+    // No errors will be pass and session profile will be empty
+    let profile = {
+        fname:"",
+        lname:"",
+        phone:"",
+        email:""
+    };
+
+    // Session profiles saves last entered input from create User profile
+    if (req.session.profile !== undefined) {
+        profile = {
+            fname: req.session.profile.fname,
+            lname: req.session.profile.lname,
+            phone: req.session.profile.phone,
+            email: req.session.profile.email
+        };
+    }
+
+    res.render('pages/createUserProfile', {errors: null, profile: profile});
 });
 /*Sends new user credentials to db*/
 router.post('/createUserProfile', function (req, res) {
@@ -27,41 +42,13 @@ router.post('/createUserProfile', function (req, res) {
  * System sends confirmation email to ucsd address
  */
 router.post('/sendEmail', function (req, res) {
-    let transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            //TODO Authenticate your Gmail account here
-            /* config.email/pass is locally set email and password to use nodemailer */
-            user: config.email || null,
-            pass: config.pass || null
-        }
-    });
-
-    let mailOptions = {
-        from: req.body.fromEmail,
-        to: req.body.toEmail,
-        subject: req.body.subject,
-        text: req.body.body,
-        html: "<p>" + req.body.body + "</p>"
-    };
-
-    transporter.sendMail(mailOptions, function (err, info) {
-        if (err) {
-            console.error(err);
-            req.flash('errorMsg','Email failed to sent');
-            res.redirect('/');
-        }
-        else {
-            req.flash('successMsg', 'Email sent to: ', mailOptions.to);
-            res.redirect('/');
-        }
-    });
+    queries.sendEmail(req,res);
 });
 
 /*Loads create club profile page*/
 router.get('/createClubProfile', authenticator.ensureLoggedIn, function (req, res) {
     // No errors will be pass
-    res.render('pages/createClubProfile', {errors: null});
+    res.render('pages/createClubProfile', {errors: null, user: req.session.user});
 });
 /*Sends new club credentials to db*/
 router.post('/createClubProfile', function (req, res) {
@@ -76,8 +63,21 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    let user = req.session.user;
-    queries.update_student(req, res, {user : user});
+    queries.update_password(req, res);
+});
+
+/*Loads change password page if user is logged in*/
+router.get('/changePassword', authenticator.ensureLoggedIn , function (req, res) {
+    res.render('pages/changePassword', {errors: null});
+});
+/*Sends password changes to db*/
+router.post('/changePassword', function (req, res) {
+    queries.update_password(req, res);
+});
+
+/*Loads user profile page if user is logged in*/
+router.get('/userProfilePage', authenticator.ensureLoggedIn , function (req, res) {
+    res.render('pages/userProfilePage');
 });
 
 /*Loads edit club profile if user is creator*/
@@ -88,18 +88,11 @@ router.get('/editClubProfile',function (req, res) {
  * System sends club info to server
  */
 router.post('/postClub', function (req, res) {
-    let club = {
-        clubName : req.body.clubName,
-        clubEmail: req.body.clubEmail,
-        clubLeaderEmail: req.body.clubLeaderEmail,
-        description: req.body.description,
-        phone : req.body.phone,
-        socialLink : req.body.socialLink
-    };
-    req.session.club = club;
-    res.render('pages/editClubProfile', {club : club});
+    res.render('pages/editClubProfile', {club : req.session.club});
 });
-/*Sends club profile changes to db*/
+/**
+ * Sends club profile changes to db
+ */
 router.post('/editClubProfile',function (req, res) {
     queries.edit_club(req, res);
 });

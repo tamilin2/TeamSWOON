@@ -4,6 +4,9 @@
 let authenticator = require('./../routes/authenticator');
 let connection = require('./user');
 async = require('async');
+let nodemailer = require('nodemailer');
+// Js file to get email and password for gmail. This keeps your privacy for gmail
+// let config = require('../../config');
 
 module.exports = {
 
@@ -32,12 +35,13 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         let errors = req.validationErrors();
 
+        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email};
+
         if (errors) {
             // Render the page again with error notification of missing fields
-            res.render('pages/createUserProfile', {errors: errors});
+            res.render('pages/createUserProfile', {errors: errors, profile : req.session.profile});
         }
-        else if(!authenticator.verify_email(req, res, email) && !authenticator.verify_phone(req, res, phone)) {
-
+        else if( authenticator.verifyCredentials(req, res, email, phone)) {
             res.redirect('/users/createUserProfile');
         }
         else {
@@ -84,6 +88,7 @@ module.exports = {
             res.redirect('/users/editUserProfile');
             return;
         }
+
         req.checkBody('password', 'Passwords don\'t match').equals(password2);
         let errors = req.validationErrors();
 
@@ -138,13 +143,92 @@ module.exports = {
         }
     },
 
+    update_password: function (req, res) {
+        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let oldPassword = req.body.oldPassword;
+        let password = req.body.password;
+        let password2 = req.body.password2;
+
+        req.checkBody('oldPassword', 'Old password doesn\'t match').equals(req.session.user.password);
+        req.checkBody('password', 'New password doesn\'t match').equals(password2);
+        let errors = req.validationErrors();
+
+        if (errors) {
+            // Redirect back to change password page if passwords don't match
+            res.render('pages/changePassword', {errors: errors});
+        }
+        else {
+            connection(function (err, conn) {
+                if (err) {
+                    req.flash('errorMsg', 'Bad connection with database');
+                    res.redirect('/users/changePassword');
+                }
+                else {
+                    // Replace existing db entry with modified data
+                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password], function (err, rows) {
+                        if (err) {
+                            req.flash('errorMsg', 'Failed to update password', err);
+                            res.redirect('/users/changePassword');
+                        }
+                        else {
+                            // Since update success, represent session with the user's new credential
+                            req.session.user = {
+                                fname : req.session.user.fname,
+                                lname : req.session.user.lname,
+                                email : req.session.user.email,
+                                phone : req.session.user.phone,
+                                password : password
+                            };
+                            req.flash('successMsg', 'Updated password');
+                            res.redirect('/');
+                        }
+                    });
+                }
+            });
+        }
+
+    },
+
+    /**
+     * User requesting to delete profile
+     */
+    delete_student: function (req, res) {
+        let query = "Delete FROM student WHERE student.email= ?";
+
+        let email = req.session.user.email;
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editUserProfile');
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(query, [email], function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Error in Query');
+                        res.redirect('/users/editUserProfile');
+                        throw err;
+                    }
+                    else {
+                        req.flash('successMsg', 'Successfully deleted user: ', req.session.user.fname);
+                        res.redirect('/');
+
+                        // Erase current user's session
+                        req.session.user = undefined;
+                    }
+                });
+                conn.release();
+            }
+        });
+    },
+
     /**
      * User requesting to create club profile
      */
     insert_club: function (req, res) {
         // MySQL query to insert into student table
         let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink, img) values (?, ?, ?, ?, ?, ?, ?) ";
-        let query_cl = "insert into club_interest (club_interest_id, club_name, interest) values (LAST_INSERT_ID(), ?, ?) ";
+        let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
 
         //Gets all user data passed from the view
         let clubname = req.body.clubname;
@@ -153,13 +237,12 @@ module.exports = {
         let socialLink = req.body.website;
         let description = req.body.description;
         let interests = req.body.interest;
-        let interestsLength = interests.length;
 
         // Required fields that we want
-        // req.checkBody('clubname', 'Club name is required').notEmpty();
-        // req.checkBody('phone', 'Require phone number').notEmpty();
-        // req.checkBody('email', 'Required email is not valid').isEmail();
-        // req.checkBody('description', 'Club description is required').notEmpty();
+        req.checkBody('clubname', 'Club name is required').notEmpty();
+        req.checkBody('phone', 'Require phone number').notEmpty();
+        req.checkBody('email', 'Required email is not valid').isEmail();
+        req.checkBody('description', 'Club description is required').notEmpty();
 
         let errors = req.validationErrors();
 
@@ -169,50 +252,51 @@ module.exports = {
             res.render('pages/createClubProfile', {errors: errors});
         }
         else {
-        // Create new student row with given credentials on database
             connection(function (err, conn) {
                 if (err) {
                     req.flash('errorMsg', 'Bad connection with database');
                     res.redirect('/users/createUserProfile');
                 }
                 else {
+                    // Create new club row with given credentials on database
                     conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
                         if (err) {
-                            console.log(err);
-                            req.flash('errorMsg', 'Failed to create club : Creation');
+                            req.flash('errorMsg', 'Failed to create club: Creation');
                             res.redirect('/users/createClubProfile');
                         }
                         else {
-                            console.log("Club query in.")
-                        }
-                    });
-                    /*
-                     * Only works with a single interest selection.
-                     */
-                    function qFunc(element, callback) {
-                        //for (var i = 0; i < interestsLength; i++) {
-                        conn.query(query_cl, [clubname, element], function (err) {
-                            if (err) return callback(err);
-                        });
-                        console.log(element);
-                    }
+                            console.log("Club query in.");
+                            // tentatively set var used to check if any errors were thrown during the following loop
+                            var errCheck = false;
 
-                    async.each(interests, qFunc, function(err) {
-                        conn.release();
-                        if(err) {
-                            req.flash('errorMsg', 'Failed to create club : Interests');
-                            res.redirect('/users/createClubProfile');
+                            // loop through the interests array, inserting each as a row in the club_interest table
+                            for (var i = 0; i < interests.length; i++) {
+                                conn.query(query_cl, [clubname, interests[i]], function (err) {
+                                    if (err) {
+                                        errCheck = true;
+                                    }
+                                });
+                            }
+                            conn.release();
+
+                            if (errCheck) {
+                                req.flash('errorMsg', 'Failed to create club: Interests');
+                                res.redirect('/users/createClubProfile');
+                            }
+                            else {
+                                let club = {
+                                    name: clubname,
+                                    phone: authenticator.format_phone(phone),
+                                    clubEmail: email,
+                                    socialLink: socialLink,
+                                    description: description,
+                                    leaderEmail: req.session.user.email
+                                };
+
+                                console.log("Club interests in.");
+                                res.render('pages/clubPage', {club: club});
+                            }
                         }
-                        let club = {
-                            name: clubname,
-                            phone: authenticator.format_phone(phone),
-                            clubEmail: email,
-                            socialLink: socialLink,
-                            description: description,
-                            leaderEmail: req.session.user.email
-                        };
-                        console.log("Club interests in.")
-                        res.render('pages/clubPage', {club: club});
                     });
                 }
             });
@@ -223,31 +307,38 @@ module.exports = {
      * User requesting to edit club profile
      */
     edit_club : function (req, res) {
-        let query = "replace into club (name, leaderEmail, clubEmail, phone, socialLink, description) values (?, ?, ?, ?, ?, ?) ";
+        let query = "replace into club (name, leaderEmail, clubEmail, phone, socialLink, description, img) values (?, ?, ?, ?, ?, ?, ?) ";
 
         let name = req.body.clubName;
-        let email = req.body.email;
-        let leaderEmail= req.session.club.clubLeaderEmail;
+        let clubEmail = req.body.clubEmail;
+        let leaderEmail= req.session.club.leaderEmail;
         let description= req.body.description;
         let phone= req.body.phone;
         let socialLink = req.body.socialLink;
 
         /* Notifies user if request to update with all null data */
-        if (!name && !email && !description&& !phone&& !socialLink) {
+        if (!name && !clubEmail && !description && !phone&& !socialLink) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editClubProfile');
             return;
         }
 
         // If input field is empty then insert old data back into db entry
+        // Else input field is not empty so overwrite old saved data
         if (!name) {
             name = req.session.club.name;
+        } else {
+            req.session.club.name = name;
         }
-        if (!email) {
-            email= req.session.club.email;
+        if (!clubEmail) {
+            clubEmail= req.session.club.email;
+        } else {
+            req.session.club.clubEmail = clubEmail;
         }
         if (!description) {
             description = req.session.club.description;
+        } else {
+            req.session.club.description = description;
         }
         if (!socialLink) {
             socialLink = req.session.club.socialLink;
@@ -255,10 +346,10 @@ module.exports = {
         // If phone is null, use old formatted club number
         if (!phone) {
             phone = authenticator.parse_phoneNum(req.session.club.phone);
-        }
-        // New phone entry is given so format it
-        else {
+        } else {
+                // New phone entry is given so format it
             phone = authenticator.parse_phoneNum(phone);
+            req.session.club.phone = authenticator.format_phone(phone);
         }
 
         // Querying with verified input data
@@ -269,23 +360,24 @@ module.exports = {
             }
             else {
                 // Replace existing db entry with modified data
-                conn.query(query, [name, leaderEmail, email, phone, socialLink, description ], function (err, rows) {
+                //TODO replace null with img
+                conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, null], function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to update account');
                         res.redirect('/users/editClubProfile');
                         throw err;
                     }
                     else {
-                        req.session.club = [ name, email, leaderEmail , description, socialLink, phone];
-                        let club = {
-                            name : name,
-                            clubEmail : email,
-                            leaderEmail : leaderEmail,
-                            description : description,
-                            phone : authenticator.format_phone(phone),
-                            socialLink : socialLink
+                        req.session.club = {
+                            name: name,
+                            leaderEmail: leaderEmail,
+                            phone: phone,
+                            description: description,
+                            clubEmail: clubEmail,
+                            socialLink: socialLink,
+                            img: null
                         };
-                        res.render('pages/clubPage', {club: club});
+                        res.render('pages/clubPage', {club: req.session.club});
                     }
                 });
                 conn.release();
@@ -297,11 +389,10 @@ module.exports = {
      * User requesting to delete club profile
      */
     delete_club : function (req, res) {
-        let query = "Delete FROM club WHERE club.name = ? AND club.club_email = ?";
+        let query = "Delete FROM club WHERE club.name = ? AND club.clubEmail = ?";
 
-        let name = req.session.club.name;
-        let email = req.session.club.email;
-
+        let name = req.body.clubName;
+        let email = req.body.clubEmail;
         connection(function (err, conn) {
             if (err) {
                 req.flash('errorMsg', 'Bad connection with database');
@@ -311,9 +402,9 @@ module.exports = {
                 // Replace existing db entry with modified data
                 conn.query(query, [name, email], function (err, rows) {
                     if (err) {
+                        req.flash('errorMsg', 'Bad connection with database');
+                        res.redirect('/users/editClubProfile');
                         throw err;
-                        // req.flash('errorMsg', 'Bad connection with database');
-                        // res.redirect('/users/editClubProfile');
                     }
                     else {
                         req.flash('successMsg', 'Successfully deleted club');
@@ -350,7 +441,15 @@ module.exports = {
                     club.phone = authenticator.format_phone(club.phone);
 
                     // Saves last interacted club
-                    req.session.club = club;
+                    req.session.club = {
+                        name: club.name,
+                        leaderEmail: club.leaderEmail,
+                        phone: club.phone,
+                        description: club.description,
+                        clubEmail: club.clubEmail,
+                        socialLink: club.socialLink,
+                        img: club.img
+                    };
                     res.render('pages/clubPage', {club: club});
                 }
             });
@@ -405,7 +504,7 @@ module.exports = {
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: undefined, search: req.body.searchbar});
+                        res.render('pages/searchPage', {clubs: null, search: req.body.searchbar});
                     }
                     // Query returns found clubs so load them on search page
                     else {
@@ -476,5 +575,96 @@ module.exports = {
                 }
             });
         }
+    },
+
+    /**
+     * User sends an email to club leader
+     */
+    sendEmail: function (req, res) {
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                //TODO Authenticate your Gmail account here
+                /* config.email/pass is locally set email and password to use nodemailer */
+                user: config.email || null,
+                pass: config.pass || null
+            }
+        });
+
+        let mailOptions = {
+            from: req.body.fromEmail,
+            to: req.body.toEmail,
+            subject: req.body.subject,
+            text: req.body.body,
+            html: "<p>" + req.body.body + "</p>"
+        };
+
+        transporter.sendMail(mailOptions, function (err, info) {
+            if (err) {
+                console.error(err);
+                req.flash('errorMsg', 'Failed to send email');
+            }
+            else {
+                req.flash('successMsg', 'Email was successfully sent');
+            }
+            res.redirect('/');
+        });
+    },
+
+    /**
+     * System sends user their account credentials via given email
+     */
+    requestAccount: function (req, res) {
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                //TODO Authenticate your Gmail account here
+                /* config.email/pass is locally set email and password to use nodemailer */
+                user: config.email || null,
+                pass: config.pass || null
+            }
+        });
+
+        let userEmail = req.body.email;
+
+        let query = "SELECT student.password FROM student WHERE student.email = ?";
+
+        connection(function (err, con) {
+            con.query(query, [userEmail],function (err, rows) {
+                if (err) {
+                    req.flash('errorMsg', 'Failed to query to database');
+                    res.redirect('/credentialRequest');
+                }
+                // Assures the query returns a club entry
+                else if (rows[0] == null) {
+                    req.flash('errorMsg', 'Email not found');
+                    res.redirect('/credentialRequest');
+                }
+                // Query returns found clubs so load them on search page
+                else {
+                    let userPassword = rows[0].password;
+                    let bodyMsg = "Your requested account credentials are the following:\nEmail: " + userEmail + "\nPassword: " + userPassword;
+                    let mailOptions = {
+                        from: 'noreply@ucsd.edu',
+                        to: userEmail,
+                        subject: 'Request Account Recovery',
+                        text: bodyMsg,
+                        html: "<p>" + bodyMsg + "</p>"
+                    };
+
+                    transporter.sendMail(mailOptions, function (err, info) {
+                        if (err) {
+                            console.error(err);
+                            req.flash('errorMsg', 'Failed to send email');
+                        }
+                        else {
+                            req.flash('successMsg', 'Email was successfully sent to: ', userEmail);
+                        }
+                        res.redirect('/');
+                    });
+                }
+            });
+            con.release();
+        });
     }
 };

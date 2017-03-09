@@ -25,14 +25,13 @@ router.get('/contactClub', function (req,res) {
         to : toEmail ,
         from : fromEmail
     };
-
-    console.log(emails);
     res.render('pages/contactClub', {errors : null, emails : emails});
 });
 /*Loads club page*/
 router.post('/clubPage', function (req, res) {
     queries.getClub(req, res);
 });
+
 
 /*Loads search page*/
 router.get('/searchPage', function (req, res) {
@@ -43,6 +42,19 @@ router.post('/searchPage', function (req, res) {
     // Search is only requested if search value is not empty
     if (req.body.searchbar.length > 0) { queries.getClubByName(req,res); }
     else { queries.getAllClubs(req,res); }
+});
+
+/**
+ * User requests email/password credentials sent to their email
+ */
+router.get('/credentialRequest', function (req, res) {
+   res.render('pages/credentialRequest');
+});
+/**
+ * User requests email/password credentials sent to their email
+ */
+router.post('/credentialRequest', function (req, res) {
+    queries.requestAccount(req, res);
 });
 
 // Communicates this router to server.js
