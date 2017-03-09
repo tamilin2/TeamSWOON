@@ -360,12 +360,12 @@
                 <button type="button" class="btn btn-default btn-block">Filter</button>
             </div>
         </div>
+
+        <!-- your page content -->
         <div class="col-sm-9 col-lg-10">
             <% if (search !== null) {%>
                 <h2 class="page-header">Search Term: <%= search %></h2>
             <% } %>
-
-            <!-- your page content -->
             <% if(clubs) {%>
                 <% for( let idx in clubs) { %>
                     <div class="search-result">
