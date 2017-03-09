@@ -3,6 +3,7 @@
  */
 let authenticator = require('./../routes/authenticator');
 let connection = require('./user');
+async = require('async');
 
 module.exports = {
 
@@ -152,12 +153,13 @@ module.exports = {
         let socialLink = req.body.website;
         let description = req.body.description;
         let interests = req.body.interest;
+        let interestsLength = interests.length;
 
         // Required fields that we want
-        req.checkBody('clubname', 'Club name is required').notEmpty();
-        req.checkBody('phone', 'Require phone number').notEmpty();
-        req.checkBody('email', 'Required email is not valid').isEmail();
-        req.checkBody('description', 'Club description is required').notEmpty();
+        // req.checkBody('clubname', 'Club name is required').notEmpty();
+        // req.checkBody('phone', 'Require phone number').notEmpty();
+        // req.checkBody('email', 'Required email is not valid').isEmail();
+        // req.checkBody('description', 'Club description is required').notEmpty();
 
         let errors = req.validationErrors();
 
@@ -174,9 +176,11 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query( query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
+                    conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
                         if (err) {
+                            console.log(err);
                             req.flash('errorMsg', 'Failed to create club : Creation');
+                            res.redirect('/users/createClubProfile');
                         }
                         else {
                             console.log("Club query in.")
@@ -185,24 +189,30 @@ module.exports = {
                     /*
                      * Only works with a single interest selection.
                      */
-                    conn.query( query_cl, [clubname, interests], function (err) {
+                    function qFunc(element, callback) {
+                        //for (var i = 0; i < interestsLength; i++) {
+                        conn.query(query_cl, [clubname, element], function (err) {
+                            if (err) return callback(err);
+                        });
+                        console.log(element);
+                    }
+
+                    async.each(interests, qFunc, function(err) {
                         conn.release();
-                        if (err) {
+                        if(err) {
                             req.flash('errorMsg', 'Failed to create club : Interests');
                             res.redirect('/users/createClubProfile');
                         }
-                        else {
-                            let club = {
-                                name : clubname,
-                                phone : authenticator.format_phone(phone),
-                                clubEmail: email,
-                                socialLink: socialLink,
-                                description : description,
-                                leaderEmail : req.session.user.email
-                            };
-                            console.log("Club interests in.")
-                            res.render('pages/clubPage', {club: club});
-                        }
+                        let club = {
+                            name: clubname,
+                            phone: authenticator.format_phone(phone),
+                            clubEmail: email,
+                            socialLink: socialLink,
+                            description: description,
+                            leaderEmail: req.session.user.email
+                        };
+                        console.log("Club interests in.")
+                        res.render('pages/clubPage', {club: club});
                     });
                 }
             });
