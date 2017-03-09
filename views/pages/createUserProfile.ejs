@@ -21,22 +21,22 @@
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="firstname">First Name: </label>
-                    <input type="text" class="form-control" name="firstname" placeholder="Required" required/>
+                    <input type="text" class="form-control" name="firstname" placeholder="Required" value="<%= profile.fname%>" required/>
             </div>
                 <div class="form-group col-md-4">
                     <label for="lastname">Last Name:</label>
-                    <input type="text" class="form-control" name="lastname" placeholder="Required" required/>
+                    <input type="text" class="form-control" name="lastname" placeholder="Required" value="<%= profile.lname%>" required/>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="phone">Phone Number:</label>
-                    <input type="tel" class="form-control" name="phone" placeholder="Required" required/>
+                    <input type="tel" class="form-control" name="phone" placeholder="Required" value="<%= profile.phone%>" required/>
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="email">UCSD Email:</label>
-                    <input type="email" class="form-control" name="email" placeholder="Required" required/>
+                    <input type="email" class="form-control" name="email" placeholder="Required" value="<%= profile.email%>" required/>
                 </div>
             </div>
 
