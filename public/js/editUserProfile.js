@@ -36,7 +36,7 @@ $(document).ready(function() {
         
     }
     
-    $(".add_form_field").click(addFields);
+    $("#add-form-field").click(addFields);
     $("#remove-form-field").click(removeFields);
     
 });

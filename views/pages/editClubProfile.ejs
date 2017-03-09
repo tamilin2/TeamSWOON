@@ -1,8 +1,6 @@
 <%- contentFor('bodyPage')%>
 <script type="text/javascript" src="/js/editClubProfile.js"></script>
 <title>Edit Club Profile</title>
-
-<body>
     
     <form action="/users/editClubProfile" method="POST">
         <div class="container">
@@ -26,55 +24,26 @@
                     <label for="phone">Phone number:</label>
                     <input type="tel" class="form-control" name="phone" id="phone" value="<%= club.phone%>"/>
                 </div>
-
+            </div>
+            <div class="row">
                 <div class="form-group col-md-4">
                     <label >Website:</label>
                     <input type="url" class="form-control" name="socialLink" id="website" value="<%= club.socialLink%>"/>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="form-group col-md-8">
                     <label for="description">Description:</label>
                     <textarea type="text" class="form-control" name="description" id="description" rows=5 placeholder="Tell people what your club is all about." ><%= club.description%></textarea>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    <h2>Interests:</h2>
+                <div class="col-md-4 form-group">
+                    <label for="pic">Profile Picture</label>
+                    <input type="file" class="form-control" name="pic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <h3>Academics</h3>
-                    <input type="checkbox" name="STEM" value="STEM"/> STEM <br>
-                    <input type="checkbox" name="med" value="med" /> Med/Pre-Med/Health <br>
-                    <input type="checkbox" name="Social_Sciences" value="Social_Sciences" /> Social Sciences <br>
-                    <input type="checkbox" name="Comm" value="comm" /> Communications/Languages/Linguistics <br>
-                    <input type="checkbox" name="Arts" value="Arts" /> Arts <br>
-                    <input type="checkbox" name="other_academics" value="other_academics" /> Other Academics <br>
-                </div>
-                <div class="col-md-4">
-                    <h3>Arts</h3>
-                    <input type="checkbox" name="digital_arts" value="digital_arts" /> Digital Arts <br>
-                    <input type="checkbox" name="Music" value="Music" /> Music <br>
-                    <input type="checkbox" name="Dance" value="Dance" /> Dance <br>
-                    <input type="checkbox" name="Painting" value="Painting" /> Painting <br>
-                    <input type="checkbox" name="Theatre" value="Theatre" /> Theatre <br>
-                    <input type="checkbox" name="Photography" value="Photography" /> Photography/Videography <br>
-                    <input type="checkbox" name="Literature" value="Literature" /> Literature/Poetry <br>
-                    <input type="checkbox" name="Other_Arts" value="Other_Arts" /> Other Arts <br>
-                </div>
-                <div class="col-md-4">
-                    <h3>Sports and Athletics</h3>
-                    <input type="checkbox" name="Team_Sports" value="Team_Sports" /> Team Sports <br>
-                    <input type="checkbox" name="Individual_Sports" value="Individual_Sports" /> Individual Sports <br>
-                    <input type="checkbox" name="Official_Teams" value="Official_Teams" /> Official Teams <br>
-                    <input type="checkbox" name="Intramural_Teams" value="Intramural_Teams" /> Intramural Teams <br>
-                    <input type="checkbox" name="Unaffiliated_Sports" value="Unaffiliated_Sports" /> Unaffiliated Sports <br>
-                    <input type="checkbox" name="Martial_Arts" value="Martial_Arts" /> Martial Arts <br>
-                    <input type="checkbox" name="Outdoors" value="Outdoors" /> Outdoors <br>
-                    <input type="checkbox" name="Other_Sports" value="Other_Sports" /> Other Sports and Athletics <br>
+                <div class="col-sm-12">
+                    <h2>Categories:</h2>
                 </div>
             </div>
             <div class="row">
@@ -173,13 +142,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <label >From:</label>
-                </div>
-                <div class="col-md-6">
-                    <label >To:</label>
-                </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-primary" id="add-form-field">+</button>
             </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn disabled btn-primary" id="remove-form-field">-</button>
+            </div>
+        </div>
             <div class="row" id="primary-row">
             <div class="col-sm-3 form-group">
                 <label for="day">Day:</label>
@@ -201,12 +170,12 @@
                 <label for="end-time">To:</label>
                 <input type="time" class="form-control" name="end-time" id="end-time">
             </div>
-        </div>
-            <div class="row">
-                <div class="col-md-2 form-group">
-                    <label for=>Location:</label>
-                    <input type="text" class="form-control" />
-                </div>
+            <div class="col-md-3 form-group">
+                <label for=>Location:</label>
+                <input type="text" class="form-control" name="location" />
+            </div>
+            </div>
+            <div class="row" id="submit-row">
                 <div class="col-md-2 col-md-offset-10">
                     <button type="submit" id="meetbtn" class="btn btn-success">Save Club Information</button>
                 </div>
@@ -229,4 +198,3 @@
             </div>
         </div>
     </div>
-</body>

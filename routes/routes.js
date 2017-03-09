@@ -32,6 +32,7 @@ router.post('/clubPage', function (req, res) {
     queries.getClub(req, res);
 });
 
+
 /*Loads search page*/
 router.get('/searchPage', function (req, res) {
     queries.getAllClubs(req, res);

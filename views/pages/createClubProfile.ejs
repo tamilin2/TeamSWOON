@@ -1,8 +1,6 @@
 <%- contentFor('bodyPage')%>
 <title>Create Club</title>
 <script type="text/javascript" src="/js/createClubProfile.js"></script>
-<body>
-    
 
     <!-- If errors exists then show them -->
     <% if(errors) {%>
@@ -45,7 +43,12 @@
                 <textarea type="text" class="form-control tfield" name="description" rows="5" placeholder="Tell people what your club is all about."></textarea>
             </div>
         </div>
-        
+        <div class="row">
+            <div class="col-md-4 form-group">
+                    <label for="pic">Profile Picture</label>
+                    <input type="file" class="form-control" name="pic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
+            </div>    
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <h2>Categories:</h2>
@@ -173,6 +176,10 @@
                 <label for="end-time">To:</label>
                 <input type="time" class="form-control" name="end-time" id="end-time">
             </div>
+            <div class="col-md-3 form-group">
+                <label for=>Location:</label>
+                <input type="text" class="form-control" name="location" />
+            </div>
         </div>
         
         <div class="row" id="submit-row">
@@ -182,4 +189,3 @@
         </div>
     </div> 
     </form>
-</body>
