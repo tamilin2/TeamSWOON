@@ -4,6 +4,7 @@ $(document).ready(function() {
     var maxRows = 20;
     
     function addFields() {
+        console.log("jQuery bitch");
         if (count > maxRows){
             alert("Maximum number of schedule inputs reached");
         }
