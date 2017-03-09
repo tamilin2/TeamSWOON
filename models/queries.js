@@ -259,14 +259,14 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
+                    let clubCreated = true;
                     conn.query( query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club');
-                        }
-                        else {
-                            console.log("Club query in.")
+                            req.flash('errorMsg', 'Club name or Club Contact Email has already been taken');
+                            res.redirect('/users/createClubProfile');
                         }
                     });
+
                     /*
                      * Only works with a single interest selection.
                      */
@@ -285,7 +285,6 @@ module.exports = {
                                 description : description,
                                 leaderEmail : req.session.user.email
                             };
-                            console.log("Club interests in.");
                             res.render('pages/clubPage', {club: club});
                         }
                     });
@@ -506,18 +505,22 @@ module.exports = {
     /**
      * System requesting club info by name
      */
-    getClubByName: function (req, res) {
-        let query_action = "SELECT * FROM club WHERE club.name LIKE ? Order by club.name";
+    getClubBySearch: function (req, res) {
+        /*
+         * Query searches for clubs whose name or interest matches a given string
+         */
+        let query_action = "SELECT * FROM club LEFT JOIN club_interest ON club.name = club_interest.club_name WHERE club.name LIKE ? OR club_interest.interest LIKE ?";
 
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
             }
             else {
-                con.query(query_action, ['%'+req.body.searchbar+'%'],function (err, rows) {
+                con.query(query_action, ['%'+req.body.searchbar+'%', '%'+req.body.searchbar+'%'],function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
+                        throw err;
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
