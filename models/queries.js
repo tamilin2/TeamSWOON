@@ -237,6 +237,7 @@ module.exports = {
         let description = req.body.description;
         let interests = req.body.interest;
 
+        console.log(req.body.pic);
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
         req.checkBody('phone', 'Require phone number').notEmpty();
@@ -525,6 +526,36 @@ module.exports = {
                     // Query returns found clubs so load them on search page
                     else {
                         res.render('pages/searchPage', {clubs: rows, search : req.body.searchbar});
+                    }
+                });
+                con.release();
+            }
+        })
+    },
+
+    /**
+     * System requesting all clubs made by a user
+     */
+    getClubsCreated: function (req, res) {
+        let query_action = "SELECT club.name FROM club WHERE club.leaderEmail = ? Order by club.name";
+
+        connection(function (err, con) {
+            if (err) {
+                res.render('/', {errors: errors});
+            }
+            else {
+                con.query(query_action, [req.session.user.email],function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Failed to connect to database');
+                        res.redirect('/');
+                    }
+                    // Assures the query returns a club entry
+                    else if (rows[0] == null) {
+                        res.render('pages/userProfilePage', {clubs: null, user: req.session.user});
+                    }
+                    // Query returns found clubs so load them on search page
+                    else {
+                        res.render('pages/userProfilePage', {clubs: rows, user: req.session.user});
                     }
                 });
                 con.release();
