@@ -87,6 +87,7 @@ module.exports = {
             res.redirect('/users/editUserProfile');
             return;
         }
+
         req.checkBody('password', 'Passwords don\'t match').equals(password2);
         let errors = req.validationErrors();
 
@@ -139,6 +140,52 @@ module.exports = {
                 }
             });
         }
+    },
+
+    update_password: function (req, res) {
+        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let oldPassword = req.body.oldPassword;
+        let password = req.body.password;
+        let password2 = req.body.password2;
+
+        req.checkBody('oldPassword', 'Old password doesn\'t match').equals(req.session.user.password);
+        req.checkBody('password', 'New password doesn\'t match').equals(password2);
+        let errors = req.validationErrors();
+
+        if (errors) {
+            // Redirect back to change password page if passwords don't match
+            res.render('pages/changePassword', {errors: errors});
+        }
+        else {
+            connection(function (err, conn) {
+                if (err) {
+                    req.flash('errorMsg', 'Bad connection with database');
+                    res.redirect('/users/changePassword');
+                }
+                else {
+                    // Replace existing db entry with modified data
+                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password], function (err, rows) {
+                        if (err) {
+                            req.flash('errorMsg', 'Failed to update password', err);
+                            res.redirect('/users/changePassword');
+                        }
+                        else {
+                            // Since update success, represent session with the user's new credential
+                            req.session.user = {
+                                fname : req.session.user.fname,
+                                lname : req.session.user.lname,
+                                email : req.session.user.email,
+                                phone : req.session.user.phone,
+                                password : password
+                            };
+                            req.flash('successMsg', 'Updated password');
+                            res.redirect('/');
+                        }
+                    });
+                }
+            });
+        }
+
     },
 
     /**
@@ -399,8 +446,6 @@ module.exports = {
             con.release();
         })
     },
-    
-    
 
     /**
      * System requesting club info of all clubs to post on search page

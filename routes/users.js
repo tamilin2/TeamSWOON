@@ -63,18 +63,16 @@ router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
-    let user = req.session.user;
-    queries.update_student(req, res, {user : user});
+    queries.update_password(req, res);
 });
 
 /*Loads change password page if user is logged in*/
 router.get('/changePassword', authenticator.ensureLoggedIn , function (req, res) {
-    res.render('pages/changePassword');
+    res.render('pages/changePassword', {errors: null});
 });
 /*Sends password changes to db*/
 router.post('/changePassword', function (req, res) {
-    let user = req.session.user;
-    queries.update_student(req, res, {user : user});
+    queries.update_password(req, res);
 });
 
 /*Loads user profile page if user is logged in*/
