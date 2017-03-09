@@ -226,8 +226,10 @@ module.exports = {
      * User requesting to create club profile
      */
     insert_club: function (req, res) {
-        // MySQL query to insert into student table
+        // MySQL query to insert into club table
         let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink, img) values (?, ?, ?, ?, ?, ?, ?) ";
+
+        // MySQL query to insert into club_interest table
         let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
 
         //Gets all user data passed from the view
