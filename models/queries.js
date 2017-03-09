@@ -206,6 +206,10 @@ module.exports = {
         let socialLink = req.body.website;
         let description = req.body.description;
         let interests = req.body.interest;
+        let day = req.body.day;
+        let start = req.body.start-time;
+        let end = req.body.end-time;
+        let location = req.body.location;
 
         console.log(req.body.pic);
         // Required fields that we want
@@ -213,6 +217,10 @@ module.exports = {
         req.checkBody('phone', 'Require phone number').notEmpty();
         req.checkBody('email', 'Required email is not valid').isEmail();
         req.checkBody('description', 'Club description is required').notEmpty();
+        req.checkBody('day', 'Club meeting-day is required').notEmpty();
+        req.checkBody('start', 'Club start time is required').notEmpty();
+        req.checkBody('end', 'Club end time is required').notEmpty();
+        req.checkBody('location', 'Club location is required').notEmpty();
 
         let errors = req.validationErrors();
 
