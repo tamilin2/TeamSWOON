@@ -249,9 +249,13 @@ module.exports = {
         let errors = req.validationErrors();
 
         // Throws error notification if there exists errors or interest tags weren't filled
-        if (errors || (interests !== undefined && interests.length === 0)) {
+        if (errors) {
             // Render the page again with error notification of missing fields
             res.render('pages/createClubProfile', {errors: errors});
+        }
+        else if(!interests) {
+            req.flash('errorMsg', 'Please select at least one Category');
+            res.redirect('/users/createClubProfile');
         }
         else {
             connection(function (err, conn) {
