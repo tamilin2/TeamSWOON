@@ -83,13 +83,9 @@ let authenticator = module.exports = {
     /**
      * Ensures a user is a club leader of the current club
      */
-    ensureIsCreator: function (req, res, next) {
-        // if(req.session.isCreator !== undefined) {
-        //     return next();
-        // }
-        // else {
-        //
-        // }
+    verifyCredentials: function (req, res, email, phone) {
+        let result = !authenticator.verify_email(req, res, email);
+        return !authenticator.verify_phone(req, res, phone) || result;
     }
 
 };
