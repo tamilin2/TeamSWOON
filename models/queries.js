@@ -207,9 +207,9 @@ module.exports = {
         let description = req.body.description;
         let interests = req.body.interest;
         let day = req.body.day;
-        let start = req.body.start-time;
-        let end = req.body.end-time;
-        let location = req.body.location;
+        let start = req.body.start-time[];
+        let end = req.body.end-time[];
+        let location = req.body.location[];
 
         console.log(req.body.pic);
         // Required fields that we want
