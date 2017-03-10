@@ -25,18 +25,22 @@
     <!--Main navbar layout for website-->
     <body>
         <header>
-            <nav id="navbar" class="navbar navbar-default" style="border-radius:0">
+            <nav id="navbar" class="navbar navbar-default">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                         <a class="navbar-brand" href="/" ><img id="logo-img" alt="Brand" src="https://ucsd.edu/_resources/img/logo_UCSD.png"></a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <ul class="nav navbar-nav">
-                            <li>
-                            <form class="navbar-form navbar-left" action="/searchPage" method="post">
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li> <form class="navbar-form navbar-left" role="search" action="/searchPage" method="post">
                                 <div class="form-group">
                                     <input id="searchbar" type="text" class="form-control" name="searchbar" placeholder="Search Clubs">
                                 </div>
@@ -45,7 +49,7 @@
                             <li class="navitem"><a class="navbutton" href="/searchPage">View All Clubs</a></li>
                             <li class="dropdown navitem">
                                 <% if(user != undefined) {%>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.fname + " " + user.lname %><span ></span></a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.fname + " " + user.lname %></a>
                                 <ul class="dropdown-menu">
                                         <li><a href="/users/userProfilePage">View Profile</a></li>
                                         <li><a href="/users/createClubProfile">Create Club</a></li>
@@ -64,7 +68,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </ul>
+                    </div>
                 </div>
             </nav>
 
