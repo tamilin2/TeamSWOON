@@ -141,7 +141,7 @@ module.exports = {
      * User requesting to update password
      */
     update_password: function (req, res) {
-        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
         let oldPassword = req.body.oldPassword;
         let password = req.body.password;
         let password2 = req.body.password2;
@@ -162,20 +162,14 @@ module.exports = {
                 }
                 else {
                     // Replace existing db entry with modified data
-                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password], function (err, rows) {
+                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password, req.session.user.about], function (err, rows) {
                         if (err) {
                             req.flash('errorMsg', 'Failed to update password', err);
                             res.redirect('/users/changePassword');
                         }
                         else {
                             // Since update success, represent session with the user's new credential
-                            req.session.user = {
-                                fname : req.session.user.fname,
-                                lname : req.session.user.lname,
-                                email : req.session.user.email,
-                                phone : req.session.user.phone,
-                                password : password
-                            };
+                            req.session.user.password = password;
                             req.flash('successMsg', 'Updated password');
                             res.redirect('/');
                         }
