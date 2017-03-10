@@ -79,18 +79,19 @@
     </form>
     <% } %>
     <% if(user != undefined) {%>
-        <div style="width: 70%; height: 100%; overflow: hidden; position: absolute; top: 50px; border: none; z-index:-2;">
+        <div class="home-search">
             
             <form action="/searchPage" method="post">
                 <input id="home-search-login" type="text" name="searchbar" placeholder="Search Clubs" />
             </form>
             
-            <img src="img/lajolla2.png" alt="Responsive image" style="min-width: 100%; max-width: 200%; min-height: 100%; max-height: 100%; border: none; position: relative; z-index:0; border-top: 4px solid whitesmoke; border-left: 4px solid whitesmoke"/>
+            <img src="img/lajolla2.png" class="home-image1" alt="Responsive image"/>
             
         </div>
-        <div style="width: 30%; height: 100%; overflow: hidden; position: absolute; right: 0; top: 50px; z-index:-2;">
-            <a href="/users/userProfilePage" class="button-clubs"></a>
+        <div class="home-profile">
+            
             <button onclick="location.href = '/users/userProfilePage'" type="button"  class="button-small">Profile</button>
-            <img src="img/geisel.jpg" style="min-width: 100%; max-width: 5000px; min-height: 100%; max-height: 100%; left: -80%; position: relative;"/>
+            
+            <img src="img/geisel.jpg" class="home-image2" alt="responsive image"/>
         </div>
     <% } %>
