@@ -261,7 +261,7 @@ module.exports = {
             connection(function (err, conn) {
                 if (err) {
                     req.flash('errorMsg', 'Bad connection with database');
-                    res.redirect('/users/createUserProfile');
+                    res.redirect('/users/createClubProfile');
                 }
                 else {
                     // Create new club row with given credentials on database
@@ -296,8 +296,10 @@ module.exports = {
                                     clubEmail: email,
                                     socialLink: socialLink,
                                     description: description,
-                                    leaderEmail: req.session.user.email
+                                    leaderEmail: req.session.user.email,
+                                    interest: interests
                                 };
+                                console.log("test: " + club.interest);
 
                                 console.log("Club interests in.");
                                 res.render('pages/clubPage', {club: club});
@@ -494,6 +496,7 @@ module.exports = {
      */
     getAllClubs: function (req, res) {
         let query_action = "SELECT * FROM club Order By club.name ASC LIMIT 20 ";
+        let query_interest = "select * from club_interest";
         connection(function (err, con) {
             if (err) {
                 res.render('/users/login', {errors: errors});
@@ -501,16 +504,27 @@ module.exports = {
             else {
                 con.query(query_action, function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to connect to database');
+                        req.flash('errorMsg', 'Failed to connect to database: clubs');
                         res.redirect('/');
                     }
                     // When no clubs shows up
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: undefined, search: null});
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null});
                     }
                     // Query returns found clubs so load them on search page
                     else {
-                        res.render('pages/searchPage', {clubs: rows, search : null});
+                        con.query(query_interest, function(erro, search_interest_rows) {
+                            if(erro) {
+                                req.flash('errorMsg', 'Failed to connect to database: interests');
+                                res.redirect('/');
+                            }
+                            else if(search_interest_rows[0] == null) {
+                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null});
+                            }
+                            else {
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : null});
+                            }
+                        });
                     }
                 });
                 con.release();
