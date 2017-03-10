@@ -229,7 +229,7 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/createClubProfile', {errors: errors});
         }
-        else if(!interests || interests.length === 0) {
+        else if(!interests) {
             req.flash('errorMsg', 'Please select at least one Category');
             res.redirect('/users/createClubProfile');
         }
@@ -240,7 +240,6 @@ module.exports = {
                     res.redirect('/users/createClubProfile');
                 }
                 else {
-
                     // Create new club row with given credentials on database
                     conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, pic.originalname], function (err) {
                         if (err) {
@@ -252,29 +251,17 @@ module.exports = {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
 
-                            // query to save a club's interest
-                            if (interests.isArray) {
-                                console.log('Querying array');
-                                // loop through the interests array, inserting each as a row in the club_interest table
-                                for (var i = 0; i < interests.length; i++) {
-                                    conn.query(query_cl, [clubname, interests[i]], function (err) {
-                                        if (err) {
-                                            errCheck = true;
-                                            throw err;
-                                        }
-                                        console.log(interests[i]);
-                                    });
-                                    if (errCheck) {break; }
-                                }
-                            } else {
-                                // if there's one interest then just insert it
-                                conn.query(query_cl, [clubname, interests], function (err) {
+                            // loop through the interests array, inserting each as a row in the club_interest table
+                            for (var i = 0; i < interests.length; i++) {
+                                console.log(interests[i]);
+                                conn.query(query_cl, [clubname, interests[i]], function (err) {
                                     if (err) {
                                         errCheck = true;
+                                        throw err;
                                     }
                                 });
+                                if (errCheck) {break;}
                             }
-
                             conn.release();
 
                             if (errCheck) {
@@ -292,7 +279,6 @@ module.exports = {
                                     leaderEmail: req.session.user.email,
                                     img : pic.originalname
                                 };
-                                console.log("test: " + club.interest);
 
                                 res.render('pages/clubPage', {club: req.session.club});
                             }
