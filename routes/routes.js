@@ -8,6 +8,8 @@ let queries = require('../models/queries');
 
 /*Loads home page*/
 router.get('/', function (req, res) {
+    // Erases saved user input when leaving input form
+    req.session.profile = undefined;
     res.render('pages/index');
 });
 
@@ -31,7 +33,6 @@ router.get('/contactClub', function (req,res) {
 router.post('/clubPage', function (req, res) {
     queries.getClub(req, res);
 });
-
 
 /*Loads search page*/
 router.get('/searchPage', function (req, res) {

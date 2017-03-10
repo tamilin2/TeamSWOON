@@ -21,26 +21,26 @@
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="clubname">Club Name:</label>
-                <input type="text" class="form-control tfield" name="clubname" />
+                <input type="text" class="form-control tfield" name="clubname" value="<%= profile.name%>"/>
             </div>
             <div class="form-group col-md-4">
                 <label for="email">Contact email:</label>
-                <input type="email" class="form-control tfield" name="email" value="<%= user.email%>"/>
+                <input type="email" class="form-control tfield" name="email" value="<%= profile.email%>"/>
             </div>
             <div class="form-group col-md-4">
                 <label for="phone">Phone number:</label>
-                <input type="tel" class="form-control tfield" name="phone" value="<%= user.phone%>"/>
+                <input type="tel" class="form-control tfield" name="phone" value="<%= profile.phone%>"/>
             </div>
         </div>
 
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="website">Website:</label>
-                <input type="url" class="form-control tfield" name="website" value="https://www."/>
+                <input type="url" class="form-control tfield" name="website" value="https://www."%>/>
             </div>
             <div class="form-group col-md-8">
                 <label for="description">Description:</label>
-                <textarea type="text" class="form-control tfield" name="description" rows="5" placeholder="Tell people what your club is all about."></textarea>
+                <textarea type="text" class="form-control tfield" name="description" rows="5" placeholder="Tell people what your club is all about."><%= profile.about%></textarea>
             </div>
         </div>
         <div class="row">
@@ -158,7 +158,7 @@
         <div class="row" id="primary-row">
             <div class="col-sm-3 form-group">
                 <label for="day">Day:</label>
-                <select class="form-control" name="day[]" id="day">
+                <select class="form-control" name="day" id="day">
                     <option value="monday">Monday</option>
                     <option value="tuesday">Tuesday</option>
                     <option value="wednesday">Wednesday</option>
@@ -170,12 +170,21 @@
             </div>
             <div class="col-sm-3 form-group">
                 <label for="start-time">From:</label>
+<<<<<<< HEAD
+                <input type="time" class="form-control" name="startTime" id="start">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="end-time">To:</label>
+                <input type="time" class="form-control" name="endTime" id="end">
+=======
                 <input type="time" class="form-control" name="startTime" id="start-time">
             </div>
             <div class="col-sm-3 form-group">
                 <label for="end-time">To:</label>
                 <input type="time" class="form-control" name="endTime" id="end-time">
+>>>>>>> 1bc03367354f311efd54600c3aec400db70cd31e
             </div>
+            
             <div class="col-md-3 form-group">
                 <label for=>Location:</label>
                 <input type="text" class="form-control" name="location" />
