@@ -6,7 +6,7 @@ let connection = require('./user');
 async = require('async');
 let nodemailer = require('nodemailer');
 // Js file to get email and password for gmail. This keeps your privacy for gmail
-// let config = require('../../config');
+let config = require('../../config');
 
 module.exports = {
 
@@ -80,21 +80,13 @@ module.exports = {
         let lname = req.body.lastname;
         let phone = req.body.phone;
         let email = req.body.email;
-        let password = req.body.password;
-        let password2 = req.body.password2;
+        let about = req.body.about;
 
         /* Notifies user if request to update with all null data */
-        if (!fname && !lname && !phone && !email && !password && !password2) {
+        if (!fname && !lname && !phone && !email && !about) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editUserProfile');
             return;
-        }
-
-        req.checkBody('password', 'Passwords don\'t match').equals(password2);
-        let errors = req.validationErrors();
-
-        if (errors) {
-            res.render('pages/editUserProfile', {errors: errors});
         }
         else {
             // If input field is empty then insert old data back into db entry
@@ -110,8 +102,8 @@ module.exports = {
             if (!phone) {
                 phone = req.session.user.phone;
             }
-            if (!password) {
-                password = req.session.user.password;
+            if (!about) {
+                about = req.session.user.about;
             }
 
             connection(function (err, conn) {
@@ -121,7 +113,7 @@ module.exports = {
                 }
                 else {
                     // Replace existing db entry with modified data
-                    conn.query(query, [fname, lname, email, phone, password], function (err, rows) {
+                    conn.query(query, [fname, lname, email, phone, req.session.user.password, about], function (err, rows) {
                         if (err) {
                             req.flash('errorMsg', 'Failed to update account', err);
                             res.redirect('/users/editUserProfile');
@@ -133,7 +125,8 @@ module.exports = {
                                 lname : lname,
                                 email : email,
                                 phone : phone,
-                                password : password
+                                password : req.session.user.password,
+                                about: about
                             };
                             req.flash('successMsg', 'Updated profile');
                             res.redirect('/');
@@ -500,7 +493,7 @@ module.exports = {
     },
 
     /**
-     * System requesting club info by name
+     * System requesting club info by name or club interest
      */
     getClubBySearch: function (req, res) {
         /*
