@@ -13,7 +13,8 @@ router.get('/createUserProfile', function (req, res) {
         fname:"",
         lname:"",
         phone:"",
-        email:""
+        email:"",
+        about:""
     };
 
     // Session profiles saves last entered input from create User profile
@@ -22,7 +23,8 @@ router.get('/createUserProfile', function (req, res) {
             fname: req.session.profile.fname,
             lname: req.session.profile.lname,
             phone: req.session.profile.phone,
-            email: req.session.profile.email
+            email: req.session.profile.email,
+            about: req.session.profile.about
         };
     }
 
@@ -59,7 +61,7 @@ router.post('/createClubProfile', function (req, res) {
 
 /*Loads edit user profile page if user is logged in*/
 router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res) {
-    res.render('pages/editUserProfile');
+    res.render('pages/editUserProfile', {user: req.session.user});
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
@@ -126,6 +128,7 @@ router.get('/logout',
             req.session.user.lname = undefined;
             req.session.user.email = undefined;
             req.session.user.phone = undefined;
+            req.session.user.about = undefined;
         }
         req.session.user = undefined;
 

@@ -40,6 +40,13 @@
             </div>
 
             <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="about">About Yourself:</label>
+                    <textarea type="text" class="form-control" id="about" name="about" rows=3 placeholder="Tell people about yourself" required><%= profile.about%></textarea>
+                </div>
+            </div>
+
+            <div class="row">
 
                 <div class="form-group col-md-6">
                     <label for="password">Password:</label>
@@ -60,6 +67,11 @@
                 <div class="col-sm-2">
                     <input type="submit" class="btn btn-success" value="Create Profile">
                 </div>
+            </div>
+            <div class="row">
+                <br/>
+                <br/>
+                <br/>
             </div>
         </div>
     </form>

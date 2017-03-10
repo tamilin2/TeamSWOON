@@ -6,7 +6,7 @@ let connection = require('./user');
 async = require('async');
 let nodemailer = require('nodemailer');
 // Js file to get email and password for gmail. This keeps your privacy for gmail
-// let config = require('../../config');
+let config = require('../../config');
 
 module.exports = {
 
@@ -15,12 +15,13 @@ module.exports = {
      */
     insert_student: function (req, res) {
         // MySQL query to insert into student table
-        let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "insert into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
 
         //Gets all user data passed from the view
         let firstname = req.body.firstname;
         let lastname = req.body.lastname;
         let email = req.body.email;
+        let about = req.body.about;
         let phone = authenticator.parse_phoneNum(req.body.phone);
         let password = req.body.password;
         let password2 = req.body.password2;
@@ -35,7 +36,7 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         let errors = req.validationErrors();
 
-        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email};
+        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email, about: about};
 
         if (errors) {
             // Render the page again with error notification of missing fields
@@ -52,7 +53,7 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query(query, [firstname, lastname, email, phone, password], function (err) {
+                    conn.query(query, [firstname, lastname, email, phone, password, about], function (err) {
                         conn.release();
                         if (err) {
                             // Error in duplicate email
@@ -73,27 +74,19 @@ module.exports = {
      * User requesting to update profile
      */
     update_student: function (req, res) {
-        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
 
         let fname = req.body.firstname;
         let lname = req.body.lastname;
         let phone = req.body.phone;
         let email = req.body.email;
-        let password = req.body.password;
-        let password2 = req.body.password2;
+        let about = req.body.about;
 
         /* Notifies user if request to update with all null data */
-        if (!fname && !lname && !phone && !email && !password && !password2) {
+        if (!fname && !lname && !phone && !email && !about) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editUserProfile');
             return;
-        }
-
-        req.checkBody('password', 'Passwords don\'t match').equals(password2);
-        let errors = req.validationErrors();
-
-        if (errors) {
-            res.render('pages/editUserProfile', {errors: errors});
         }
         else {
             // If input field is empty then insert old data back into db entry
@@ -109,8 +102,8 @@ module.exports = {
             if (!phone) {
                 phone = req.session.user.phone;
             }
-            if (!password) {
-                password = req.session.user.password;
+            if (!about) {
+                about = req.session.user.about;
             }
 
             connection(function (err, conn) {
@@ -120,7 +113,7 @@ module.exports = {
                 }
                 else {
                     // Replace existing db entry with modified data
-                    conn.query(query, [fname, lname, email, phone, password], function (err, rows) {
+                    conn.query(query, [fname, lname, email, phone, req.session.user.password, about], function (err, rows) {
                         if (err) {
                             req.flash('errorMsg', 'Failed to update account', err);
                             res.redirect('/users/editUserProfile');
@@ -132,7 +125,8 @@ module.exports = {
                                 lname : lname,
                                 email : email,
                                 phone : phone,
-                                password : password
+                                password : req.session.user.password,
+                                about: about
                             };
                             req.flash('successMsg', 'Updated profile');
                             res.redirect('/');
@@ -147,7 +141,7 @@ module.exports = {
      * User requesting to update password
      */
     update_password: function (req, res) {
-        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
         let oldPassword = req.body.oldPassword;
         let password = req.body.password;
         let password2 = req.body.password2;
@@ -168,20 +162,14 @@ module.exports = {
                 }
                 else {
                     // Replace existing db entry with modified data
-                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password], function (err, rows) {
+                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password, req.session.user.about], function (err, rows) {
                         if (err) {
                             req.flash('errorMsg', 'Failed to update password', err);
                             res.redirect('/users/changePassword');
                         }
                         else {
                             // Since update success, represent session with the user's new credential
-                            req.session.user = {
-                                fname : req.session.user.fname,
-                                lname : req.session.user.lname,
-                                email : req.session.user.email,
-                                phone : req.session.user.phone,
-                                password : password
-                            };
+                            req.session.user.password = password;
                             req.flash('successMsg', 'Updated password');
                             res.redirect('/');
                         }
@@ -509,7 +497,7 @@ module.exports = {
     },
 
     /**
-     * System requesting club info by name
+     * System requesting club info by name or club interest
      */
     getClubBySearch: function (req, res) {
         /*
@@ -577,7 +565,7 @@ module.exports = {
      */
     login: function (req, res) {
         // MySQL query to search student table
-        let query_action = "SELECT student.first_name, student.last_name, student.email, student.phone, student.password FROM student WHERE student.email = ? AND student.password = ?";
+        let query_action = "SELECT * FROM student WHERE student.email = ? AND student.password = ?";
 
         let email = req.body.email;
         let password = req.body.password;
@@ -621,7 +609,8 @@ module.exports = {
                                 lname : user.last_name,
                                 email : user.email,
                                 phone : user.phone,
-                                password : user.password
+                                password : user.password,
+                                about: user.about
                             };
                             req.flash('successMsg', "Welcome", req.session.user.fname);
                             res.redirect('/');
