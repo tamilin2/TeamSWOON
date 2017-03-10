@@ -218,8 +218,8 @@ module.exports = {
         req.checkBody('email', 'Required email is not valid').isEmail();
         req.checkBody('description', 'Club description is required').notEmpty();
         req.checkBody('day', 'Club meeting day is required').notEmpty();
-        req.checkBody('start', 'Club start time is required').notEmpty();
-        req.checkBody('end', 'Club end time is required').notEmpty();
+        req.checkBody('start', 'Club start time is required')!=null;
+        req.checkBody('end', 'Club end time is required')!=null;
         req.checkBody('location', 'Club location is required').notEmpty();
 
         let errors = req.validationErrors();
