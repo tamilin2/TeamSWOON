@@ -7,6 +7,7 @@ async = require('async');
 let nodemailer = require('nodemailer');
 // Js file to get email and password for gmail. This keeps your privacy for gmail
 let config = require('../../config');
+let fs = require('fs');
 
 module.exports = {
 
@@ -59,6 +60,7 @@ module.exports = {
                             // Error in duplicate email
                             req.flash('errorMsg', (err.message).substr(13,17) + email);
                             res.redirect('/users/createUserProfile');
+                            throw err;
                         }
                         else {
                             req.flash('successMsg', 'Registration complete: You may login');
@@ -94,8 +96,6 @@ module.exports = {
         if (!about) {
             about = req.session.user.about;
         }
-
-        console.log(phone);
 
         /**
          * After null check, check if credentials are valid
@@ -192,9 +192,9 @@ module.exports = {
         // MySQL query to insert into day table
         let query_d = "insert into day (club_name, day) values (?,?) ";
         // MySQL query to insert into start-time table
-        let query_start = "insert into start (club_name, start-time) values (?,?) ";
+        let query_start = "insert into start (club_name, startTime) values (?,?) ";
         // MySQL query to insert into end-time table
-        let query_end = "insert into end ( club_name, end-time) values (?,?)";
+        let query_end = "insert into end ( club_name, endTime) values (?,?)";
         // MySQL query to iinsert into location table
         let query_loc = "insert into location (club_name, location) values (?,?)";
 
@@ -205,13 +205,13 @@ module.exports = {
         let phone = authenticator.parse_phoneNum(req.body.phone);
         let socialLink = req.body.website;
         let description = req.body.description;
-        let interests = req.body.interest;
+        let interests = req.body.interests;
         let day = req.body.day;
-        let start = req.body.start-time;
-        let end = req.body.end-time;
+        let start = req.body.startTime;
+        let end = req.body.endTime;
         let location = req.body.location;
+        let pic = req.file;
 
-        console.log(req.body.pic);
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
         req.checkBody('phone', 'Require phone number').notEmpty();
@@ -229,7 +229,7 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/createClubProfile', {errors: errors});
         }
-        else if(!interests) {
+        else if(!interests || interests.length === 0) {
             req.flash('errorMsg', 'Please select at least one Category');
             res.redirect('/users/createClubProfile');
         }
@@ -242,7 +242,7 @@ module.exports = {
                 else {
 
                     // Create new club row with given credentials on database
-                    conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
+                    conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, pic.originalname], function (err) {
                         if (err) {
                             req.flash('errorMsg', 'Failed to create club: Creation');
                             res.redirect('/users/createClubProfile');
@@ -252,14 +252,29 @@ module.exports = {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
 
-                            // loop through the interests array, inserting each as a row in the club_interest table
-                            for (var i = 0; i < interests.length; i++) {
-                                conn.query(query_cl, [clubname, interests[i]], function (err) {
+                            // query to save a club's interest
+                            if (interests.isArray) {
+                                console.log('Querying array');
+                                // loop through the interests array, inserting each as a row in the club_interest table
+                                for (var i = 0; i < interests.length; i++) {
+                                    conn.query(query_cl, [clubname, interests[i]], function (err) {
+                                        if (err) {
+                                            errCheck = true;
+                                            throw err;
+                                        }
+                                        console.log(interests[i]);
+                                    });
+                                    if (errCheck) {break; }
+                                }
+                            } else {
+                                // if there's one interest then just insert it
+                                conn.query(query_cl, [clubname, interests], function (err) {
                                     if (err) {
                                         errCheck = true;
                                     }
                                 });
                             }
+
                             conn.release();
 
                             if (errCheck) {
@@ -267,17 +282,18 @@ module.exports = {
                                 res.redirect('/users/createClubProfile');
                             }
                             else {
-                                let club = {
+                                // Saves club info to load onto club page
+                                req.session.club = {
                                     name: clubname,
                                     phone: authenticator.format_phone(phone),
                                     clubEmail: email,
                                     socialLink: socialLink,
                                     description: description,
-                                    leaderEmail: req.session.user.email
+                                    leaderEmail: req.session.user.email,
+                                    img : pic.originalname
                                 };
 
-                                console.log("Club interests in.");
-                                res.render('pages/clubPage', {club: club});
+                                res.render('pages/clubPage', {club: req.session.club});
                             }
                         }
                     });
@@ -377,12 +393,14 @@ module.exports = {
 
         let name = req.body.clubName;
         let email = req.body.clubEmail;
+        let img = req.body.img;
 
         // Query to delete club from club list
         connection(function (err, conn) {
             if (err) {
                 req.flash('errorMsg', 'Bad connection with database');
                 res.redirect('/users/editClubProfile');
+                return;
             }
             else {
                 // Replace existing db entry with modified data
@@ -402,6 +420,7 @@ module.exports = {
             if (err) {
                 req.flash('errorMsg', 'Bad connection with database');
                 res.redirect('/users/editClubProfile');
+                return;
             }
             else {
                 // Replace existing db entry with modified data
@@ -411,6 +430,7 @@ module.exports = {
                         req.flash('errorMsg', 'Bad connection with database');
                         res.redirect('/users/editClubProfile');
                         throw err;
+                        return;
                     }
                     else {
                         req.flash('successMsg', 'Successfully deleted club');
@@ -419,6 +439,9 @@ module.exports = {
                 });
             }
         });
+
+        // Delete club's local profile image
+        fs.unlinkSync('/img/' + img);
     },
 
     /**
@@ -466,7 +489,7 @@ module.exports = {
      * System requesting club info of all clubs to post on search page
      */
     getAllClubs: function (req, res) {
-        let query_action = "SELECT * FROM club Order By club.name ASC LIMIT 20 ";
+        let query_action = "SELECT * FROM club Order By club.name ASC";
         connection(function (err, con) {
             if (err) {
                 res.render('/users/login', {errors: errors});
