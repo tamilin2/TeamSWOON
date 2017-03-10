@@ -99,3 +99,7 @@ footer {
   width: 100%;
   z-index: -10;
 }
+
+.button-default {
+    color:#337ab7;
+}
