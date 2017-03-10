@@ -74,7 +74,7 @@ module.exports = {
      * User requesting to update profile
      */
     update_student: function (req, res) {
-        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
 
         let fname = req.body.firstname;
         let lname = req.body.lastname;
