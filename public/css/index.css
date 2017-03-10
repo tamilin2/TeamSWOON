@@ -16,9 +16,22 @@ body {
   margin: 0;
 }
 
+/* style for login screen placement */
 .login-screen {
-    margin: center; 
+    position: fixed;
+    left: 35%;
+    right: 35%;
+    overflow: inherit;
+    
 }
+
+/* search bar style */
+.form-control {
+    width: 350px;
+}
+
+/* style for login screen ends here */
+
 
 /* homepage stuff */
 .home-search {
