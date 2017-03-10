@@ -86,7 +86,12 @@ img.portrait {
     z-index:2;
 }
 
-
+.button-login {
+    height: 35px;
+    background-color: rgb(40,40,40); 
+    border: 2px solid rgb(40,40,40);
+    color: white;
+}
 
 
 h1 {
