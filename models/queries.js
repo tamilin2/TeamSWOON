@@ -201,6 +201,16 @@ module.exports = {
 
         // MySQL query to insert into club_interest table
         let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
+        
+        // MySQL query to insert into day table
+        let query_d = "insert into day (club_name, day) values (?,?) ";
+        // MySQL query to insert into start-time table
+        let query_start = "insert into start (club_name, start-time) values (?,?) ";
+        // MySQL query to insert into end-time table
+        let query_end = "insert into end ( club_name, end-time) values (?,?)";
+        // MySQL query to iinsert into location table
+        let query_loc = "insert into location (club_name, location) values (?,?)";
+
 
         //Gets all user data passed from the view
         let clubname = req.body.clubname;
@@ -240,7 +250,7 @@ module.exports = {
             connection(function (err, conn) {
                 if (err) {
                     req.flash('errorMsg', 'Bad connection with database');
-                    res.redirect('/users/createUserProfile');
+                    res.redirect('/users/createClubProfile');
                 }
                 else {
 
