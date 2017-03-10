@@ -1,0 +1,176 @@
+body {
+  margin: 0;
+  padding-top: 0;
+  font-family: sans-serif;
+  background-color: whitesmoke!important;
+}
+
+/* Block for Navbar styling */
+#logo-img {
+  width: 155px;
+}
+
+#navbar {
+  background-color: white;
+  padding: 0;
+  margin: 0;
+}
+
+/* style for login screen placement */
+.login-screen {
+    position: fixed;
+    left: 35%;
+    right: 35%;
+    overflow: inherit;
+    
+}
+
+/* search bar style */
+.form-control {
+    width: 350px;
+}
+
+/* style for login screen ends here */
+
+
+/* homepage stuff */
+.home-search {
+    width: 70%; 
+    height: 100%; 
+    overflow: hidden; 
+    position: fixed; 
+    top: 50px; 
+    border: none; 
+    z-index:-2;
+}
+
+.home-profile {
+    width: 30%; 
+    height: 100%; 
+    overflow: hidden; 
+    position: fixed; 
+    right: 0; 
+    top: 50px; 
+    z-index:-2;
+    border-right: 4px solid whitesmoke;
+}
+
+.home-image1 {
+    min-width: 110%; 
+    max-width: 200%; 
+    min-height: 100%; 
+    max-height: 100%; 
+    border: none; 
+    position: relative; 
+    z-index:0; 
+    border-top: 4px solid whitesmoke; 
+    border-left: 4px solid whitesmoke;
+}
+
+.home-image2 {
+    min-width: 100%; 
+    max-width: 5000px; 
+    min-height: 100%; 
+    max-height: 100%; 
+    position: relative;
+    border-top: 4px solid whitesmoke; 
+    border-left: 4px solid whitesmoke;
+}
+
+/* homepage stuff ends here */
+
+.Container {
+  width: 100%;
+  min-width: 500px;
+  margin: auto;
+
+}
+
+.form-control {
+    background-color: black;
+}
+.navitem-hover {
+  background-color: rgb(110,110,110);
+}
+
+
+.thumbnail-wrapper {
+  width: 10%;
+}
+
+img.portrait {
+  width: auto;
+  height: 100%;
+}
+
+.button-clubs {
+  position: absolute;
+  color: black;
+  background-color: rgba(0,0,0,0);
+  width: 100%;
+  height: 100%;
+  border-left: 6px solid whitesmoke;
+  border-right: 3px solid whitesmoke;
+  border-top: 4px solid whitesmoke;
+  border-radius: 0px;
+  z-index:2;
+}
+
+
+.button-find {
+  position: absolute; 
+    color: white; 
+    box-sizing: border-box;
+    background-color: rgba(0,0,0,0.5);  
+    border: 2px solid white; 
+    font-size: 16px; 
+    text-align: center;
+    width: 140px;
+    height: 35px;
+    position: absolute;
+    left: 43%;
+    top: 47%; 
+    border-radius: 20px;
+    z-index:2;
+}
+
+
+.button-small {
+  position: absolute; 
+    color: white; 
+    background-color: rgba(0,0,0,0.7);  
+    border: 2px solid white; 
+    font-size: 16px;
+    text-align: center;
+    width: 140px; 
+    height: 45px;
+    
+    position: absolute;
+    left: 33%;
+    top: 50%; 
+    border-radius: 20px;
+    z-index:2;
+}
+
+.button-login {
+    height: 35px;
+    background-color: rgb(40,40,40); 
+    border: 2px solid rgb(40,40,40);
+    color: white;
+}
+
+
+h1 {
+  font-family: sans-serif;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: -10;
+}
+
+.button-default {
+    color:#337ab7;
+}
