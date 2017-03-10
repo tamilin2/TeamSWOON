@@ -193,6 +193,8 @@
         <div class="row">
             <div class="form-group col-md-4">
                 <form action="/users/deleteClub" method="POST">
+                    <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
+                    <input type="hidden" name="clubName" value="<%= club.name%>">
                     <button type="submit" class="btn btn-danger" onClick="<%- "return confirmDelete()"%>" name="delete" value="delete">Delete Club</button>
                 </form>
             </div>
