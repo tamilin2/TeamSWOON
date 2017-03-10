@@ -143,6 +143,9 @@ module.exports = {
         }
     },
 
+    /**
+     * User requesting to update password
+     */
     update_password: function (req, res) {
         let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         let oldPassword = req.body.oldPassword;
@@ -190,39 +193,6 @@ module.exports = {
     },
 
     /**
-     * User requesting to delete profile
-     */
-    delete_student: function (req, res) {
-        let query = "Delete FROM student WHERE student.email= ?";
-
-        let email = req.session.user.email;
-        connection(function (err, conn) {
-            if (err) {
-                req.flash('errorMsg', 'Bad connection with database');
-                res.redirect('/users/editUserProfile');
-            }
-            else {
-                // Replace existing db entry with modified data
-                conn.query(query, [email], function (err, rows) {
-                    if (err) {
-                        req.flash('errorMsg', 'Error in Query');
-                        res.redirect('/users/editUserProfile');
-                        throw err;
-                    }
-                    else {
-                        req.flash('successMsg', 'Successfully deleted user: ', req.session.user.fname);
-                        res.redirect('/');
-
-                        // Erase current user's session
-                        req.session.user = undefined;
-                    }
-                });
-                conn.release();
-            }
-        });
-    },
-
-    /**
      * User requesting to create club profile
      */
     insert_club: function (req, res) {
@@ -240,6 +210,7 @@ module.exports = {
         let description = req.body.description;
         let interests = req.body.interest;
 
+        console.log(req.body.pic);
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
         req.checkBody('phone', 'Require phone number').notEmpty();
@@ -264,6 +235,7 @@ module.exports = {
                     res.redirect('/users/createClubProfile');
                 }
                 else {
+
                     // Create new club row with given credentials on database
                     conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, null], function (err) {
                         if (err) {
@@ -535,18 +507,22 @@ module.exports = {
     /**
      * System requesting club info by name
      */
-    getClubByName: function (req, res) {
-        let query_action = "SELECT * FROM club WHERE club.name LIKE ? Order by club.name";
+    getClubBySearch: function (req, res) {
+        /*
+         * Query searches for clubs whose name or interest matches a given string
+         */
+        let query_action = "SELECT * FROM club LEFT JOIN club_interest ON club.name = club_interest.club_name WHERE club.name LIKE ? OR club_interest.interest LIKE ?";
 
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
             }
             else {
-                con.query(query_action, ['%'+req.body.searchbar+'%'],function (err, rows) {
+                con.query(query_action, ['%'+req.body.searchbar+'%', '%'+req.body.searchbar+'%'],function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
+                        throw err;
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
@@ -555,6 +531,36 @@ module.exports = {
                     // Query returns found clubs so load them on search page
                     else {
                         res.render('pages/searchPage', {clubs: rows, search : req.body.searchbar});
+                    }
+                });
+                con.release();
+            }
+        })
+    },
+
+    /**
+     * System requesting all clubs made by a user
+     */
+    getClubsCreated: function (req, res) {
+        let query_action = "SELECT club.name FROM club WHERE club.leaderEmail = ? Order by club.name";
+
+        connection(function (err, con) {
+            if (err) {
+                res.render('/', {errors: errors});
+            }
+            else {
+                con.query(query_action, [req.session.user.email],function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Failed to connect to database');
+                        res.redirect('/');
+                    }
+                    // Assures the query returns a club entry
+                    else if (rows[0] == null) {
+                        res.render('pages/userProfilePage', {clubs: null, user: req.session.user});
+                    }
+                    // Query returns found clubs so load them on search page
+                    else {
+                        res.render('pages/userProfilePage', {clubs: rows, user: req.session.user});
                     }
                 });
                 con.release();

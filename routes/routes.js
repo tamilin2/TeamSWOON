@@ -40,7 +40,7 @@ router.get('/searchPage', function (req, res) {
 /*Loads search page by name*/
 router.post('/searchPage', function (req, res) {
     // Search is only requested if search value is not empty
-    if (req.body.searchbar.length > 0) { queries.getClubByName(req,res); }
+    if (req.body.searchbar.length > 0) { queries.getClubBySearch(req,res); }
     else { queries.getAllClubs(req,res); }
 });
 
