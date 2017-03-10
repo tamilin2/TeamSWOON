@@ -5,6 +5,8 @@ let express = require('express');
 let router = express.Router();
 let authenticator = require('./authenticator');
 let queries = require('./../models/queries');
+let path = require('path');
+let multer = require('multer');
 
 /*Loads create user profile page*/
 router.get('/createUserProfile', function (req, res) {
@@ -13,7 +15,8 @@ router.get('/createUserProfile', function (req, res) {
         fname:"",
         lname:"",
         phone:"",
-        email:""
+        email:"",
+        about:""
     };
 
     // Session profiles saves last entered input from create User profile
@@ -22,7 +25,8 @@ router.get('/createUserProfile', function (req, res) {
             fname: req.session.profile.fname,
             lname: req.session.profile.lname,
             phone: req.session.profile.phone,
-            email: req.session.profile.email
+            email: req.session.profile.email,
+            about: req.session.profile.about
         };
     }
 
@@ -38,12 +42,42 @@ router.post('/createUserProfile', function (req, res) {
     // TODO Integrate schedule and interest to student profile
     queries.insert_student(req, res);
 });
+
+
 /**
- * System sends confirmation email to ucsd address
+ * System sends email to specified email address with a given message
  */
 router.post('/sendEmail', function (req, res) {
     queries.sendEmail(req,res);
 });
+
+/**
+ * System processes given image upload
+ */
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/img')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+let upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+
+        let filetypes = /jpeg|jpg|png|gif|bmp/;
+        let mimetype = filetypes.test(file.mimetype);
+        let extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb("Error: File upload only supports the following filetypes - jpeg, jpg, png, gif, bmp");
+    }
+}).single('profilePic');
+
+
 
 /*Loads create club profile page*/
 router.get('/createClubProfile', authenticator.ensureLoggedIn, function (req, res) {
@@ -52,14 +86,21 @@ router.get('/createClubProfile', authenticator.ensureLoggedIn, function (req, re
 });
 /*Sends new club credentials to db*/
 router.post('/createClubProfile', function (req, res) {
-    //TODO integrate interests with club creation
-    queries.insert_club(req, res);
+   upload(req, res, function (err) {
+       if (err) {
+           req.flash('errorMsg', err);
+           res.redirect('/users/createClubProfile');
+       }
+       else {
+           queries.insert_club(req, res);
+       }
+   })
 });
 
 
 /*Loads edit user profile page if user is logged in*/
 router.get('/editUserProfile', authenticator.ensureLoggedIn , function (req, res) {
-    res.render('pages/editUserProfile');
+    res.render('pages/editUserProfile', {user: req.session.user});
 });
 /*Sends user profile changes to db*/
 router.post('/editUserProfile', function (req, res) {
@@ -76,26 +117,28 @@ router.post('/changePassword', function (req, res) {
     queries.update_password(req, res);
 });
 
+
 /*Loads user profile page if user is logged in*/
 router.get('/userProfilePage', authenticator.ensureLoggedIn , function (req, res) {
     queries.getClubsCreated(req, res);
 });
+
 
 /*Loads edit club profile if user is creator*/
 router.get('/editClubProfile',function (req, res) {
     res.render('pages/editClubProfile', {club: req.session.club})
 });
 /**
- * System sends club info to server
- */
-router.post('/postClub', function (req, res) {
-    res.render('pages/editClubProfile', {club : req.session.club});
-});
-/**
  * Sends club profile changes to db
  */
 router.post('/editClubProfile',function (req, res) {
     queries.edit_club(req, res);
+});
+/**
+ * System sends club info to server
+ */
+router.post('/postClub', function (req, res) {
+    res.render('pages/editClubProfile', {club : req.session.club});
 });
 /**
  * User requests to delete club
@@ -118,14 +161,14 @@ router.post('/login', function (req, res) {
 
 
 /* Connection logout*/
-router.get('/logout',
-    function (req, res) {
+router.get('/logout', function (req, res) {
         // Sets the current session to undefined to represent logging out
         if (req.session.user !== undefined) {
             req.session.user.fname = undefined;
             req.session.user.lname = undefined;
             req.session.user.email = undefined;
             req.session.user.phone = undefined;
+            req.session.user.about = undefined;
         }
         req.session.user = undefined;
 

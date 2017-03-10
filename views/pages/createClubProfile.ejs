@@ -11,7 +11,7 @@
         <% }); %>
     <% } %>
 
-    <form action="/users/createClubProfile" method="POST" id="contentform">
+    <form action="/users/createClubProfile" method="POST" id="contentform" enctype="multipart/form-data">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
@@ -32,11 +32,11 @@
                 <input type="tel" class="form-control tfield" name="phone" value="<%= user.phone%>"/>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="website">Website:</label>
-                <input type="url" class="form-control tfield" name="website" />
+                <input type="url" class="form-control tfield" name="website" value="https://www."/>
             </div>
             <div class="form-group col-md-8">
                 <label for="description">Description:</label>
@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-md-4 form-group">
                     <label for="pic">Profile Picture</label>
-                    <input type="file" class="form-control" name="pic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
+                    <input type="file" class="form-control" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
             </div>    
         </div>
         <div class="row">
@@ -57,85 +57,85 @@
         <div class="row">
             <div class="col-md-4 interest-block">
                 <h3>Academics</h3>
-                <input type="checkbox" name="interest[]" value="STEM"/> STEM <br>
-                <input type="checkbox" name="interest[]" value="med" /> Med/Pre-Med/Health <br>
-                <input type="checkbox" name="interest[]" value="Social_Sciences" /> Social Sciences <br>
-                <input type="checkbox" name="interest[]" value="comm" /> Communications/Languages/Linguistics <br>
-                <input type="checkbox" name="interest[]" value="Arts" /> Arts <br>
-                <input type="checkbox" name="interest[]" value="other_academics" /> Other Academics <br>
+                <input type="checkbox" name="interests" value="STEM"/> STEM <br>
+                <input type="checkbox" name="interests" value="med" /> Med/Pre-Med/Health <br>
+                <input type="checkbox" name="interests" value="Social_Sciences" /> Social Sciences <br>
+                <input type="checkbox" name="interests" value="comm" /> Communications/Languages/Linguistics <br>
+                <input type="checkbox" name="interests" value="Arts" /> Arts <br>
+                <input type="checkbox" name="interests" value="other_academics" /> Other Academics <br>
             </div>
             <div class="col-md-4 interest-block">
                 <h3>Arts</h3>
-                <input type="checkbox" name="interest[]" value="digital_arts" /> Digital Arts <br>
-                <input type="checkbox" name="interest[]" value="Music" /> Music <br>
-                <input type="checkbox" name="interest[]" value="Dance" /> Dance <br>
-                <input type="checkbox" name="interest[]" value="Painting" /> Painting <br>
-                <input type="checkbox" name="interest[]" value="Theatre" /> Theatre <br>
-                <input type="checkbox" name="interest[]" value="Photography" /> Photography/Videography <br>
-                <input type="checkbox" name="interest[]" value="Literature" /> Literature/Poetry <br>
-                <input type="checkbox" name="interest[]" value="Other_Arts" /> Other Arts <br>
+                <input type="checkbox" name="interests" value="digital_arts" /> Digital Arts <br>
+                <input type="checkbox" name="interests" value="Music" /> Music <br>
+                <input type="checkbox" name="interests" value="Dance" /> Dance <br>
+                <input type="checkbox" name="interests" value="Painting" /> Painting <br>
+                <input type="checkbox" name="interests" value="Theatre" /> Theatre <br>
+                <input type="checkbox" name="interests" value="Photography" /> Photography/Videography <br>
+                <input type="checkbox" name="interests" value="Literature" /> Literature/Poetry <br>
+                <input type="checkbox" name="interests" value="Other_Arts" /> Other Arts <br>
             </div>
             <div class="col-md-4 interest-block">
                 <h3>Sports and Athletics</h3>
-                <input type="checkbox" name="interest[]" value="Team_Sports" /> Team Sports <br>
-                <input type="checkbox" name="interest[]" value="Individual_Sports" /> Individual Sports <br>
-                <input type="checkbox" name="interest[]" value="Official_Teams" /> Official Teams <br>
-                <input type="checkbox" name="interest[]" value="Intramural_Teams" /> Intramural Teams <br>
-                <input type="checkbox" name="interest[]" value="Unaffiliated_Sports" /> Unaffiliated Sports <br>
-                <input type="checkbox" name="interest[]" value="Martial_Arts" /> Martial Arts <br>
-                <input type="checkbox" name="interest[]" value="Outdoors" /> Outdoors <br>
-                <input type="checkbox" name="interest[]" value="Other_Sports" /> Other Sports and Athletics <br>
+                <input type="checkbox" name="interests" value="Team_Sports" /> Team Sports <br>
+                <input type="checkbox" name="interests" value="Individual_Sports" /> Individual Sports <br>
+                <input type="checkbox" name="interests" value="Official_Teams" /> Official Teams <br>
+                <input type="checkbox" name="interests" value="Intramural_Teams" /> Intramural Teams <br>
+                <input type="checkbox" name="interests" value="Unaffiliated_Sports" /> Unaffiliated Sports <br>
+                <input type="checkbox" name="interests" value="Martial_Arts" /> Martial Arts <br>
+                <input type="checkbox" name="interests" value="Outdoors" /> Outdoors <br>
+                <input type="checkbox" name="interests" value="Other_Sports" /> Other Sports and Athletics <br>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4 interest-block">
                 <h3>Service</h3>
-                <input type="checkbox" name="interest[]" value="Activism" /> Activism <br>
-                <input type="checkbox" name="interest[]" value="Environmental" /> Environmental <br>
-                <input type="checkbox" name="interest[]" value="Volunteer" /> Volunteer <br>
-                <input type="checkbox" name="interest[]" value="Other_Service" /> Other Service <br>
+                <input type="checkbox" name="interests" value="Activism" /> Activism <br>
+                <input type="checkbox" name="interests" value="Environmental" /> Environmental <br>
+                <input type="checkbox" name="interests" value="Volunteer" /> Volunteer <br>
+                <input type="checkbox" name="interests" value="Other_Service" /> Other Service <br>
             </div>
             <div class="col-md-4 interest-block">
                 <h3>Religious and Spiritual</h3>
-                <input type="checkbox" name="interest[]" value="Christianity" /> Christianity/Catholicism <br>
-                <input type="checkbox" name="interest[]" value="Islam" /> Islam <br>
-                <input type="checkbox" name="interest[]" value="Hinduism" /> Hinduism <br>
-                <input type="checkbox" name="interest[]" value="Buddhism" /> Buddhism <br>
-                <input type="checkbox" name="interest[]" value="Sikhism" /> Sikhism <br>
-                <input type="checkbox" name="interest[]" value="Judaism" /> Judaism <br>
-                <input type="checkbox" name="interest[]" value="Other_Religious" /> Other Religious or Spiritual <br>
+                <input type="checkbox" name="interests" value="Christianity" /> Christianity/Catholicism <br>
+                <input type="checkbox" name="interests" value="Islam" /> Islam <br>
+                <input type="checkbox" name="interests" value="Hinduism" /> Hinduism <br>
+                <input type="checkbox" name="interests" value="Buddhism" /> Buddhism <br>
+                <input type="checkbox" name="interests" value="Sikhism" /> Sikhism <br>
+                <input type="checkbox" name="interests" value="Judaism" /> Judaism <br>
+                <input type="checkbox" name="interests" value="Other_Religious" /> Other Religious or Spiritual <br>
             </div>
             <div class="col-md-4 interest-block">
                 <h3>Greek Life</h3>
-                <input type="checkbox" name="interest[]" value="Fraternity" /> Fraternity <br>
-                <input type="checkbox" name="interest[]" value="Sorority" /> Sorority <br>
-                <input type="checkbox" name="interest[]" value="CoEd" /> Co-Ed <br>
-                <input type="checkbox" name="interest[]" value="Other_Greek" /> Other Greek <br>
+                <input type="checkbox" name="interests" value="Fraternity" /> Fraternity <br>
+                <input type="checkbox" name="interests" value="Sorority" /> Sorority <br>
+                <input type="checkbox" name="interests" value="CoEd" /> Co-Ed <br>
+                <input type="checkbox" name="interests" value="Other_Greek" /> Other Greek <br>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4 interest-block">
                 <h3>Social</h3>
-                <input type="checkbox" name="interest[]" value="Gaming" /> Gaming <br>
-                <input type="checkbox" name="interest[]" value="Exercise" /> Exercise <br>
-                <input type="checkbox" name="interest[]" value="Music" /> Music <br>
-                <input type="checkbox" name="interest[]" value="Movies" /> Movies and TV <br>
-                <input type="checkbox" name="interest[]" value="Other_Social" /> Other Social <br>
+                <input type="checkbox" name="interests" value="Gaming" /> Gaming <br>
+                <input type="checkbox" name="interests" value="Exercise" /> Exercise <br>
+                <input type="checkbox" name="interests" value="Music" /> Music <br>
+                <input type="checkbox" name="interests" value="Movies" /> Movies and TV <br>
+                <input type="checkbox" name="interests" value="Other_Social" /> Other Social <br>
             </div>
             <div class="col-md-4 interest-block">
                 <h3>Cultural</h3>
-                <input type="checkbox" name="interest[]" value="Indian" /> Indian <br>
-                <input type="checkbox" name="interest[]" value="Chinese" /> Chinese <br>
-                <input type="checkbox" name="interest[]" value="Japanese" /> Japanese <br>
-                <input type="checkbox" name="interest[]" value="Korean" /> Korean <br>
-                <input type="checkbox" name="interest[]" value="Other_Asian" /> Other Asian <br>
-                <input type="checkbox" name="interest[]" value="Filipino" /> Filpino <br>
-                <input type="checkbox" name="interest[]" value="African" /> African <br>
-                <input type="checkbox" name="interest[]" value="Latino" /> Hispanic/Latin <br>
-                <input type="checkbox" name="interest[]" value="European" /> European <br>
-                <input type="checkbox" name="interest[]" value="MidEast" /> Middle Eastern/Arab <br>
-                <input type="checkbox" name="interest[]" value="LGBT" /> LGBT <br>
-                <input type="checkbox" name="interest[]" value="Other_Cultural" /> Other Cultural <br>
+                <input type="checkbox" name="interests" value="Indian" /> Indian <br>
+                <input type="checkbox" name="interests" value="Chinese" /> Chinese <br>
+                <input type="checkbox" name="interests" value="Japanese" /> Japanese <br>
+                <input type="checkbox" name="interests" value="Korean" /> Korean <br>
+                <input type="checkbox" name="interests" value="Other_Asian" /> Other Asian <br>
+                <input type="checkbox" name="interests" value="Filipino" /> Filpino <br>
+                <input type="checkbox" name="interests" value="African" /> African <br>
+                <input type="checkbox" name="interests" value="Latino" /> Hispanic/Latin <br>
+                <input type="checkbox" name="interests" value="European" /> European <br>
+                <input type="checkbox" name="interests" value="MidEast" /> Middle Eastern/Arab <br>
+                <input type="checkbox" name="interests" value="LGBT" /> LGBT <br>
+                <input type="checkbox" name="interests" value="Other_Cultural" /> Other Cultural <br>
             </div>
         </div>
         
@@ -170,22 +170,27 @@
             </div>
             <div class="col-sm-3 form-group">
                 <label for="start-time">From:</label>
-                <input type="time" class="form-control" name="start-time[]" id="start-time">
+                <input type="time" class="form-control" name="startTime" id="start-time">
             </div>
             <div class="col-sm-3 form-group">
                 <label for="end-time">To:</label>
-                <input type="time" class="form-control" name="end-time[]" id="end-time">
+                <input type="time" class="form-control" name="endTime" id="end-time">
             </div>
             <div class="col-md-3 form-group">
                 <label for=>Location:</label>
-                <input type="text" class="form-control" name="location[]" />
+                <input type="text" class="form-control" name="location" />
             </div>
         </div>
         
         <div class="row" id="submit-row">
             <div class="col-md-2 col-md-offset-10">
-                <button type="submit" id="submitbtn" class="btn btn-success">Create Club</button>
+                <button type="submit" id="submitbtn" class="btn btn-default">Create Club</button>
             </div>
+        </div>
+        <div class="row">
+            <br/>
+            <br/>
+            <br/>
         </div>
     </div> 
     </form>
