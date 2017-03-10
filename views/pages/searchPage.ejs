@@ -478,6 +478,7 @@
                 <h2 class="page-header">Search Term: <%= search %></h2>
             <% } %>
             <% if(clubs) {%>
+                <p> Search Results: <%= clubs.length%>  </p>
                 <% for( let idx in clubs) { %>
                     <div class="search-result">
                         <form id="search-result-box" action="/clubPage" method="POST">
