@@ -6,7 +6,7 @@ let connection = require('./user');
 async = require('async');
 let nodemailer = require('nodemailer');
 // Js file to get email and password for gmail. This keeps your privacy for gmail
-// let config = require('../../config');
+let config = require('../../config');
 let fs = require('fs');
 
 module.exports = {
@@ -60,9 +60,9 @@ module.exports = {
                             // Error in duplicate email
                             req.flash('errorMsg', (err.message).substr(13,17) + email);
                             res.redirect('/users/createUserProfile');
-                            throw err;
                         }
                         else {
+                            req.session.profile = undefined;
                             req.flash('successMsg', 'Registration complete: You may login');
                             res.redirect('/users/login');
                         }
@@ -184,7 +184,7 @@ module.exports = {
      */
     insert_club: function (req, res) {
         // MySQL query to insert into club table
-        let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink, img) values (?, ?, ?, ?, ?, ?, ?) ";
+        let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink,img) values (?, ?, ?, ?, ?, ?, ?) ";
 
         // MySQL query to insert into club_interest table
         let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
@@ -210,7 +210,8 @@ module.exports = {
         let start = req.body.startTime;
         let end = req.body.endTime;
         let location = req.body.location;
-        let pic = req.file;
+        let pic = null;
+        if (req.file !== undefined) { pic = req.file.originalname; }
 
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
@@ -222,12 +223,14 @@ module.exports = {
         req.checkBody('end', 'Club end time is required')!=null;
         req.checkBody('location', 'Club location is required').notEmpty();
 
+
+        req.session.profile = { name:clubname, phone:phone, email: email, about: description};
         let errors = req.validationErrors();
 
         // Throws error notification if there exists errors or interest tags weren't filled
         if (errors) {
             // Render the page again with error notification of missing fields
-            res.render('pages/createClubProfile', {errors: errors});
+            res.render('pages/createClubProfile', {errors: errors, profile: req.session.profile});
         }
         else if(!interests) {
             req.flash('errorMsg', 'Please select at least one Category');
@@ -241,13 +244,12 @@ module.exports = {
                 }
                 else {
                     // Create new club row with given credentials on database
-                    conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, pic.originalname], function (err) {
+                    conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, pic], function (err) {
                         if (err) {
                             req.flash('errorMsg', 'Failed to create club: Creation');
                             res.redirect('/users/createClubProfile');
                         }
                         else {
-                            console.log("Club query in.");
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
 
@@ -262,9 +264,10 @@ module.exports = {
                                 });
                                 if (errCheck) {break;}
                             }
+
                             conn.release();
 
-                            if (errCheck) {
+                            if (errCheck) { //error check for club interests
                                 req.flash('errorMsg', 'Failed to create club: Interests');
                                 res.redirect('/users/createClubProfile');
                             }
@@ -277,9 +280,13 @@ module.exports = {
                                     socialLink: socialLink,
                                     description: description,
                                     leaderEmail: req.session.user.email,
-                                    img : pic.originalname
+                                    day: day,
+                                    start: start,
+                                    end: end,
+                                    location: location,
+                                    img : pic
                                 };
-
+                                req.session.profile = undefined;
                                 res.render('pages/clubPage', {club: req.session.club});
                             }
                         }
@@ -351,7 +358,6 @@ module.exports = {
                     if (err) {
                         req.flash('errorMsg', 'Failed to update account');
                         res.redirect('/users/editClubProfile');
-                        throw err;
                     }
                     else {
                         req.session.club = {
@@ -416,7 +422,6 @@ module.exports = {
                     if (err) {
                         req.flash('errorMsg', 'Bad connection with database');
                         res.redirect('/users/editClubProfile');
-                        throw err;
                         return;
                     }
                     else {
@@ -427,8 +432,16 @@ module.exports = {
             }
         });
 
-        // Delete club's local profile image
-        fs.unlinkSync('/img/' + img);
+        // Delete club's local profile image if it exists
+        console.log(img);
+        try {
+            if (img !== undefined) {
+                fs.unlinkSync('public/img/' + img);
+            }
+        }
+        catch (e) {
+            console.error('Image path not found / Image not delete');
+        }
     },
 
     /**
@@ -452,20 +465,17 @@ module.exports = {
                 }
                 // Query returns found clubs so load them on search page
                 else {
-                    let club = rows[0];
-                    club.phone = authenticator.format_phone(club.phone);
-
                     // Saves last interacted club
                     req.session.club = {
-                        name: club.name,
-                        leaderEmail: club.leaderEmail,
-                        phone: club.phone,
-                        description: club.description,
-                        clubEmail: club.clubEmail,
-                        socialLink: club.socialLink,
-                        img: club.img
+                        name: rows[0].name,
+                        leaderEmail: rows[0].leaderEmail,
+                        phone: authenticator.format_phone(rows[0].phone),
+                        description: rows[0].description,
+                        clubEmail: rows[0].clubEmail,
+                        socialLink: rows[0].socialLink,
+                        img: rows[0].img
                     };
-                    res.render('pages/clubPage', {club: club});
+                    res.render('pages/clubPage', {club: req.session.club});
                 }
             });
             con.release();
@@ -520,18 +530,20 @@ module.exports = {
         /*
          * Query searches for clubs whose name or interest matches a given string
          */
-        let query_action = "SELECT * FROM club LEFT JOIN club_interest ON club.name = club_interest.club_name WHERE club.name LIKE ? OR club_interest.interest LIKE ?";
+        let query_action = "SELECT DISTINCT club.leaderEmail, club.phone, club.description, club.name, club.clubEmail, " +
+                            "club.socialLink, club.img FROM club LEFT JOIN club_interest " +
+                            "ON club.name = club_interest.club_name WHERE club.name LIKE ? " +
+                            "OR club_interest.interest LIKE ? ORDER BY club.name";
 
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
             }
             else {
-                con.query(query_action, ['%'+req.body.searchbar+'%', '%'+req.body.searchbar+'%'],function (err, rows) {
+                con.query(query_action, ['_'+req.body.searchbar+'_', '_'+req.body.searchbar+'_'],function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
-                        throw err;
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
