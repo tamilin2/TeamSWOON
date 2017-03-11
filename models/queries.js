@@ -189,14 +189,9 @@ module.exports = {
         // MySQL query to insert into club_interest table
         let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
         
-        // MySQL query to insert into day table
-        let query_d = "insert into day (club_name, day) values (?,?) ";
-        // MySQL query to insert into start-time table
-        let query_start = "insert into start (club_name, startTime) values (?,?) ";
-        // MySQL query to insert into end-time table
-        let query_end = "insert into end ( club_name, endTime) values (?,?)";
-        // MySQL query to iinsert into location table
-        let query_loc = "insert into location (club_name, location) values (?,?)";
+        // MySQL query to insert into club_schedule table
+        let query_sched = "insert into club_schedule (clubName, day, startTime, endTime, location) values (?,?,?,?,?) ";
+      
 
 
         //Gets all user data passed from the view
