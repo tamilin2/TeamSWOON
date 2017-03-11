@@ -247,7 +247,7 @@ module.exports = {
                         else {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
-
+                            
                             // loop through the interests array, inserting each as a row in the club_interest table
                             for (var i = 0; i < interests.length; i++) {
                                 console.log(interests[i]);
@@ -259,7 +259,13 @@ module.exports = {
                                 });
                                 if (errCheck) {break;}
                             }
-
+                            
+                            // Create new club_schedule row with given credentials on database
+                            /*conn.query(query, [day,start,end,location], function (err) {
+                                if (err) {
+                                    req.flash('errorMsg', 'Failed to schedule correctly');
+                                }
+                            }*/
                             conn.release();
 
                             if (errCheck) { //error check for club interests
@@ -276,8 +282,8 @@ module.exports = {
                                     description: description,
                                     leaderEmail: req.session.user.email,
                                     day: day,
-                                    start: start,
-                                    end: end,
+                                    startTime: start,
+                                    endTime: end,
                                     location: location,
                                     img : pic
                                 };
@@ -285,6 +291,9 @@ module.exports = {
                                 res.render('pages/clubPage', {club: req.session.club});
                             }
                         }
+                        
+                            
+                        
                     });
                 }
             });
