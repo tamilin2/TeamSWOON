@@ -486,7 +486,7 @@ module.exports = {
      * System requesting club info of all clubs to post on search page
      */
     getAllClubs: function (req, res) {
-        let query_action = "SELECT * FROM club Order By club.name ASC LIMIT 20 ";
+        let query_action = "SELECT * FROM club Order By club.name ASC";
         let query_interest = "select * from club_interest";
         connection(function (err, con) {
             if (err) {
