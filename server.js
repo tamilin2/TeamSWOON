@@ -6,7 +6,7 @@ let expressValidator = require('express-validator');
 let session = require('express-session');
 let flash = require('connect-flash');
 let app = express();
-let port = process.env.PORT || 8080;
+let port = 8080;
 
 let routes = require('./routes/routes');
 let users = require('./routes/users');

@@ -232,7 +232,7 @@ module.exports = {
             // Render the page again with error notification of missing fields
             res.render('pages/createClubProfile', {errors: errors, profile: req.session.profile});
         }
-        else if(!interests || interests.length === 0) {
+        else if(!interests) {
             req.flash('errorMsg', 'Please select at least one Category');
             res.redirect('/users/createClubProfile');
         }
@@ -243,7 +243,6 @@ module.exports = {
                     res.redirect('/users/createClubProfile');
                 }
                 else {
-
                     // Create new club row with given credentials on database
                     conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, pic], function (err) {
                         if (err) {
@@ -254,33 +253,17 @@ module.exports = {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
 
-                            // query to save a club's interest
-                            if (typeof interests === 'string') {
-                                // if there's one interest then just insert it
-                                conn.query(query_cl, [clubname, interests], function (err) {
+                            // loop through the interests array, inserting each as a row in the club_interest table
+                            for (var i = 0; i < interests.length; i++) {
+                                console.log(interests[i]);
+                                conn.query(query_cl, [clubname, interests[i]], function (err) {
                                     if (err) {
                                         errCheck = true;
+                                        throw err;
                                     }
                                 });
-                            } else {
-                                // loop through the interests array, inserting each as a row in the club_interest table
-                                for (var i = 0; i < interests.length; i++) {
-                                    conn.query(query_cl, [clubname, interests[i]], function (err) {
-                                        if (err) {
-                                            errCheck = true;
-                                        }
-                                    });
-                                    if (errCheck) {break; }
-                                }
+                                if (errCheck) {break;}
                             }
-                            
-                            //loop through day array, inserting each item in to the day table
-                            for(var d = 0; d < d.length; d++){
-                            conn.query(query_cl, [clubname, day[d]], function (err){
-                                       if(err) {
-                                          errCheck = true;
-                                       }
-                            });}
 
                             conn.release();
 
@@ -306,8 +289,6 @@ module.exports = {
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club: req.session.club});
                             }
-                            
-
                         }
                     });
                 }
@@ -505,7 +486,8 @@ module.exports = {
      * System requesting club info of all clubs to post on search page
      */
     getAllClubs: function (req, res) {
-        let query_action = "SELECT * FROM club Order By club.name ASC";
+        let query_action = "SELECT * FROM club Order By club.name ASC LIMIT 20 ";
+        let query_interest = "select * from club_interest";
         connection(function (err, con) {
             if (err) {
                 res.render('/users/login', {errors: errors});
@@ -513,16 +495,27 @@ module.exports = {
             else {
                 con.query(query_action, function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to connect to database');
+                        req.flash('errorMsg', 'Failed to connect to database: clubs');
                         res.redirect('/');
                     }
                     // When no clubs shows up
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: undefined, search: null});
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null});
                     }
                     // Query returns found clubs so load them on search page
                     else {
-                        res.render('pages/searchPage', {clubs: rows, search : null});
+                        con.query(query_interest, function(erro, search_interest_rows) {
+                            if(erro) {
+                                req.flash('errorMsg', 'Failed to connect to database: interests');
+                                res.redirect('/');
+                            }
+                            else if(search_interest_rows[0] == null) {
+                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null});
+                            }
+                            else {
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : null});
+                            }
+                        });
                     }
                 });
                 con.release();
