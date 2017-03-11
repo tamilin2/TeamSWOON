@@ -184,7 +184,7 @@ module.exports = {
      */
     insert_club: function (req, res) {
         // MySQL query to insert into club table
-        let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink, img) values (?, ?, ?, ?, ?, ?, ?) ";
+        let query = "insert into club (leaderEmail, phone, description, name, clubEmail, socialLink,img) values (?, ?, ?, ?, ?, ?, ?) ";
 
         // MySQL query to insert into club_interest table
         let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
@@ -273,10 +273,18 @@ module.exports = {
                                     if (errCheck) {break; }
                                 }
                             }
+                            
+                            //loop through day array, inserting each item in to the day table
+                            for(var d = 0; d < d.length; d++){
+                            conn.query(query_cl, [clubname, day[d]], function (err){
+                                       if(err) {
+                                          errCheck = true;
+                                       }
+                            });}
 
                             conn.release();
 
-                            if (errCheck) {
+                            if (errCheck) { //error check for club interests
                                 req.flash('errorMsg', 'Failed to create club: Interests');
                                 res.redirect('/users/createClubProfile');
                             }
@@ -289,11 +297,17 @@ module.exports = {
                                     socialLink: socialLink,
                                     description: description,
                                     leaderEmail: req.session.user.email,
+                                    day: day,
+                                    start: start,
+                                    end: end,
+                                    location: location,
                                     img : pic
                                 };
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club: req.session.club});
                             }
+                            
+
                         }
                     });
                 }
