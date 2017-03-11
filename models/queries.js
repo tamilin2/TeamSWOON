@@ -533,7 +533,7 @@ module.exports = {
                 res.render('/', {errors: errors});
             }
             else {
-                con.query(query_action, ['_'+req.body.searchbar+'_', '_'+req.body.searchbar+'_'],function (err, rows) {
+                con.query(query_action, ['%'+req.body.searchbar+'%', '%'+req.body.searchbar+'%'],function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
