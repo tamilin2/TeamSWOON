@@ -56,9 +56,9 @@ module.exports = {
                 else {
                     conn.query(query, [firstname, lastname, email, phone, password, about], function (err) {
                         conn.release();
+                        // Flash error to notify user
                         if (err) {
-                            // Error in duplicate email
-                            req.flash('errorMsg', (err.message).substr(13,17) + email);
+                            req.flash('errorMsg', err.message);
                             res.redirect('/users/createUserProfile');
                         }
                         else {
@@ -114,7 +114,7 @@ module.exports = {
                     // Replace existing db entry with modified data
                     conn.query(query, [fname, lname, req.session.user.email, phone, req.session.user.password, about], function (err, rows) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to update account', err);
+                            req.flash('errorMsg', 'Failed to update account', err.message);
                             res.redirect('/users/editUserProfile');
                         }
                         else {
@@ -163,7 +163,7 @@ module.exports = {
                     // Replace existing db entry with modified data
                     conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password, req.session.user.about], function (err, rows) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to update password', err);
+                            req.flash('errorMsg', 'Failed to update password', err.message);
                             res.redirect('/users/changePassword');
                         }
                         else {
@@ -207,6 +207,7 @@ module.exports = {
         let location = req.body.location;
         let pic = null;
         if (req.file !== undefined) { pic = req.file.originalname; }
+        else { pic = 'default.jpg'; }
 
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
@@ -241,7 +242,7 @@ module.exports = {
                     // Create new club row with given credentials on database
                     conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, pic], function (err) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club: Creation');
+                            req.flash('errorMsg', err.message);
                             res.redirect('/users/createClubProfile');
                         }
                         else {
@@ -257,12 +258,12 @@ module.exports = {
                                         errCheck = true;
                                         throw err;
                                     }
-                                    
-                            
+
+
                             // loop through all fields of schedule array, inserting each as a row in the club_schedule table
                             for (var s = 0; s < day.length; s++){
                                 console.log(day[s]);
-                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]], 
+                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
                                 function (err) {
                                 if (err) {
                                     errorCheck = true;
@@ -271,10 +272,10 @@ module.exports = {
                                 });
                                 if (errorCheck) {break;}
                             }
-                                
-                            
+
+
                                 });
-                                
+
                                 if (errCheck) {break;}
                             }
                             
@@ -307,7 +308,7 @@ module.exports = {
 
                                  // Clears saved user input in creation forms
                                 req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
+                                res.render('pages/clubPage', {club: req.session.club, club_schedule: req.session.club_schedule});
                             }
                         }
                         
@@ -387,7 +388,7 @@ module.exports = {
                 //TODO replace null with img
                 conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, img], function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to update account');
+                        req.flash('errorMsg', 'Failed to update account',err.message);
                         res.redirect('/users/editClubProfile');
                     }
                     else {
@@ -431,7 +432,7 @@ module.exports = {
                 conn.query(query, [name, email], function (err, rows) {
                     conn.release();
                     if (err) {
-                        req.flash('errorMsg', 'Bad connection with database');
+                        req.flash('errorMsg', 'Failed to delete account',err.message);
                         res.redirect('/users/editClubProfile');
                         return ;
                     }
@@ -451,7 +452,7 @@ module.exports = {
                 conn.query(interest_query, [name], function (err, rows) {
                     conn.release();
                     if (err) {
-                        req.flash('errorMsg', 'Bad connection with database');
+                        req.flash('errorMsg', 'Failed to delete account',err.message);
                         res.redirect('/users/editClubProfile');
                         return;
                     }
@@ -469,6 +470,7 @@ module.exports = {
                 fs.unlinkSync('public/img/' + img);
             }
         }
+        // Catches error if club image doesn't exist
         catch (e) {
             console.error('Image path not found / Image not delete');
         }
@@ -485,12 +487,12 @@ module.exports = {
         connection(function (err, con) {
             con.query(query_action, [clubname],function (err, rows) {
                 if (err) {
-                    req.flash('errorMsg', 'Failed to query to database');
+                    req.flash('errorMsg', 'Failed to get club',err.message);
                     res.redirect('/');
                 }
                 // Assures the query returns a club entry
                 else if (rows[0] == null) {
-                    req.flash('errorMsg', 'Failed to get club profile');
+                    req.flash('errorMsg', 'Failed to get club',err.message);
                     res.redirect('/');
                 }
                 // Query returns found clubs so load them on search page
@@ -525,7 +527,7 @@ module.exports = {
             else {
                 con.query(query_action, function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to connect to database: clubs');
+                        req.flash('errorMsg', 'Failed to get clubs',err.message);
                         res.redirect('/');
                     }
                     // When no clubs shows up
