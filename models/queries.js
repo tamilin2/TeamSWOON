@@ -260,12 +260,18 @@ module.exports = {
                                 if (errCheck) {break;}
                             }
                             
-                            // Create new club_schedule row with given credentials on database
-                            conn.query(query_sched, [clubname, day,start,end,location], function (err) {
+                            // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+                            for (var s = 0; s < day.length; s++){
+                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]], function (err) {
                                 if (err) {
-                                    req.flash('errorMsg', 'Failed to schedule correctly');
+                                    errCheck = true;
+                                    throw err;
                                 }
-                            });
+                                });
+                                if (errCheck) {break;}
+                            }
+                                
+                            
                             conn.release();
 
                             if (errCheck) { //error check for club interests
@@ -281,14 +287,24 @@ module.exports = {
                                     socialLink: socialLink,
                                     description: description,
                                     leaderEmail: req.session.user.email,
-                                    day: day,
-                                    startTime: start,
-                                    endTime: end,
-                                    location: location,
                                     img : pic
                                 };
+                                
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club: req.session.club});
+                                
+                                // Saves club schedule info to load onto club page
+                                /* req.session.club_schedule = {
+                                    day: day,
+                                    startTime: startTime,
+                                    endTime: endTime,
+                                    location: location
+                                };
+                                
+                                req.session.profile = undefined;
+                                res.render('pages/clubPage', {club_schedule:
+                                req.session.club});
+                                */
                             }
                         }
                         
