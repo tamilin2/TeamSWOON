@@ -297,16 +297,18 @@ module.exports = {
                                     img : pic
                                 };
                                 
-                                req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club});
-                                
-                                // Saves club schedule info to load onto club page
+                                  // Saves club schedule info to load onto club page
                                  req.session.club_schedule = {
                                     day: day,
                                     startTime: startTime,
                                     endTime: endTime,
                                     location: location
                                 };
+                                
+                                req.session.profile = undefined;
+                                res.render('pages/clubPage', {club: req.session.club});
+                                
+                              
                                 
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club_schedule:
