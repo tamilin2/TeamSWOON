@@ -312,6 +312,8 @@ module.exports = {
         let description= req.body.description;
         let phone= req.body.phone;
         let socialLink = req.body.socialLink;
+        let img = null;
+        if (req.file !== undefined) { img = req.file.originalname; }
 
         /* Notifies user if request to update with all null data */
         if (!name && !clubEmail && !description && !phone&& !socialLink) {
@@ -348,6 +350,12 @@ module.exports = {
             phone = authenticator.parse_phoneNum(phone);
             req.session.club.phone = authenticator.format_phone(phone);
         }
+        if (!img) {
+            img = req.session.club.img;
+        } else {
+            // New phone entry is given so format it
+            req.session.club.img= img;
+        }
 
         // Querying with verified input data
         connection(function (err, conn) {
@@ -358,7 +366,7 @@ module.exports = {
             else {
                 // Replace existing db entry with modified data
                 //TODO replace null with img
-                conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, null], function (err, rows) {
+                conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, img], function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to update account');
                         res.redirect('/users/editClubProfile');
@@ -371,7 +379,7 @@ module.exports = {
                             description: description,
                             clubEmail: clubEmail,
                             socialLink: socialLink,
-                            img: null
+                            img: img
                         };
                         res.render('pages/clubPage', {club: req.session.club});
                     }
@@ -437,7 +445,6 @@ module.exports = {
         });
 
         // Delete club's local profile image if it exists
-        console.log(img);
         try {
             if (img !== undefined) {
                 fs.unlinkSync('public/img/' + img);
@@ -539,23 +546,39 @@ module.exports = {
                             "ON club.name = club_interest.club_name WHERE club.name LIKE ? " +
                             "OR club_interest.interest LIKE ? ORDER BY club.name";
 
+        let query_interest = "SELECT * FROM club_interest";
+
+
+        let search = req.body.searchbar;
+        
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
             }
             else {
-                con.query(query_action, ['%'+req.body.searchbar+'%', '%'+req.body.searchbar+'%'],function (err, rows) {
+                con.query(query_action, ['%'+search+'%', '%'+search+'%'],function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: null, search: req.body.searchbar});
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search});
                     }
                     // Query returns found clubs so load them on search page
                     else {
-                        res.render('pages/searchPage', {clubs: rows, search : req.body.searchbar});
+                        con.query(query_interest, function(erro, search_interest_rows) {
+                            if(erro) {
+                                req.flash('errorMsg', 'Failed to connect to database: interests');
+                                res.redirect('/');
+                            }
+                            else if(search_interest_rows[0] == null) {
+                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search});
+                            }
+                            else {
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : search});
+                            }
+                        });
                     }
                 });
                 con.release();
@@ -732,7 +755,6 @@ module.exports = {
 
                     transporter.sendMail(mailOptions, function (err, info) {
                         if (err) {
-                            console.error(err);
                             req.flash('errorMsg', 'Failed to send email');
                         }
                         else {
