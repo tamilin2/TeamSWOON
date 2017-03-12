@@ -258,30 +258,35 @@ module.exports = {
                                         throw err;
                                     }
                                     
-                                    // loop through all fields of schedule array, inserting each as a row in the club_schedule table
-                                    for (var s = 0; s < day.length; s++){
-                                        console.log(day[s]);
-                                        conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
-                                        function (err) {
-                                        if (err) {
-                                            errorCheck = true;
-                                            throw err;
-                                        }
-                                        });
-                                        if (errorCheck) {break;}
-                                    }
-                                
+
                             
                                 });
                                 
                                 if (errCheck) {break;}
                             }
 
+                            // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+                            for (var s = 0; s < day.length; s++){
+                                console.log(day[s]);
+                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
+                                    function (err) {
+                                        if (err) {
+                                            errorCheck = true;
+                                            throw err;
+                                        }
+                                    });
+                                if (errorCheck) {break;}
+                            }
+
                             conn.release();
 
-                            if (errCheck) { //error check for club interests
+                            if(errCheck) { //error check for club interests
                                 req.flash('errorMsg', 'Failed to create club: Interests');
                                 res.redirect('/users/createClubProfile');
+                            }
+                            else if(errorCheck) {
+                                    req.flash('errorMsg', 'Failed to create club: Schedule');
+                                    res.redirect('/users/createClubProfile');
                             }
                             else {
                                 // Saves club info to load onto club page
@@ -294,22 +299,18 @@ module.exports = {
                                     leaderEmail: req.session.user.email,
                                     img : pic
                                 };
-                                
-                                  // Saves club schedule info to load onto club page
-                                 req.session.club_schedule = {
+                                // Saves club schedule info to load onto club page
+                                req.session.club_schedule = {
+
                                     day: day,
                                     start: start,
                                     end: end,
                                     location: location
                                 };
-                                
-                                req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
-                                
-                              
-                                
-                               
                             }
+
+                            req.session.profile = undefined;
+                            res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
                         }
                     });
                 }

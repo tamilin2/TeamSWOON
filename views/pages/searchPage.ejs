@@ -493,11 +493,13 @@
                                 <!-- Set club image and name as links to club profile-->
                                 <input type="image" id="pict" name="clubname" value="<%= clubs[idx].name%>" src="/img/<%= clubs[idx].img%>" onerror="this.src='/img/default.jpg'">
                                 <input id="clubNameLink" type="submit" name="clubname" value="<%= clubs[idx].name%>">
+                                <br>
                                 <% for(let index in search_interests) {
                                     if(clubs[idx].name === search_interests[index].club_name) { %>
                                         <i id="tags"><%= search_interests[index].interest %></i>
                                             <% } %>
                                      <% } %>
+                                <br>
                                 <%= clubs[idx].description%>
                             </p>
                         </form>
