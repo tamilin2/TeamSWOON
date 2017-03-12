@@ -491,7 +491,7 @@
                         <form id="search-result-box" action="/clubPage" method="POST">
                             <p>
                                 <!-- Set club image and name as links to club profile-->
-                                <input type="image" id="pict" name="clubname" value="<%= clubs[idx].name%>" src="/img/<%= clubs[idx].img%>" onerror="this.src='/img/default.jpg'">
+                                <input type="image" id="pict" name="clubname" value="<%= clubs[idx].name%>" style="object-fit: cover; width: 200px; height: 150px;" src="/img/<%= clubs[idx].img%>" onerror="this.src='/img/default.jpg'">
                                 <input id="clubNameLink" type="submit" name="clubname" value="<%= clubs[idx].name%>">
                                 <br>
                                 <% for(let index in search_interests) {

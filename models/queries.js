@@ -210,8 +210,9 @@ module.exports = {
 
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
-        req.checkBody('phone', 'Require phone number').notEmpty();
+        req.checkBody('phone', 'Phone number is required').notEmpty();
         req.checkBody('email', 'Required email is not valid').isEmail();
+        req.checkBody('email', 'Contact Email is required').notEmpty();
         req.checkBody('description', 'Club description is required').notEmpty();
         req.checkBody('day', 'Club meeting day is required').notEmpty();
         req.checkBody('start', 'Club start time is required')!=null;
@@ -247,7 +248,6 @@ module.exports = {
                         else {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
-                            var errorCheck = false;
                             
                             // loop through the interests array, inserting each as a row in the club_interest table
                             for (var i = 0; i < interests.length; i++) {
@@ -257,15 +257,14 @@ module.exports = {
                                         errCheck = true;
                                         throw err;
                                     }
-                                    
-
-                            
                                 });
                                 
                                 if (errCheck) {break;}
                             }
 
                             // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+                            var errorCheck = false;
+                            
                             for (var s = 0; s < day.length; s++){
                                 console.log(day[s]);
                                 conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
@@ -279,10 +278,14 @@ module.exports = {
                             }
 
                             conn.release();
-
-                            if(errCheck) { //error check for club interests
+                            
+                                
+                            if (errCheck) { //error check for club interests
                                 req.flash('errorMsg', 'Failed to create club: Interests');
                                 res.redirect('/users/createClubProfile');
+                            } else if (errorCheck) {
+                                req.flash('erroMSg', 'Failed to create club: Schedule');
+                                res.redirect('/users/createClubProfile')
                             }
                             else if(errorCheck) {
                                     req.flash('errorMsg', 'Failed to create club: Schedule');
@@ -307,6 +310,9 @@ module.exports = {
                                     end: end,
                                     location: location
                                 };
+                                 // Clears saved user input in creation forms
+                                req.session.profile = undefined;
+                                res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
                             }
 
                             req.session.profile = undefined;
@@ -560,9 +566,7 @@ module.exports = {
          * Query searches for clubs whose name or interest matches a given string
          */
         let query_action = "SELECT DISTINCT club.leaderEmail, club.phone, club.description, club.name, club.clubEmail, " +
-                            "club.socialLink, club.img FROM club LEFT JOIN club_interest " +
-                            "ON club.name = club_interest.club_name WHERE club.name LIKE ? " +
-                            "OR club_interest.interest LIKE ? ORDER BY club.name";
+                            "club.socialLink, club.img FROM club WHERE club.name LIKE ?";
 
         let query_interest = "SELECT * FROM club_interest";
 
