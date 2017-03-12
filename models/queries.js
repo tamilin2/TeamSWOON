@@ -261,11 +261,11 @@ module.exports = {
                             }
                             
                             // Create new club_schedule row with given credentials on database
-                            /*conn.query(query, [day,start,end,location], function (err) {
+                            conn.query(query, [day,start,end,location], function (err) {
                                 if (err) {
                                     req.flash('errorMsg', 'Failed to schedule correctly');
                                 }
-                            }*/
+                            }
                             conn.release();
 
                             if (errCheck) { //error check for club interests
