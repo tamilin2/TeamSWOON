@@ -283,10 +283,14 @@ module.exports = {
                                 
                          
                             conn.release();
-
+                            
+                                
                             if (errCheck) { //error check for club interests
                                 req.flash('errorMsg', 'Failed to create club: Interests');
                                 res.redirect('/users/createClubProfile');
+                            } else if (errorCheck) {
+                                req.flash('erroMSg', 'Failed to create club: Schedule');
+                                res.redirect('/users/createClubProfile')
                             }
                             else {
                                 // Saves club info to load onto club page
