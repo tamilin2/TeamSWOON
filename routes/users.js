@@ -145,7 +145,9 @@ router.get('/userProfilePage', authenticator.ensureLoggedIn , function (req, res
 });
 
 
-/*Loads edit club profile if user is creator*/
+/**
+ * Loads edit club profile if user is creator
+ */
 router.get('/editClubProfile',function (req, res) {
     res.render('pages/editClubProfile', {club: req.session.club})
 });
@@ -153,7 +155,15 @@ router.get('/editClubProfile',function (req, res) {
  * Sends club profile changes to db
  */
 router.post('/editClubProfile',function (req, res) {
-    queries.edit_club(req, res);
+    upload(req, res, function (err) {
+        if (err) {
+            req.flash('errorMsg', err);
+            res.redirect('/users/editClubProfile');
+        }
+        else {
+            queries.edit_club(req, res);
+        }
+    })
 });
 /**
  * System sends club info to server

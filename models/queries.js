@@ -189,14 +189,9 @@ module.exports = {
         // MySQL query to insert into club_interest table
         let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
         
-        // MySQL query to insert into day table
-        let query_d = "insert into day (club_name, day) values (?,?) ";
-        // MySQL query to insert into start-time table
-        let query_start = "insert into start (club_name, startTime) values (?,?) ";
-        // MySQL query to insert into end-time table
-        let query_end = "insert into end ( club_name, endTime) values (?,?)";
-        // MySQL query to iinsert into location table
-        let query_loc = "insert into location (club_name, location) values (?,?)";
+        // MySQL query to insert into club_schedule table
+        let query_sched = "insert into club_schedule (clubName, day, startTime, endTime, location) values (?,?,?,?,?) ";
+      
 
 
         //Gets all user data passed from the view
@@ -252,7 +247,7 @@ module.exports = {
                         else {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
-
+                            
                             // loop through the interests array, inserting each as a row in the club_interest table
                             for (var i = 0; i < interests.length; i++) {
                                 console.log(interests[i]);
@@ -264,7 +259,13 @@ module.exports = {
                                 });
                                 if (errCheck) {break;}
                             }
-
+                            
+                            // Create new club_schedule row with given credentials on database
+                            conn.query(query_sched, [clubname, day,start,end,location], function (err) {
+                                if (err) {
+                                    req.flash('errorMsg', 'Failed to schedule correctly');
+                                }
+                            });
                             conn.release();
 
                             if (errCheck) { //error check for club interests
@@ -281,8 +282,8 @@ module.exports = {
                                     description: description,
                                     leaderEmail: req.session.user.email,
                                     day: day,
-                                    start: start,
-                                    end: end,
+                                    startTime: start,
+                                    endTime: end,
                                     location: location,
                                     img : pic
                                 };
@@ -290,6 +291,9 @@ module.exports = {
                                 res.render('pages/clubPage', {club: req.session.club});
                             }
                         }
+                        
+                            
+                        
                     });
                 }
             });
@@ -308,6 +312,8 @@ module.exports = {
         let description= req.body.description;
         let phone= req.body.phone;
         let socialLink = req.body.socialLink;
+        let img = null;
+        if (req.file !== undefined) { img = req.file.originalname; }
 
         /* Notifies user if request to update with all null data */
         if (!name && !clubEmail && !description && !phone&& !socialLink) {
@@ -344,6 +350,12 @@ module.exports = {
             phone = authenticator.parse_phoneNum(phone);
             req.session.club.phone = authenticator.format_phone(phone);
         }
+        if (!img) {
+            img = req.session.club.img;
+        } else {
+            // New phone entry is given so format it
+            req.session.club.img= img;
+        }
 
         // Querying with verified input data
         connection(function (err, conn) {
@@ -354,7 +366,7 @@ module.exports = {
             else {
                 // Replace existing db entry with modified data
                 //TODO replace null with img
-                conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, null], function (err, rows) {
+                conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, img], function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to update account');
                         res.redirect('/users/editClubProfile');
@@ -367,7 +379,7 @@ module.exports = {
                             description: description,
                             clubEmail: clubEmail,
                             socialLink: socialLink,
-                            img: null
+                            img: img
                         };
                         res.render('pages/clubPage', {club: req.session.club});
                     }
@@ -433,7 +445,6 @@ module.exports = {
         });
 
         // Delete club's local profile image if it exists
-        console.log(img);
         try {
             if (img !== undefined) {
                 fs.unlinkSync('public/img/' + img);
@@ -535,23 +546,39 @@ module.exports = {
                             "ON club.name = club_interest.club_name WHERE club.name LIKE ? " +
                             "OR club_interest.interest LIKE ? ORDER BY club.name";
 
+        let query_interest = "SELECT * FROM club_interest";
+
+
+        let search = req.body.searchbar;
+        
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
             }
             else {
-                con.query(query_action, ['_'+req.body.searchbar+'_', '_'+req.body.searchbar+'_'],function (err, rows) {
+                con.query(query_action, ['%'+search+'%', '%'+search+'%'],function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to connect to database');
                         res.redirect('/');
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: null, search: req.body.searchbar});
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search});
                     }
                     // Query returns found clubs so load them on search page
                     else {
-                        res.render('pages/searchPage', {clubs: rows, search : req.body.searchbar});
+                        con.query(query_interest, function(erro, search_interest_rows) {
+                            if(erro) {
+                                req.flash('errorMsg', 'Failed to connect to database: interests');
+                                res.redirect('/');
+                            }
+                            else if(search_interest_rows[0] == null) {
+                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search});
+                            }
+                            else {
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : search});
+                            }
+                        });
                     }
                 });
                 con.release();
@@ -728,7 +755,6 @@ module.exports = {
 
                     transporter.sendMail(mailOptions, function (err, info) {
                         if (err) {
-                            console.error(err);
                             req.flash('errorMsg', 'Failed to send email');
                         }
                         else {

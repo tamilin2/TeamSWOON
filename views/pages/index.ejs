@@ -40,7 +40,21 @@
         background-color: rgba(0, 0, 0, 0.8);
     }
 </style>
+
 <style>
+    <% if(user != undefined) {%>
+    body {
+        background-image: url(http://www.lajollainnbythesea.com/bpimages/lajolla_beach.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-origin: border-box;
+        background-size: cover;
+        border-radius: 0px;
+        overflow: hidden;
+        
+    }
+    <% } %>
     #home-search-login[type=text] {
         width: 140px;
         box-sizing: border-box;
@@ -48,17 +62,14 @@
         border-radius: 20px;
         font-size: 16px;
         background-color: rgba(0, 0, 0, 0.5);
-        margin: auto;
+        background-repeat: no-repeat;
         padding: 10px 20px;
-        transition: all 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
         text-align: center;
         color: white;
-        position: absolute;
         display: block;
-        left: 45%;
-        top: 50%;
-        z-index: 2;
-        
+        margin: auto;
+        margin-top: 39%; 
         
     }
     #home-search-login[type=text]:focus {
@@ -82,11 +93,9 @@
         <div class="home-search">
             
             <form action="/searchPage" method="post">
-                <input id="home-search-login" type="text" name="searchbar" placeholder="Search Clubs" />
+                <input id="home-search-login" type="text" name="searchbar" placeholder="Search Clubs"/>
             </form>
-            
-            <img src="img/lajolla2.png" class="home-image1" alt="Responsive image"/>
-            
+        
         </div>
         <div class="home-profile">
             

@@ -39,8 +39,11 @@
     }
 
     #pict {
-        width: 100px;
-        height: 100px;
+        /*width: 100px;*/
+        /*height: 100px;*/
+        width: auto;
+        height: auto;
+        max-width: 100%;
         margin-right: 5px;
         float: left;
         outline: 1px solid grey;
@@ -203,6 +206,9 @@
                                 </li>
                                 <li class="list-group-item"><label for="arts" class="interestlabel">Arts</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox" id="arts" value="arts"/>
+                                </li>
+                                <li class="list-group-item"><label for="business" class="interestlabel">Business</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox" id="business" value="business"/>
                                 </li>
                                 <li class="list-group-item"><label for="other_academics" class="interestlabel">Other Academics</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox" id="other_academics" value="other_academics"/>
@@ -460,13 +466,14 @@
                         </select>
                     </div>
                     <label class="schedule-labels" for="start-time-input">Start Time:</label>
-                    <input class="form-control" type="time" value="08:00:00" step="900" id="start-time-input">
+                    <input class="form-control" type="time" step="900" id="start-time-input">
                     <label class="schedule-labels" for="end-time-input">End Time:</label>
-                    <input class="form-control" type="time" value="20:00:00" step="900" min="" id="end-time-input">
+                    <input class="form-control" type="time" step="900" min="" id="end-time-input">
                 
                 <br>
 
                 <button type="submit" class="btn btn-default btn-block">Filter</button>
+                <button type="button" class="btn btn-default btn-block" id="import-btn-SP">Filter by Saved Preferences</button>
                 <button type="reset" class="btn btn-default btn-block" id="clr-btn">Clear Filters</button>
                 </form>
             </div>
@@ -484,7 +491,7 @@
                         <form id="search-result-box" action="/clubPage" method="POST">
                             <p>
                                 <!-- Set club image and name as links to club profile-->
-                                <input type="image" id="pict" name="clubname" value="<%= clubs[idx].name%>" src="http://www.alumni.ucsd.edu/s/1170/images/editor/email_headers/spirit-night-email-banner.jpg">
+                                <input type="image" id="pict" name="clubname" value="<%= clubs[idx].name%>" src="/img/<%= clubs[idx].img%>" onerror="this.src='/img/default.jpg'">
                                 <input id="clubNameLink" type="submit" name="clubname" value="<%= clubs[idx].name%>">
                                 <% for(let index in search_interests) {
                                     if(clubs[idx].name === search_interests[index].club_name) { %>
