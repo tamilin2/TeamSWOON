@@ -77,7 +77,7 @@ module.exports = {
      */
     update_student: function (req, res) {
         let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
-
+        
         let fname = req.session.user.fname;
         let lname = req.session.user.lname;
         let phone = authenticator.parse_phoneNum(req.body.phone);
@@ -300,8 +300,8 @@ module.exports = {
                                   // Saves club schedule info to load onto club page
                                  req.session.club_schedule = {
                                     day: day,
-                                    startTime: startTime,
-                                    endTime: endTime,
+                                    start: start,
+                                    end: end,
                                     location: location
                                 };
                                 
