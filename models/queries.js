@@ -77,7 +77,7 @@ module.exports = {
      */
     update_student: function (req, res) {
         let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
-
+        
         let fname = req.session.user.fname;
         let lname = req.session.user.lname;
         let phone = authenticator.parse_phoneNum(req.body.phone);
@@ -297,21 +297,17 @@ module.exports = {
                                     img : pic
                                 };
                                 
-                                req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club});
-                                
-                                // Saves club schedule info to load onto club page
+                                  // Saves club schedule info to load onto club page
                                  req.session.club_schedule = {
                                     day: day,
-                                    startTime: startTime,
-                                    endTime: endTime,
+                                    start: start,
+                                    end: end,
                                     location: location
                                 };
-                                
+
+                                 // Clears saved user input in creation forms
                                 req.session.profile = undefined;
-                                res.render('pages/clubPage', {club_schedule:
-                                req.session.club});
-                                
+                                res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
                             }
                         }
                         
@@ -565,9 +561,7 @@ module.exports = {
          * Query searches for clubs whose name or interest matches a given string
          */
         let query_action = "SELECT DISTINCT club.leaderEmail, club.phone, club.description, club.name, club.clubEmail, " +
-                            "club.socialLink, club.img FROM club LEFT JOIN club_interest " +
-                            "ON club.name = club_interest.club_name WHERE club.name LIKE ? " +
-                            "OR club_interest.interest LIKE ? ORDER BY club.name";
+                            "club.socialLink, club.img FROM club WHERE club.name LIKE ?";
 
         let query_interest = "SELECT * FROM club_interest";
 

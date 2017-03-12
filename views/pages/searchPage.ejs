@@ -39,11 +39,8 @@
     }
 
     #pict {
-        /*width: 100px;*/
-        /*height: 100px;*/
-        width: auto;
-        height: auto;
-        max-width: 100%;
+        width: 100px;
+        height: 100px;
         margin-right: 5px;
         float: left;
         outline: 1px solid grey;
@@ -503,7 +500,7 @@
                         </form>
                     </div>
                 <% } %>
-            <% } else if (clubs === null){ %>
+            <% } else if (clubs === undefined){ %>
                 <p>No results found</p>
             <% } %>
         </div>
