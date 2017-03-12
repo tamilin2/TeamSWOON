@@ -265,7 +265,7 @@ module.exports = {
                                 if (err) {
                                     req.flash('errorMsg', 'Failed to schedule correctly');
                                 }
-                            }
+                            });
                             conn.release();
 
                             if (errCheck) { //error check for club interests
