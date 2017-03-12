@@ -306,14 +306,11 @@ module.exports = {
                                 };
                                 
                                 req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club});
+                                res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
                                 
                               
                                 
-                                req.session.profile = undefined;
-                                res.render('pages/clubPage', {club_schedule:
-                                req.session.club_schedule});
-                                
+                               
                             }
                         }
                         
