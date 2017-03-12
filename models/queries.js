@@ -210,8 +210,9 @@ module.exports = {
 
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
-        req.checkBody('phone', 'Require phone number').notEmpty();
+        req.checkBody('phone', 'Phone number is required').notEmpty();
         req.checkBody('email', 'Required email is not valid').isEmail();
+        req.checkBody('email', 'Contact Email is required').notEmpty();
         req.checkBody('description', 'Club description is required').notEmpty();
         req.checkBody('day', 'Club meeting day is required').notEmpty();
         req.checkBody('start', 'Club start time is required')!=null;
