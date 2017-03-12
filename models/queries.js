@@ -248,7 +248,6 @@ module.exports = {
                         else {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
-                            var errorCheck = false;
                             
                             // loop through the interests array, inserting each as a row in the club_interest table
                             for (var i = 0; i < interests.length; i++) {
@@ -260,7 +259,16 @@ module.exports = {
                                     }
                                     
                             
-                            // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+                          
+                            
+                                });
+                                
+                                if (errCheck) {break;}
+                            }
+                            
+                            var errorCheck = false;
+                            
+                              // loop through all fields of schedule array, inserting each as a row in the club_schedule table
                             for (var s = 0; s < day.length; s++){
                                 console.log(day[s]);
                                 conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]], 
@@ -273,12 +281,6 @@ module.exports = {
                                 if (errorCheck) {break;}
                             }
                                 
-                            
-                                });
-                                
-                                if (errCheck) {break;}
-                            }
-                            
                          
                             conn.release();
 
