@@ -247,6 +247,7 @@ module.exports = {
                         else {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
+                            var errorCheck = false;
                             
                             // loop through the interests array, inserting each as a row in the club_interest table
                             for (var i = 0; i < interests.length; i++) {
@@ -256,16 +257,28 @@ module.exports = {
                                         errCheck = true;
                                         throw err;
                                     }
+                                    
+                            
+                            // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+                            for (var s = 0; s < day.length; s++){
+                                console.log(day[s]);
+                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]], 
+                                function (err) {
+                                if (err) {
+                                    errorCheck = true;
+                                    throw err;
+                                }
                                 });
+                                if (errorCheck) {break;}
+                            }
+                                
+                            
+                                });
+                                
                                 if (errCheck) {break;}
                             }
                             
-                            // Create new club_schedule row with given credentials on database
-                            conn.query(query_sched, [day,startTime,endTime,location], function (err) {
-                                if (err) {
-                                    req.flash('errorMsg', 'Failed to schedule correctly');
-                                }
-                            });
+                         
                             conn.release();
 
                             if (errCheck) { //error check for club interests
@@ -281,14 +294,24 @@ module.exports = {
                                     socialLink: socialLink,
                                     description: description,
                                     leaderEmail: req.session.user.email,
-                                    day: day,
-                                    startTime: start,
-                                    endTime: end,
-                                    location: location,
                                     img : pic
                                 };
+                                
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club: req.session.club});
+                                
+                                // Saves club schedule info to load onto club page
+                                /* req.session.club_schedule = {
+                                    day: day,
+                                    startTime: startTime,
+                                    endTime: endTime,
+                                    location: location
+                                };
+                                
+                                req.session.profile = undefined;
+                                res.render('pages/clubPage', {club_schedule:
+                                req.session.club});
+                                */
                             }
                         }
                         
