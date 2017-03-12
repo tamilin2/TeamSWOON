@@ -261,7 +261,7 @@ module.exports = {
                             }
                             
                             // Create new club_schedule row with given credentials on database
-                            conn.query(query, [day,start,end,location], function (err) {
+                            conn.query(query_sched, [day,startTime,endTime,location], function (err) {
                                 if (err) {
                                     req.flash('errorMsg', 'Failed to schedule correctly');
                                 }
