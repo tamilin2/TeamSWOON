@@ -37,9 +37,9 @@ body {
 .home-search {
     width: 70%; 
     height: 100%; 
-    overflow: hidden; 
-    position: fixed; 
-    top: 50px; 
+   
+    position: relative; 
+    
     border: none; 
     z-index: 0;
 }
@@ -47,13 +47,25 @@ body {
 .home-profile {
     width: 30%; 
     height: 100%; 
-    overflow: hidden; 
-    position: fixed; 
-    right: 0; 
-    top: 50px; 
-    z-index:-2;
+    overflow: hidden;
+    position: relative; 
+    margin-left: 80%;
+    top: -45px;
+    
+    
+    
+    
 }
 
+.home-profile-2 {
+    width: 30%; 
+    height: 100%; 
+    overflow: hidden;
+    position: fixed; 
+    right: 0;
+    top: 50px;
+    z-index: -1;
+}
 
 .home-image2 {
     min-width: 30%; 
@@ -131,16 +143,14 @@ img.portrait {
     width: 140px; 
     height: 45px;
     
-    position: fixed;
+    position: relative;
     border-radius: 20px;
-    z-index:2;
-        
-        padding: 10px 20px;
-        text-align: center;
-        display: block;
-        margin: auto;
-        margin-top: 27.3%;
-        margin-left: 11%;
+    
+    padding: 10px 20px;
+    text-align: center;
+    display: block;
+    
+    
 }
 
 .button-login {

@@ -71,6 +71,8 @@
         margin: auto;
         margin-top: 39%; 
         
+        
+        
     }
     #home-search-login[type=text]:focus {
         width: 50%;
@@ -89,6 +91,7 @@
         <input id="home-search" type="text" name="searchbar" placeholder="Search Clubs" />
     </form>
     <% } %>
+
     <% if(user != undefined) {%>
         <div class="home-search">
             
@@ -97,10 +100,12 @@
             </form>
         
         </div>
-        <div class="home-profile">
-            
-            <button onclick="location.href = '/users/userProfilePage'" type="button"  class="button-small">Profile</button>
-            
+
+        <div class="home-profile-2">
             <img src="img/geisel.jpg" class="home-image2" alt="responsive image"/>
+        </div>
+
+        <div class="home-profile">
+            <button onclick="location.href = '/users/userProfilePage'" type="button"  class="button-small">Profile</button>  
         </div>
     <% } %>

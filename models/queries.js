@@ -77,7 +77,7 @@ module.exports = {
      */
     update_student: function (req, res) {
         let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
-
+        
         let fname = req.session.user.fname;
         let lname = req.session.user.lname;
         let phone = authenticator.parse_phoneNum(req.body.phone);
@@ -295,21 +295,20 @@ module.exports = {
                                     img : pic
                                 };
                                 
-                                req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club});
-                                
-                                // Saves club schedule info to load onto club page
+                                  // Saves club schedule info to load onto club page
                                  req.session.club_schedule = {
                                     day: day,
-                                    startTime: startTime,
-                                    endTime: endTime,
+                                    start: start,
+                                    end: end,
                                     location: location
                                 };
                                 
                                 req.session.profile = undefined;
-                                res.render('pages/clubPage', {club_schedule:
-                                req.session.club_schedule});
+                                res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
                                 
+                              
+                                
+                               
                             }
                         }
                     });
