@@ -6,7 +6,7 @@ let connection = require('./user');
 async = require('async');
 let nodemailer = require('nodemailer');
 // Js file to get email and password for gmail. This keeps your privacy for gmail
-let config = require('../../config');
+// let config = require('../../config');
 let fs = require('fs');
 
 module.exports = {
