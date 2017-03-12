@@ -301,7 +301,7 @@ module.exports = {
                                 res.render('pages/clubPage', {club: req.session.club});
                                 
                                 // Saves club schedule info to load onto club page
-                                /* req.session.club_schedule = {
+                                 req.session.club_schedule = {
                                     day: day,
                                     startTime: startTime,
                                     endTime: endTime,
@@ -311,7 +311,7 @@ module.exports = {
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club_schedule:
                                 req.session.club});
-                                */
+                                
                             }
                         }
                         
