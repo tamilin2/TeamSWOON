@@ -291,9 +291,6 @@ module.exports = {
                                 res.render('pages/clubPage', {club: req.session.club});
                             }
                         }
-                        
-                            
-                        
                     });
                 }
             });

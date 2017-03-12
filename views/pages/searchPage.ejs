@@ -495,7 +495,7 @@
                                 <input id="clubNameLink" type="submit" name="clubname" value="<%= clubs[idx].name%>">
                                 <% for(let index in search_interests) {
                                     if(clubs[idx].name === search_interests[index].club_name) { %>
-                                        <i id="tags"><%= search_interests[index].interest %></i><br>
+                                        <i id="tags"><%= search_interests[index].interest %></i>
                                             <% } %>
                                      <% } %>
                                 <%= clubs[idx].description%>
