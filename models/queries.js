@@ -256,22 +256,27 @@ module.exports = {
                                         errCheck = true;
                                         throw err;
                                     }
-                                });
-                                if (errCheck) {break;}
-                            }
-                            
+                                    
+                            var errorCheck = false;
                             // loop through all fields of schedule array, inserting each as a row in the club_schedule table
                             for (var s = 0; s < day.length; s++){
-                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]], function (err) {
+                                console.log(day[s]);
+                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]], 
+                                function (err) {
                                 if (err) {
-                                    errCheck = true;
+                                    errorCheck = true;
                                     throw err;
                                 }
                                 });
-                                if (errCheck) {break;}
+                                if (errorCheck) {break;}
                             }
                                 
                             
+                                });
+                                if (errCheck) {break;}
+                            }
+                            
+                         
                             conn.release();
 
                             if (errCheck) { //error check for club interests
