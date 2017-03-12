@@ -310,7 +310,7 @@ module.exports = {
                                 
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club_schedule:
-                                req.session.club});
+                                req.session.club_schedule});
                                 
                             }
                         }
