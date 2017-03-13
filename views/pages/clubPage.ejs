@@ -57,12 +57,14 @@
             <div class="col-sm-4">
                 <div class="section" id="meeting">
                     <h3>Meetings</h3>
-                    <dl>
-                        <dt>Time:</dt>
-                        <dd id="time">Saturday, 8:00 PM - 10:00 PM</dd>
-                        <dt>Location:</dt>
-                        <dd id="location">Peterson Hall 108</dd>
-                    </dl>
+                    <% for(let index in schedules) { %>
+                        <dl>
+                            <dt>Time:</dt>
+                            <dd id="time"><%= schedules[index].day + ", " + schedules[index].startTime + " - " + schedules[index].endTime%></dd>
+                            <dt>Location:</dt>
+                            <dd id="location"> <%= schedules[index].location%> </dd>
+                        </dl>
+                    <% } %>
                 </div>
 
                 <!-- Block for Contact Info -->
