@@ -5,8 +5,6 @@ let authenticator = require('./../routes/authenticator');
 let connection = require('./user');
 async = require('async');
 let nodemailer = require('nodemailer');
-// Js file to get email and password for gmail. This keeps your privacy for gmail
-// let config = require('../../config');
 let fs = require('fs');
 
 module.exports = {
@@ -535,19 +533,19 @@ module.exports = {
                         socialLink: rows[0].socialLink,
                         img: rows[0].img
                     };
-                }
-            });
-        });
 
-        connection(function (err, con) {
-            con.query(query_schedule, [clubname],function (err, rows) {
-                if (err) {
-                    req.flash('errorMsg', 'Failed to query to database');
-                    res.redirect('/');
-                }
-                // Query returns found clubs with schedule so load them on search page
-                else {
-                    res.render('pages/clubPage', {club: req.session.club, schedules: rows});
+                    // Query searches for schedules with of given club
+                    con.query(query_schedule, [clubname],function (err, rows) {
+                        con.release();
+                        if (err) {
+                            req.flash('errorMsg', 'Failed to query to database');
+                            res.redirect('/');
+                        }
+                        // Query returns found clubs with schedule so load them on search page
+                        else {
+                            res.render('pages/clubPage', {club: req.session.club, schedules: rows});
+                        }
+                    });
                 }
             });
         });
@@ -751,9 +749,9 @@ module.exports = {
             service: 'Gmail',
             auth: {
                 //TODO Authenticate your Gmail account here
-                /* config.email/pass is locally set email and password to use nodemailer */
-                user: config.email || null,
-                pass: config.pass || null
+                /* set email and password to use nodemailer */
+                user: 'do.not.reply.ucsd.clubs@gmail.com',
+                pass: 'ce101901',
             }
         });
 

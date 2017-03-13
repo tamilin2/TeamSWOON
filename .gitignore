@@ -13,5 +13,4 @@ build
 .idea
 .DS_Store
 .env
-config.js
 npm-debug.log
