@@ -516,9 +516,10 @@
                                 <br>
                                 <% for(let index in search_interests) {
                                     if(clubs[idx].name === search_interests[index].club_name) { %>
-                                        <i id="tags"><%= search_interests[index].interest %></i><br>
+                                        <i id="tags"><%= search_interests[index].interest %></i>
                                     <% } %>
                                 <% } %>
+                                <br>
                                 <!-- TODO allow description to wrap  -->
                                 <%= clubs[idx].description%>
                             </p>

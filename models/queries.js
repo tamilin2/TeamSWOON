@@ -48,7 +48,7 @@ module.exports = {
             // Create new student row with given credentials on database
             connection(function (err, conn) {
                 if (err) {
-                    req.flash('errorMsg', 'Bad connection with database');
+                    req.flash('errorMsg', err.message);
                     res.redirect('/users/createUserProfile');
                 }
                 else {
@@ -105,14 +105,14 @@ module.exports = {
             // Query to update user profile
             connection(function (err, conn) {
                 if (err) {
-                    req.flash('errorMsg', 'Bad connection with database');
+                    req.flash('errorMsg', err.message);
                     res.redirect('/users/editUserProfile');
                 }
                 else {
                     // Replace existing db entry with modified data
                     conn.query(query, [fname, lname, req.session.user.email, phone, req.session.user.password, about], function (err, rows) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to update account', err);
+                            req.flash('errorMsg', err.message);
                             res.redirect('/users/editUserProfile');
                         }
                         else {
@@ -154,14 +154,14 @@ module.exports = {
         else {
             connection(function (err, conn) {
                 if (err) {
-                    req.flash('errorMsg', 'Bad connection with database');
+                    req.flash('errorMsg', err.message);
                     res.redirect('/users/changePassword');
                 }
                 else {
                     // Replace existing db entry with modified data
                     conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password, req.session.user.about], function (err, rows) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to update password', err);
+                            req.flash('errorMsg', err.message);
                             res.redirect('/users/changePassword');
                         }
                         else {
@@ -212,9 +212,6 @@ module.exports = {
         req.checkBody('phone', 'Require phone number').notEmpty();
         req.checkBody('email', 'Required email is not valid').isEmail();
         req.checkBody('description', 'Club description is required').notEmpty();
-        req.checkBody('day', 'Club meeting day is required').notEmpty();
-        req.checkBody('start', 'Club start time is required')!=null;
-        req.checkBody('end', 'Club end time is required')!=null;
         req.checkBody('location', 'Club location is required').notEmpty();
 
 
@@ -233,14 +230,14 @@ module.exports = {
         else {
             connection(function (err, conn) {
                 if (err) {
-                    req.flash('errorMsg', 'Bad connection with database');
+                    req.flash('errorMsg', err.message);
                     res.redirect('/users/createClubProfile');
                 }
                 else {
                     // Create new club row with given credentials on database
                     conn.query(query, [req.session.user.email, phone, description, clubname, email, socialLink, pic], function (err) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to create club: Creation');
+                            req.flash('errorMsg', err.message);
                             res.redirect('/users/createClubProfile');
                         }
                         else {
@@ -250,7 +247,6 @@ module.exports = {
                             
                             // loop through the interests array, inserting each as a row in the club_interest table
                             for (var i = 0; i < interests.length; i++) {
-                                console.log(interests[i]);
                                 conn.query(query_cl, [clubname, interests[i]], function (err) {
                                     if (err) {
                                         errCheck = true;
@@ -266,7 +262,6 @@ module.exports = {
                             var errorCheck = false;
                             
                             for (var s = 0; s < day.length; s++){
-                                console.log(day[s]);
                                 conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
                                     function (err) {
                                         if (err) {
@@ -308,12 +303,8 @@ module.exports = {
                                 };
                                  // Clears saved user input in creation forms
                                 req.session.profile = undefined;
-                                console.log(req.session.club_schedule);
                                 res.render('pages/clubPage', {club: req.session.club, schedules: req.session.club_schedule});
                             }
-
-                            req.session.profile = undefined;
-                            res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
                         }
                     });
                 }
@@ -561,14 +552,12 @@ module.exports = {
 
         let query_interest = "select * from club_interest";
 
-        console.log(req.body.checkbox);
-
         // Loop through all selected interests to filter
         for ( item in req.body.checkbox) {
             query_action += 'club_interest.interest = \'' + req.body.checkbox[item] + '\' OR ';
         }
         // Remove the last 'OR' string for query syntax
-        query_action = query_action.substring(0, query_action.length - 4);
+        query_action = query_action.substring(0, query_action.length - 3);
 
         connection(function (err, con) {
             if (err) {
@@ -577,9 +566,8 @@ module.exports = {
             else {
                 con.query(query_action,function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to connect to database');
+                        req.flash('errorMsg', err.message);
                         res.redirect('/');
-                        console.log(err);
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
@@ -589,9 +577,8 @@ module.exports = {
                     else {
                         con.query(query_interest, function(erro, search_interest_rows) {
                             if(erro) {
-                                req.flash('errorMsg', 'Failed to connect to database: interests');
+                                req.flash('errorMsg', erro.message);
                                 res.redirect('/');
-                                console.log(err.message);
                             }
                             else if(search_interest_rows[0] == null) {
                                 res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: req.body.checkbox});
@@ -621,7 +608,7 @@ module.exports = {
             else {
                 con.query(query_action, function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to connect to database: clubs');
+                        req.flash('errorMsg', err.message);
                         res.redirect('/');
                     }
                     // When no clubs shows up
@@ -632,7 +619,7 @@ module.exports = {
                     else {
                         con.query(query_interest, function(erro, search_interest_rows) {
                             if(erro) {
-                                req.flash('errorMsg', 'Failed to connect to database: interests');
+                                req.flash('errorMsg', error.message);
                                 res.redirect('/');
                             }
                             else if(search_interest_rows[0] == null) {
@@ -671,7 +658,7 @@ module.exports = {
             else {
                 con.query(query_action, ['%'+search+'%', '%'+search+'%'],function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to connect to database');
+                        req.flash('errorMsg', err.message);
                         res.redirect('/');
                     }
                     // Assures the query returns a club entry
@@ -712,7 +699,7 @@ module.exports = {
             else {
                 con.query(query_action, [req.session.user.email],function (err, rows) {
                     if (err) {
-                        req.flash('errorMsg', 'Failed to connect to database');
+                        req.flash('errorMsg', err.message);
                         res.redirect('/');
                     }
                     // Assures the query returns a club entry
@@ -760,7 +747,7 @@ module.exports = {
                 else {
                     con.query(query_action, [email, password], function (err, rows) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to connect to database');
+                            req.flash('errorMsg', err.message);
                             res.redirect('/users/login');
                         }
                         // Assures provided credentials return a valid account
@@ -816,7 +803,7 @@ module.exports = {
         transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
                 console.error(err);
-                req.flash('errorMsg', 'Failed to send email');
+                req.flash('errorMsg', err.message);
             }
             else {
                 req.flash('successMsg', 'Email was successfully sent');
@@ -846,7 +833,7 @@ module.exports = {
         connection(function (err, con) {
             con.query(query, [userEmail],function (err, rows) {
                 if (err) {
-                    req.flash('errorMsg', 'Failed to query to database');
+                    req.flash('errorMsg', err.message);
                     res.redirect('/credentialRequest');
                 }
                 // Assures the query returns a club entry
@@ -868,7 +855,7 @@ module.exports = {
 
                     transporter.sendMail(mailOptions, function (err, info) {
                         if (err) {
-                            req.flash('errorMsg', 'Failed to send email');
+                            req.flash('errorMsg', err.message);
                         }
                         else {
                             req.flash('successMsg', 'Email was successfully sent to: ', userEmail);
