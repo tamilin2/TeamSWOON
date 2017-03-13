@@ -377,7 +377,6 @@ module.exports = {
             }
             else {
                 // Replace existing db entry with modified data
-                //TODO replace null with img
                 conn.query(query, [name, leaderEmail, clubEmail, phone, socialLink, description, img], function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', 'Failed to update account');

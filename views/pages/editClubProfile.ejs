@@ -35,12 +35,39 @@
                     <textarea type="text" class="form-control" name="description" id="description" rows=5 placeholder="Tell people what your club is all about." ><%= club.description%></textarea>
                 </div>
             </div>
+
+            <!--Image handle-->
             <div class="row">
                 <div class="col-md-4 form-group">
-                    <label for="pic">Profile Picture</label>
-                    <input type="file" class="form-control" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif, .jpg, .jpeg, .gif, .bmp, .png"/>
+                    <label for="pic">Profile Picture: </label>
+                    <!-- Makes image dispay is file selected; Else disappears when clicked on-->
+                    <img id="preview" onmouseover="" style="cursor: pointer; align-content: center; max-height: 500px; max-width: 500px">
+                    <input type="file" class="form-control" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
+
+                    <script>
+                        // Previews profile picture when an image is selected
+                        document.getElementById("pic").onchange = function () {
+                            var reader = new FileReader();
+                            document.getElementById("preview").style.display='inline';
+
+                            reader.onload = function (e) {
+                                // get loaded data and render thumbnail.
+                                document.getElementById('preview').src = e.target.result;
+                            };
+                            // read the image file as a data URL.
+                            reader.readAsDataURL(this.files[0]);
+                        };
+
+                        // Removes preview if picture is clicked on
+                        document.getElementById('preview').onclick = function () {
+                            document.getElementById("preview").style.display='none';
+                            // Removes selected file choice
+                            document.getElementById('pic').value = '';
+                        }
+                    </script>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-sm-12">
                     <h2>Categories:</h2>
@@ -171,15 +198,15 @@
             </div>
             <div class="col-sm-3 form-group">
                 <label for="start-time">From:</label>
-                <input type="time" class="form-control" name="start-time[]" id="start-time" required/>
+                <input type="time" class="form-control" name="start-time[]" id="start-time" />
             </div>
             <div class="col-sm-3 form-group">
                 <label for="end-time">To:</label>
-                <input type="time" class="form-control" name="end-time[]" id="end-time" required/>
+                <input type="time" class="form-control" name="end-time[]" id="end-time" />
             </div>
             <div class="col-md-3 form-group">
                 <label for=>Location:</label>
-                <input type="text" class="form-control" name="location[]" required/>
+                <input type="text" class="form-control" name="location[]" />
             </div>
             </div>
             <div class="row" id="submit-row">
