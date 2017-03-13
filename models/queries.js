@@ -6,7 +6,7 @@ let connection = require('./user');
 async = require('async');
 let nodemailer = require('nodemailer');
 // Js file to get email and password for gmail. This keeps your privacy for gmail
-let config = require('../../config');
+// let config = require('../../config');
 let fs = require('fs');
 
 module.exports = {
@@ -259,32 +259,36 @@ module.exports = {
                                         throw err;
                                     }
 
+                                });
+                                
+                                if (errCheck) {break;}
+                            }
 
                             // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+                            var errorCheck = false;
+                            
                             for (var s = 0; s < day.length; s++){
                                 console.log(day[s]);
                                 conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
-                                function (err) {
-                                if (err) {
-                                    errorCheck = true;
-                                    throw err;
-                                }
-                                });
+                                    function (err) {
+                                        if (err) {
+                                            errorCheck = true;
+                                            throw err;
+                                        }
+                                    });
                                 if (errorCheck) {break;}
                             }
 
 
-                                });
-
-                                if (errCheck) {break;}
-                            }
-                            
-                         
                             conn.release();
 
                             if (errCheck) { //error check for club interests
                                 req.flash('errorMsg', 'Failed to create club: Interests');
                                 res.redirect('/users/createClubProfile');
+                            }
+                            else if(errorCheck) {
+                                    req.flash('errorMsg', 'Failed to create club: Schedule');
+                                    res.redirect('/users/createClubProfile');
                             }
                             else {
                                 // Saves club info to load onto club page
@@ -297,23 +301,22 @@ module.exports = {
                                     leaderEmail: req.session.user.email,
                                     img : pic
                                 };
-                                
-                                  // Saves club schedule info to load onto club page
-                                 req.session.club_schedule = {
+                                // Saves club schedule info to load onto club page
+                                req.session.club_schedule = {
+
                                     day: day,
                                     start: start,
                                     end: end,
                                     location: location
                                 };
-
                                  // Clears saved user input in creation forms
                                 req.session.profile = undefined;
                                 res.render('pages/clubPage', {club: req.session.club, club_schedule: req.session.club_schedule});
                             }
+
+                            req.session.profile = undefined;
+                            res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
                         }
-                        
-                            
-                        
                     });
                 }
             });
