@@ -189,8 +189,9 @@ module.exports = {
         
         // MySQL query to insert into club_schedule table
         let query_sched = "insert into club_schedule (clubName, day, startTime, endTime, location) values (?,?,?,?,?) ";
-      
 
+        // Initializes session schedules as array
+        req.session.schedules = [];
 
         //Gets all user data passed from the view
         let clubname = req.body.clubname;
@@ -243,6 +244,7 @@ module.exports = {
                         else {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
+                            // loop through all fields of schedule array, inserting each as a row in the club_schedule table
                             var errorCheck = false;
                             
                             // loop through the interests array, inserting each as a row in the club_interest table
@@ -257,9 +259,6 @@ module.exports = {
                                 
                                 if (errCheck) {break;}
                             }
-
-                            // loop through all fields of schedule array, inserting each as a row in the club_schedule table
-                            var errorCheck = false;
                             
                             for (var s = 0; s < day.length; s++){
                                 conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
@@ -270,6 +269,8 @@ module.exports = {
                                         }
                                     });
                                 if (errorCheck) {break;}
+                                // Saves club schedule info to load onto club page
+                                req.session.schedules.push({day: day[s], startTime: start[s], endTime: end[s], location: location[s]});
                             }
                             conn.release();
 
@@ -293,17 +294,10 @@ module.exports = {
                                     img : pic
                                 };
 
-                                  // Saves club schedule info to load onto club page
-                                // TODO Fix this format : is returning a fixed array of 4
-                                 req.session.club_schedule = {
-                                    day: day,
-                                    start: start,
-                                    end: end,
-                                    location: location
-                                };
                                  // Clears saved user input in creation forms
                                 req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club, schedules: req.session.club_schedule});
+
+                                res.render('pages/clubPage', {club: req.session.club, schedules: req.session.schedules});
                             }
                         }
                     });
@@ -484,7 +478,7 @@ module.exports = {
             }
         }
         catch (e) {
-            console.error('Image path not found / Image not delete');
+            // Catches case when a club profile doesn't have a picture
         }
     },
 
@@ -495,8 +489,8 @@ module.exports = {
         let clubname = req.body.clubname;
 
         let query_action = "SELECT * FROM club WHERE club.name = ?";
-        let query_schedule = "SELECT TIME_FORMAT(startTime, '%h:%i%p') AS 'startTime'," +
-                             "TIME_FORMAT(endTime, '%h:%i%p') AS 'endTime'," +
+        let query_schedule = "SELECT TIME_FORMAT(startTime, '%H:%i') AS 'startTime'," +
+                             "TIME_FORMAT(endTime, '%H:%i') AS 'endTime'," +
                              "day, location " +
                              "FROM club_schedule WHERE club_schedule.clubName = ?";
 
@@ -533,7 +527,9 @@ module.exports = {
                         }
                         // Query returns found clubs with schedule so load them on search page
                         else {
-                            res.render('pages/clubPage', {club: req.session.club, schedules: rows});
+                            req.session.schedules = rows;
+                            console.log(req.session.schedules);
+                            res.render('pages/clubPage', {club: req.session.club, schedules: req.session.schedules});
                         }
                     });
                 }

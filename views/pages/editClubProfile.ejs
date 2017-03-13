@@ -41,8 +41,8 @@
                 <div class="col-md-4 form-group">
                     <label for="pic">Profile Picture: </label>
                     <!-- Makes image dispay is file selected; Else disappears when clicked on-->
-                    <img id="preview" onmouseover="" style="cursor: pointer; align-content: center; max-height: 500px; max-width: 500px">
-                    <input type="file" class="form-control" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
+                    <img id="preview" src="/img/<%= club.img%>" onmouseover="" style="cursor: pointer; align-content: center; max-height: 500px; max-width: 500px">
+                    <input type="file" class="form-control" placeholder="<%= club.img%>" value="<%= club.img%>" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
 
                     <script>
                         // Previews profile picture when an image is selected
@@ -184,30 +184,33 @@
             </div>
         </div>
             <div class="row" id="primary-row">
-            <div class="col-sm-3 form-group">
-                <label for="day">Day:</label>
-                <select class="form-control" name="day[]" id="day" required>
-                    <option value="monday">Monday</option>
-                    <option value="tuesday">Tuesday</option>
-                    <option value="wednesday">Wednesday</option>
-                    <option value="thursday">Thursday</option>
-                    <option value="friday">Friday</option>
-                    <option value="saturday">Saturday</option>
-                    <option value="sunday">Sunday</option>
-                </select>
-            </div>
-            <div class="col-sm-3 form-group">
-                <label for="start-time">From:</label>
-                <input type="time" class="form-control" name="start-time[]" id="start-time" />
-            </div>
-            <div class="col-sm-3 form-group">
-                <label for="end-time">To:</label>
-                <input type="time" class="form-control" name="end-time[]" id="end-time" />
-            </div>
-            <div class="col-md-3 form-group">
-                <label for=>Location:</label>
-                <input type="text" class="form-control" name="location[]" />
-            </div>
+                <% for (let idx in schedules ) { %>
+                    <div class="col-sm-3 form-group">
+                        <label for="day">Day:</label>
+                        <select class="form-control" name="day[]" id="day" required>
+                            <option value="Monday" <% if(schedules[idx].day === 'Monday') {%> selected <%}%> >Monday</option>
+                            <option value="Tuesday" <% if(schedules[idx].day === 'Tuesday') {%> selected <%}%>>Tuesday</option>
+                            <option value="Wednesday" <% if(schedules[idx].day === 'Wednesday') {%> selected <%}%>>Wednesday</option>
+                            <option value="Thursday" <% if(schedules[idx].day === 'Thursday') {%> selected <%}%>>Thursday</option>
+                            <option value="Friday" <% if(schedules[idx].day === 'Friday') {%> selected <%}%>>Friday</option>
+                            <option value="Saturday" <% if(schedules[idx].day === 'Saturday') {%> selected <%}%>>Saturday</option>
+                            <option value="Sunday" <% if(schedules[idx].day === 'Sunday') {%> selected <%}%>>Sunday</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="start-time">From:</label>
+                        <input type="time" class="form-control" value="<%= (schedules[idx].startTime) %>" name="start-time[]" id="start-time" />
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="end-time">To:</label>
+                        <input type="time" class="form-control" value="<%= schedules[idx].endTime %>" name="end-time[]" id="end-time" />
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for=>Location:</label>
+                        <input type="text" class="form-control" value="<%= schedules[idx].location%>" name="location[]" />
+                    </div>
+            <% } %>
+
             </div>
             <div class="row" id="submit-row">
                 <div class="col-md-2 col-md-offset-10">

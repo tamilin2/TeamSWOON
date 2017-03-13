@@ -47,11 +47,11 @@
         <div class="row">
             <div class="col-md-4 form-group">
                 <label for="pic">Profile Picture: </label>
-                <!-- Makes image dispay is file selected; Else disappears when clicked on-->
+                <!-- Makes image dispay is file selected; Disappears when clicked on-->
                 <img id="preview" onmouseover="" style="cursor: pointer; align-content: center; max-height: 500px; max-width: 500px">
                 <input type="file" class="form-control" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
 
-                    <script>
+                <script>
                         // Previews profile picture when an image is selected 
                         document.getElementById("pic").onchange = function () {
                             var reader = new FileReader();
