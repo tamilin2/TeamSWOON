@@ -514,11 +514,13 @@
                                 <input type="image" id="pict" name="clubname" value="<%= clubs[idx].name%>" style="object-fit: cover; width: 200px; height: 150px;" src="/img/<%= clubs[idx].img%>" onerror="this.src='/img/default.jpg'">
                                 <input id="clubNameLink" type="submit" name="clubname" value="<%= clubs[idx].name%>">
                                 <br>
+                                <% var interests =[]%>
                                 <% for(let index in search_interests) {
-                                    if(clubs[idx].name === search_interests[index].club_name) { %>
-                                        <i id="tags"><%= search_interests[index].interest %></i>
+                                    if(clubs[idx].name === search_interests[index].club_name) {
+                                       interests.push(search_interests[index].interest) %>
                                     <% } %>
                                 <% } %>
+                                <i id="tags"><%= interests.join(' - ') %></i>
                                 <br>
                                 <!-- TODO allow description to wrap  -->
                                 <%= clubs[idx].description%>
