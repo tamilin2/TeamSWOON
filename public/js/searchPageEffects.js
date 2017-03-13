@@ -27,4 +27,7 @@ $(document).ready(function() {
             $(this).css("background-color", "");
         }
     });
+    if ( $('#Arts').is(':checked') ) {
+        console.log("Checked");
+    }
 });
