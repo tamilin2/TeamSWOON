@@ -534,6 +534,28 @@ module.exports = {
             con.release();
         })
     },
+    
+    /**
+     * Get interests matching club
+     */
+    
+    getClubInterests: function(req, res){
+        let query_interest = "SELECT * FROM club_interest WHERE club_interests.club_name = ?";
+        connection(function (err, con) {
+            con.query(query_interest, function(err, rows) {
+                if (err) {
+                    req.flash('errorMsg', 'Failed to query to database');
+                    res.redirect('/');
+                }
+                //query returns found interests, so load them on the club page
+                else {
+                    req.session.
+                }
+                }
+            })
+        })
+        
+    },
 
     /**
      * System requesting club info of all clubs to post on search page
