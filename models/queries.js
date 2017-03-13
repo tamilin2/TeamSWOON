@@ -504,6 +504,10 @@ module.exports = {
         let clubname = req.body.clubname;
 
         let query_action = "SELECT * FROM club WHERE club.name = ?";
+        let query_schedule = "SELECT TIME_FORMAT(startTime, '%h:%i%p') AS 'startTime'," +
+                             "TIME_FORMAT(endTime, '%h:%i%p') AS 'endTime'," +
+                             "day, location " +
+                             "FROM club_schedule WHERE club_schedule.clubName = ?";
 
         connection(function (err, con) {
             con.query(query_action, [clubname],function (err, rows) {
@@ -528,11 +532,26 @@ module.exports = {
                         socialLink: rows[0].socialLink,
                         img: rows[0].img
                     };
-                    res.render('pages/clubPage', {club: req.session.club});
                 }
             });
-            con.release();
-        })
+        });
+
+        connection(function (err, con) {
+            con.query(query_schedule, [clubname],function (err, rows) {
+                if (err) {
+                    req.flash('errorMsg', 'Failed to query to database', err);
+                    console.error(err);
+                    console.log(query_schedule);
+                    res.redirect('/');
+                }
+                // Query returns found clubs with schedule so load them on search page
+                else {
+                    // Saves last interacted club
+                    console.log(rows[0]);
+                    res.render('pages/clubPage', {club: req.session.club, schedules: rows});
+                }
+            });
+        });
     },
 
     /**
