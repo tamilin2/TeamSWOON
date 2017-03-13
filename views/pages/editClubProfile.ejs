@@ -185,7 +185,7 @@
         </div>
             <div class="row" id="primary-row">
                 <% for (let idx in schedules ) { %>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-md-3 form-group">
                         <label for="day">Day:</label>
                         <select class="form-control" name="day[]" id="day" required>
                             <option value="Monday" <% if(schedules[idx].day === 'Monday') {%> selected <%}%> >Monday</option>
@@ -197,15 +197,15 @@
                             <option value="Sunday" <% if(schedules[idx].day === 'Sunday') {%> selected <%}%>>Sunday</option>
                         </select>
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-md-3 form-group">
                         <label for="start-time">From:</label>
                         <input type="time" class="form-control" value="<%= (schedules[idx].startTime) %>" name="start-time[]" id="start-time" />
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-md-3 form-group">
                         <label for="end-time">To:</label>
                         <input type="time" class="form-control" value="<%= schedules[idx].endTime %>" name="end-time[]" id="end-time" />
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-5 form-group">
                         <label for=>Location:</label>
                         <input type="text" class="form-control" value="<%= schedules[idx].location%>" name="location[]" />
                     </div>

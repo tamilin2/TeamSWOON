@@ -528,7 +528,6 @@ module.exports = {
                         // Query returns found clubs with schedule so load them on search page
                         else {
                             req.session.schedules = rows;
-                            console.log(req.session.schedules);
                             res.render('pages/clubPage', {club: req.session.club, schedules: req.session.schedules});
                         }
                     });
