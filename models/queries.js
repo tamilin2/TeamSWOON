@@ -751,7 +751,7 @@ module.exports = {
                 //TODO Authenticate your Gmail account here
                 /* set email and password to use nodemailer */
                 user: 'do.not.reply.ucsd.clubs@gmail.com',
-                pass: 'ce101901',
+                pass: 'ce101901'
             }
         });
 
