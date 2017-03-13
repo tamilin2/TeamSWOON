@@ -13,6 +13,7 @@ router.get('/', function (req, res) {
     res.render('pages/index');
 });
 
+
 /**
  * Loads email club page
  */
@@ -34,6 +35,7 @@ router.post('/clubPage', function (req, res) {
     queries.getClub(req, res);
 });
 
+
 /*Loads search page*/
 router.get('/searchPage', function (req, res) {
     queries.getAllClubs(req, res);
@@ -44,6 +46,15 @@ router.post('/searchPage', function (req, res) {
     if (req.body.searchbar.length > 0) { queries.getClubBySearch(req,res); }
     else { queries.getAllClubs(req,res); }
 });
+/*Loads search page by interst*/
+router.post('/searchPageInterest', function (req, res) {
+    // Search is only requested if check boxes are not empty
+    if ( req.body.checkbox !== undefined) {
+        queries.getClubByInterest(req, res);
+    }
+    else { res.redirect('/searchPage'); }
+});
+
 
 /**
  * User requests email/password credentials sent to their email

@@ -554,7 +554,58 @@ module.exports = {
     /**
      * Get interests matching club
      */
-    
+    getClubByInterest: function (req, res) {
+        let query_action = "SELECT DISTINCT club.leaderEmail, club.phone, club.description, club.name, club.clubEmail, " +
+                            "club.socialLink, club.img FROM club RIGHT JOIN club_interest ON club.name = club_interest.club_name " +
+                            "WHERE ";
+
+        let query_interest = "select * from club_interest";
+
+        console.log(req.body.checkbox);
+
+        // Loop through all selected interests to filter
+        for ( item in req.body.checkbox) {
+            query_action += 'club_interest.interest = \'' + req.body.checkbox[item] + '\' OR ';
+        }
+        // Remove the last 'OR' string for query syntax
+        query_action = query_action.substring(0, query_action.length - 4);
+
+        connection(function (err, con) {
+            if (err) {
+                res.render('/', {errors: errors});
+            }
+            else {
+                con.query(query_action,function (err, rows) {
+                    if (err) {
+                        req.flash('errorMsg', 'Failed to connect to database');
+                        res.redirect('/');
+                        console.log(err);
+                    }
+                    // Assures the query returns a club entry
+                    else if (rows[0] == null) {
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: req.body.checkbox});
+                    }
+                    // Query returns found clubs so load them on search page
+                    else {
+                        con.query(query_interest, function(erro, search_interest_rows) {
+                            if(erro) {
+                                req.flash('errorMsg', 'Failed to connect to database: interests');
+                                res.redirect('/');
+                                console.log(err.message);
+                            }
+                            else if(search_interest_rows[0] == null) {
+                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: req.body.checkbox});
+                            }
+                            else {
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : req.body.checkbox});
+                            }
+                        });
+                    }
+                });
+                con.release();
+            }
+        })
+    },
    
 
     /**
@@ -647,7 +698,6 @@ module.exports = {
             }
         })
     },
-    
 
     /**
      * System requesting all clubs made by a user
