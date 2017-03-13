@@ -415,6 +415,7 @@ module.exports = {
     delete_club : function (req, res) {
         let query = "Delete FROM club WHERE club.name = ? AND club.clubEmail = ?";
         let interest_query = "Delete FROM club_interest WHERE club_interest.club_name = ? ";
+        let schedule_query = "Delete FROM club_schedule WHERE club_schedule.clubName = ? ";
 
         let name = req.body.clubName;
         let email = req.body.clubEmail;
@@ -456,6 +457,26 @@ module.exports = {
                         res.redirect('/users/editClubProfile');
                         return;
                     }
+                });
+            }
+        });
+
+        // Query to delete club's schedule relation in club_schedule
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editClubProfile');
+                return;
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(schedule_query, [name], function (err, rows) {
+                    conn.release();
+                    if (err) {
+                        req.flash('errorMsg', 'Bad connection with database');
+                        res.redirect('/users/editClubProfile');
+                        return;
+                    }
                     else {
                         req.flash('successMsg', 'Successfully deleted club');
                         res.redirect('/');
@@ -466,7 +487,8 @@ module.exports = {
 
         // Delete club's local profile image if it exists
         try {
-            if (img !== undefined) {
+            // delete club image if it's defined but not the default image
+            if (img !== undefined && img !== 'default.jpg') {
                 fs.unlinkSync('public/img/' + img);
             }
         }
