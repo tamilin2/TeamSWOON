@@ -207,12 +207,12 @@ module.exports = {
         let location = req.body.location;
         let pic = null;
         if (req.file !== undefined) { pic = req.file.originalname; }
+        else { pic = 'default.jpg'; }
 
         // Required fields that we want
         req.checkBody('clubname', 'Club name is required').notEmpty();
-        req.checkBody('phone', 'Phone number is required').notEmpty();
+        req.checkBody('phone', 'Require phone number').notEmpty();
         req.checkBody('email', 'Required email is not valid').isEmail();
-        req.checkBody('email', 'Contact Email is required').notEmpty();
         req.checkBody('description', 'Club description is required').notEmpty();
         req.checkBody('day', 'Club meeting day is required').notEmpty();
         req.checkBody('start', 'Club start time is required')!=null;
@@ -248,6 +248,7 @@ module.exports = {
                         else {
                             // tentatively set var used to check if any errors were thrown during the following loop
                             var errCheck = false;
+                            var errorCheck = false;
                             
                             // loop through the interests array, inserting each as a row in the club_interest table
                             for (var i = 0; i < interests.length; i++) {
@@ -257,21 +258,12 @@ module.exports = {
                                         errCheck = true;
                                         throw err;
                                     }
-                                    
-                            
-                          
-                            
-                                });
-                                
-                                if (errCheck) {break;}
-                            }
-                            
-                            var errorCheck = false;
-                            
-                              // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+
+
+                            // loop through all fields of schedule array, inserting each as a row in the club_schedule table
                             for (var s = 0; s < day.length; s++){
                                 console.log(day[s]);
-                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]], 
+                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
                                 function (err) {
                                 if (err) {
                                     errorCheck = true;
@@ -280,17 +272,19 @@ module.exports = {
                                 });
                                 if (errorCheck) {break;}
                             }
-                                
+
+
+                                });
+
+                                if (errCheck) {break;}
+                            }
+                            
                          
                             conn.release();
-                            
-                                
+
                             if (errCheck) { //error check for club interests
                                 req.flash('errorMsg', 'Failed to create club: Interests');
                                 res.redirect('/users/createClubProfile');
-                            } else if (errorCheck) {
-                                req.flash('erroMSg', 'Failed to create club: Schedule');
-                                res.redirect('/users/createClubProfile')
                             }
                             else {
                                 // Saves club info to load onto club page
@@ -314,7 +308,7 @@ module.exports = {
 
                                  // Clears saved user input in creation forms
                                 req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club,club_schedule: req.session.club_schedule});
+                                res.render('pages/clubPage', {club: req.session.club, club_schedule: req.session.club_schedule});
                             }
                         }
                         
@@ -421,6 +415,7 @@ module.exports = {
     delete_club : function (req, res) {
         let query = "Delete FROM club WHERE club.name = ? AND club.clubEmail = ?";
         let interest_query = "Delete FROM club_interest WHERE club_interest.club_name = ? ";
+        let schedule_query = "Delete FROM club_schedule WHERE club_schedule.clubName = ? ";
 
         let name = req.body.clubName;
         let email = req.body.clubEmail;
@@ -462,6 +457,26 @@ module.exports = {
                         res.redirect('/users/editClubProfile');
                         return;
                     }
+                });
+            }
+        });
+
+        // Query to delete club's schedule relation in club_schedule
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editClubProfile');
+                return;
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(schedule_query, [name], function (err, rows) {
+                    conn.release();
+                    if (err) {
+                        req.flash('errorMsg', 'Bad connection with database');
+                        res.redirect('/users/editClubProfile');
+                        return;
+                    }
                     else {
                         req.flash('successMsg', 'Successfully deleted club');
                         res.redirect('/');
@@ -472,7 +487,8 @@ module.exports = {
 
         // Delete club's local profile image if it exists
         try {
-            if (img !== undefined) {
+            // delete club image if it's defined but not the default image
+            if (img !== undefined && img !== 'default.jpg') {
                 fs.unlinkSync('public/img/' + img);
             }
         }
