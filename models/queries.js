@@ -265,15 +265,13 @@ module.exports = {
                                 console.log(day[s]);
                                 conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
                                 function (err) {
-                                if (err) {
-                                    errorCheck = true;
-                                    throw err;
-                                }
+                                    if (err) {
+                                        errorCheck = true;
+                                        throw err;
+                                    }
                                 });
                                 if (errorCheck) {break;}
                             }
-
-
                                 });
 
                                 if (errCheck) {break;}
@@ -299,6 +297,7 @@ module.exports = {
                                 };
                                 
                                   // Saves club schedule info to load onto club page
+                                // TODO Fix this format : is returning a fixed array of 4
                                  req.session.club_schedule = {
                                     day: day,
                                     start: start,
@@ -308,7 +307,8 @@ module.exports = {
 
                                  // Clears saved user input in creation forms
                                 req.session.profile = undefined;
-                                res.render('pages/clubPage', {club: req.session.club, club_schedule: req.session.club_schedule});
+                                console.log(req.session.club_schedule);
+                                res.render('pages/clubPage', {club: req.session.club, schedules: req.session.club_schedule});
                             }
                         }
                         
@@ -500,7 +500,7 @@ module.exports = {
     /**
      * Get a single club's info for club page profile
      */
-    getClub : function (req, res) {
+    getClub : function (req, res)   {
         let clubname = req.body.clubname;
 
         let query_action = "SELECT * FROM club WHERE club.name = ?";
@@ -539,15 +539,11 @@ module.exports = {
         connection(function (err, con) {
             con.query(query_schedule, [clubname],function (err, rows) {
                 if (err) {
-                    req.flash('errorMsg', 'Failed to query to database', err);
-                    console.error(err);
-                    console.log(query_schedule);
+                    req.flash('errorMsg', 'Failed to query to database');
                     res.redirect('/');
                 }
                 // Query returns found clubs with schedule so load them on search page
                 else {
-                    // Saves last interacted club
-                    console.log(rows[0]);
                     res.render('pages/clubPage', {club: req.session.club, schedules: rows});
                 }
             });

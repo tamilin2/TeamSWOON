@@ -56,7 +56,10 @@
             <!-- Block for Meeting time and location -->
             <div class="col-sm-4">
                 <div class="section" id="meeting">
-                    <h3>Meetings</h3>
+                    <h3>Meetings:</h3>
+                    <% if (schedules.length === 0) {%>
+                        <p> None </p>
+                    <% } %>
                     <% for(let index in schedules) { %>
                         <dl>
                             <dt>Time:</dt>
