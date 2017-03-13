@@ -653,6 +653,10 @@ module.exports = {
             }
         })
     },
+    
+    getClubByInterest : function (req, res) {
+        
+    },
 
     /**
      * System requesting all clubs made by a user
