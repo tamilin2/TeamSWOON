@@ -12,27 +12,27 @@
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="clubName">Club Name:</label>
-                    <input type="text" class="form-control" name="clubName" id="clubName" value="<%= club.name %>" />
+                    <input type="text" class="form-control" name="clubName" id="clubName" value="<%= club.name %>" maxlength="100"/>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="email">Contact email:</label>
-                    <input type="email" class="form-control" name="clubEmail" id="email" value="<%= club.clubEmail%>"/>
+                    <input type="email" class="form-control" name="clubEmail" id="email" value="<%= club.clubEmail%>" maxlength="100"/>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="phone">Phone number:</label>
-                    <input type="tel" class="form-control" name="phone" id="phone" value="<%= club.phone%>"/>
+                    <input type="tel" class="form-control" name="phone" id="phone" value="<%= club.phone%>" maxlength="14"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-4">
                     <label >Website:</label>
-                    <input type="url" class="form-control" name="socialLink" id="website" value="<%= club.socialLink%>"/>
+                    <input type="url" class="form-control" name="socialLink" id="website" value="<%= club.socialLink%>" maxlength="275"/>
                 </div>
                 <div class="form-group col-md-8">
                     <label for="description">Description:</label>
-                    <textarea type="text" class="form-control" name="description" id="description" maxlength="2000" rows=5 placeholder="Tell people what your club is all about." ><%= club.description%></textarea>
+                    <textarea type="text" class="form-control" name="description" id="description" maxlength="2000" rows=5 placeholder="Tell people what your club is all about." maxlength="2000"><%= club.description%></textarea>
                 </div>
             </div>
 
