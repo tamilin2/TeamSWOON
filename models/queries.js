@@ -311,13 +311,25 @@ module.exports = {
      */
     edit_club : function (req, res) {
         let query = "replace into club (name, leaderEmail, clubEmail, phone, socialLink, description, img) values (?, ?, ?, ?, ?, ?, ?) ";
-
+        let interest_query = "Delete FROM club_interest WHERE club_interest.club_name = ? ";
+        let query_cl = "insert into club_interest (club_name, interest) values (?, ?) ";
+        
+        // MySQL query to insert into club_schedule table
+        let query_sched = "insert into club_schedule (clubName, day, startTime, endTime, location) values (?,?,?,?,?) ";
+        let schedule_query = "Delete FROM club_schedule WHERE club_schedule.clubName = ? ";
+        
         let name = req.body.clubName;
+        let clubname = req.body.clubName;
         let clubEmail = req.body.clubEmail;
         let leaderEmail= req.session.club.leaderEmail;
         let description= req.body.description;
         let phone= req.body.phone;
         let socialLink = req.body.socialLink;
+        let interests = req.body.interests;
+        let day = req.body.day;
+        let start = req.body.startTime;
+        let end = req.body.endTime;
+        let location = req.body.location;
         let img = null;
         if (req.file !== undefined) { img = req.file.originalname; }
 
@@ -362,7 +374,62 @@ module.exports = {
             // New phone entry is given so format it
             req.session.club.img= img;
         }
-
+        
+        // Query to delete club's interest relation in club_interest
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editClubProfile');
+                return;
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(interest_query, [name], function (err, rows) {
+                    conn.release();
+                    if (err) {
+                        req.flash('errorMsg', 'Bad connection with database');
+                        res.redirect('/users/editClubProfile');
+                        return;
+                    }
+                });
+            }
+        });
+        
+        // Query to delete club's schedule relation in club_schedule
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', 'Bad connection with database');
+                res.redirect('/users/editClubProfile');
+                return;
+            }
+            else {
+                // Replace existing db entry with modified data
+                conn.query(schedule_query, [name], function (err, rows) {
+                    conn.release();
+                    if (err) {
+                        req.flash('errorMsg', 'Bad connection with database');
+                        res.redirect('/users/editClubProfile');
+                        return;
+                    }
+                    else {
+                        req.flash('successMsg', 'Successfully deleted club');
+                        res.redirect('/');
+                    }
+                });
+            }
+        });
+        
+        let errors = req.validationErrors();
+         // Throws error notification if there exists errors or interest tags weren't filled
+        if (errors) {
+            // Render the page again with error notification of missing fields
+            res.render('pages/createClubProfile', {errors: errors, profile: req.session.profile});
+        }
+        else if(!interests) {
+            req.flash('errorMsg', 'Please select at least one Category');
+            res.redirect('/users/createClubProfile');
+        }
+        else {
         // Querying with verified input data
         connection(function (err, conn) {
             if (err) {
@@ -377,6 +444,33 @@ module.exports = {
                         res.redirect('/users/editClubProfile');
                     }
                     else {
+                        // tentatively set var used to check if any errors were thrown during the following loop
+                        var errCheck = false;
+                        // loop through all fields of schedule array, inserting each as a row in the club_schedule table
+                        var errorCheck = false;
+                            
+                        // loop through the interests array, inserting each as a row in the club_interest table
+                        for (var i = 0; i < interests.length; i++) {
+                            conn.query(query_cl, [clubname, interests[i]], function (err) {
+                                if (err) {
+                                    errCheck = true;
+                                    throw err;
+                                }
+
+                            });
+                        }
+                        for (var s = 0; s < day.length; s++){
+                                conn.query(query_sched, [clubname, day[s],start[s],end[s],location[s]],
+                                    function (err) {
+                                        if (err) {
+                                            errorCheck = true;
+                                            throw err;
+                                        }
+                                    });
+                                if (errorCheck) {break;}
+                                // Saves club schedule info to load onto club page
+                                req.session.schedules.push({day: day[s], startTime: start[s], endTime: end[s], location: location[s]});
+                            }
                         req.session.club = {
                             name: name,
                             leaderEmail: leaderEmail,
@@ -391,7 +485,9 @@ module.exports = {
                 });
                 conn.release();
             }
+        
         });
+        }
     },
 
     /**

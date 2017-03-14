@@ -1,10 +1,9 @@
 $(document).ready(function() {
       
-    var count = 1;
+    var count = req.body.day.length;
     var maxRows = 20;
     
     function addFields() {
-        console.log("jQuery bitch");
         if (count > maxRows){
             alert("Maximum number of schedule inputs reached");
         }
