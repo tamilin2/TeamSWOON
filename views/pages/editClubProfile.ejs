@@ -12,27 +12,27 @@
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="clubName">Club Name:</label>
-                    <input type="text" class="form-control" name="clubName" id="clubName" value="<%= club.name %>" maxlength="100"/>
+                    <input type="text" class="form-control" name="clubName" id="clubName" placeholder="<%= club.name %>" maxlength="100"/>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="email">Contact email:</label>
-                    <input type="email" class="form-control" name="clubEmail" id="email" value="<%= club.clubEmail%>" maxlength="100"/>
+                    <input type="email" class="form-control" name="clubEmail" id="email" placeholder="<%= club.clubEmail%>" maxlength="100"/>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="phone">Phone number:</label>
-                    <input type="tel" class="form-control" name="phone" id="phone" value="<%= club.phone%>" maxlength="14"/>
+                    <input type="tel" class="form-control" name="phone" id="phone" placeholder="<%= club.phone%>" maxlength="14"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-4">
                     <label >Website:</label>
-                    <input type="url" class="form-control" name="socialLink" id="website" value="<%= club.socialLink%>" maxlength="275"/>
+                    <input type="url" class="form-control" name="socialLink" id="website" placeholder="<%= club.socialLink%>" maxlength="275"/>
                 </div>
                 <div class="form-group col-md-8">
                     <label for="description">Description:</label>
-                    <textarea type="text" class="form-control" name="description" id="description" maxlength="2000" rows=5 placeholder="Tell people what your club is all about." maxlength="2000"><%= club.description%></textarea>
+                    <textarea type="text" class="form-control" name="description" id="description" maxlength="2000" rows=5 placeholder="<%= club.description%>" maxlength="2000"></textarea>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
                     <label for="pic">Profile Picture: </label>
                     <!-- Makes image dispay is file selected; Else disappears when clicked on-->
                     <img id="preview" src="/img/<%= club.img%>" onmouseover="" style="cursor: pointer; align-content: center; max-height: 500px; max-width: 500px">
-                    <input type="file" class="form-control" placeholder="<%= club.img%>" value="<%= club.img%>" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
+                    <input type="file" class="form-control" value="<%= club.img%>" name="profilePic" id="pic" accepts="image/jpeg, image/jpg, image/png, image/bmp, image/gif"/>
 
                     <script>
                         // Previews profile picture when an image is selected
@@ -233,7 +233,6 @@
                 <form action="/users/deleteClub" method="POST">
                     <input type="hidden" name="clubEmail" value="<%= club.clubEmail%>">
                     <input type="hidden" name="clubName" value="<%= club.name%>">
-                    <input type="hidden" name="img" value="<%= club.img%>">
                     <button type="submit" class="btn btn-danger" onClick="<%- "return confirmDelete()"%>" name="delete" value="delete">Delete Club</button>
                 </form>
             </div>
