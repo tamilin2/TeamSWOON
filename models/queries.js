@@ -380,8 +380,7 @@ module.exports = {
 
                 /* Notifies user if request to update with all null data */
                 if (queryActions === "" && !interests) {
-                    req.flash('errorMsg', 'No data entered');
-                    res.redirect('/users/editClubProfile');
+                    error = {message: 'No data entered'};
                 } else {
                     // Truncate last comma in queryActions and concatenates query with given action strings and club specifier
                     updateClubQuery += (queryActions.substring(0, queryActions.length - 2) + updateClubQueryCond);
@@ -394,8 +393,7 @@ module.exports = {
 
                 // Requires users to have at least one club category selected
                 if(!interests) {
-                    req.flash('errorMsg', 'Please select at least one Category');
-                    res.redirect('/users/editClubProfile');
+                    error = {message: 'No interests were selected'};
                 }
                 // Insert data if there was not an error in previous queries
                 else if (error === null) {
