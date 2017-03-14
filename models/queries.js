@@ -423,11 +423,11 @@ module.exports = {
          // Throws error notification if there exists errors or interest tags weren't filled
         if (errors) {
             // Render the page again with error notification of missing fields
-            res.render('pages/createClubProfile', {errors: errors, profile: req.session.profile});
+            res.render('pages/editClubProfile', {errors: errors, profile: req.session.profile});
         }
         else if(!interests) {
             req.flash('errorMsg', 'Please select at least one Category');
-            res.redirect('/users/createClubProfile');
+            res.redirect('/users/editClubProfile');
         }
         else {
         // Querying with verified input data

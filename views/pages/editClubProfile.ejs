@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group col-md-8">
                     <label for="description">Description:</label>
-                    <textarea type="text" class="form-control" name="description" id="description" rows=5 placeholder="Tell people what your club is all about." ><%= club.description%></textarea>
+                    <textarea type="text" class="form-control" name="description" id="description" maxlength="2000" rows=5 placeholder="Tell people what your club is all about." ><%= club.description%></textarea>
                 </div>
             </div>
 
@@ -183,6 +183,7 @@
                 <button type="button" class="btn disabled btn-primary" id="remove-form-field">-</button>
             </div>
         </div>
+            
             <div class="row" id="primary-row">
                 <% for (let idx in schedules ) { %>
                     <div class="col-sm-3 form-group">
@@ -244,3 +245,4 @@
         <br/>
         </div>
     </div>
+<script type="text/javascript" src="/js/editClubProfile.js"></script>

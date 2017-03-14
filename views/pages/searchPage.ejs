@@ -505,7 +505,7 @@
                 <h2 class="page-header">Search Term: <%= search %></h2>
             <% } %>
             <% if(clubs) {%>
-                <p> Search Results: <%= clubs.length%>  </p>
+                <h4> Search Results: <%= clubs.length%>  </h4>
                 <% for( let idx in clubs) { %>
                     <div class="search-result">
                         <form id="search-result-box" action="/clubPage" method="POST">

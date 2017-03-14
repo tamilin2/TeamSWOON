@@ -1,6 +1,6 @@
 $(document).ready(function() {
       
-    var count = req.body.day.length;
+    var count = schedules.length;
     var maxRows = 20;
     
     function addFields() {
