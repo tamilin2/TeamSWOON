@@ -47,12 +47,13 @@ router.post('/searchPage', function (req, res) {
     else { queries.getAllClubs(req,res); }
 });
 /*Loads search page by interst*/
-router.post('/searchPageInterest', function (req, res) {
-    // Search is only requested if check boxes are not empty
-    if ( req.body.checkbox !== undefined) {
-        queries.getClubByInterest(req, res);
+router.post('/searchPageFilter', function (req, res) {
+    // Search is only requested if check boxes and interests selections are not empty
+    if ( req.body.checkbox === undefined && req.body.day === 'N/A' && req.body.startTime === '' && req.body.endTime === '') {
+        req.flash('errorMsg', 'Filter options not selected');
+        res.redirect('/searchPage');
     }
-    else { res.redirect('/searchPage'); }
+    else { queries.getClubByFilter(req, res); }
 });
 
 

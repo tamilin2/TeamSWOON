@@ -7,6 +7,16 @@ async = require('async');
 let nodemailer = require('nodemailer');
 let fs = require('fs');
 
+// Create Gmail transport to compose emails with given account
+let transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        /* set email and password to use nodemailer */
+        user: 'do.not.reply.ucsd.clubs@gmail.com',
+        pass: 'ce101901'
+    }
+});
+
 module.exports = {
 
     /**
@@ -14,13 +24,12 @@ module.exports = {
      */
     insert_student: function (req, res) {
         // MySQL query to insert into student table
-        let query = "insert into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
+        let query = "insert into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
 
         //Gets all user data passed from the view
         let firstname = req.body.firstname;
         let lastname = req.body.lastname;
         let email = req.body.email;
-        let about = req.body.about;
         let phone = authenticator.parse_phoneNum(req.body.phone);
         let password = req.body.password;
         let password2 = req.body.password2;
@@ -35,7 +44,7 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         let errors = req.validationErrors();
 
-        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email, about: about};
+        req.session.profile = { fname:firstname, lname:lastname, phone:phone, email: email};
 
         if (errors) {
             // Render the page again with error notification of missing fields
@@ -52,11 +61,11 @@ module.exports = {
                     res.redirect('/users/createUserProfile');
                 }
                 else {
-                    conn.query(query, [firstname, lastname, email, phone, password, about], function (err) {
+                    conn.query(query, [firstname, lastname, email, phone, password], function (err) {
                         conn.release();
                         if (err) {
                             // Error in duplicate email
-                            req.flash('errorMsg', (err.message).substr(13,17) + email);
+                            req.flash('errorMsg', err.message);
                             res.redirect('/users/createUserProfile');
                         }
                         else {
@@ -74,15 +83,14 @@ module.exports = {
      * User requesting to update profile
      */
     update_student: function (req, res) {
-        let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
+        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         
         let fname = req.session.user.fname;
         let lname = req.session.user.lname;
         let phone = authenticator.parse_phoneNum(req.body.phone);
-        let about = req.body.about;
 
         /* Notifies user if request to update with all null data */
-        if (!phone && !about) {
+        if (!phone) {
             req.flash('errorMsg', 'No data entered');
             res.redirect('/users/editUserProfile');
             return;
@@ -90,9 +98,6 @@ module.exports = {
         // If input field is empty then insert old data back into db entry
         if (!phone) {
             phone = req.session.user.phone;
-        }
-        if (!about) {
-            about = req.session.user.about;
         }
 
         /**
@@ -110,7 +115,7 @@ module.exports = {
                 }
                 else {
                     // Replace existing db entry with modified data
-                    conn.query(query, [fname, lname, req.session.user.email, phone, req.session.user.password, about], function (err, rows) {
+                    conn.query(query, [fname, lname, req.session.user.email, phone, req.session.user.password], function (err, rows) {
                         if (err) {
                             req.flash('errorMsg', err.message);
                             res.redirect('/users/editUserProfile');
@@ -122,8 +127,7 @@ module.exports = {
                                 lname : lname,
                                 email : req.session.user.email,
                                 phone : phone,
-                                password : req.session.user.password,
-                                about: about
+                                password : req.session.user.password
                             };
                             req.flash('successMsg', 'Updated profile');
                             res.redirect('/');
@@ -138,7 +142,7 @@ module.exports = {
      * User requesting to update password
      */
     update_password: function (req, res) {
-        let query = "replace into student (first_name, last_name, email, phone, password, about) VALUES (?, ?, ?, ?, ?, ?)";
+        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         let oldPassword = req.body.oldPassword;
         let password = req.body.password;
         let password2 = req.body.password2;
@@ -159,7 +163,7 @@ module.exports = {
                 }
                 else {
                     // Replace existing db entry with modified data
-                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password, req.session.user.about], function (err, rows) {
+                    conn.query(query, [req.session.user.fname, req.session.user.lname, req.session.user.email, req.session.user.phone, password], function (err, rows) {
                         if (err) {
                             req.flash('errorMsg', err.message);
                             res.redirect('/users/changePassword');
@@ -312,8 +316,7 @@ module.exports = {
     edit_club : function (req, res) {
         // Saves current club name
         let currClubName = req.session.club.name;
-        let updateClubQuery = "UPDATE club SET ";
-        let updateClubQueryCond = " WHERE club.name = ?";
+        let updateClubQuery = "UPDATE club SET "; let updateClubQueryCond = " WHERE club.name = ?";
         let queryActions = "";
 
         // MySQL query to insert into club_interest table
@@ -350,7 +353,6 @@ module.exports = {
                 error = err;
             }
             else {
-
                 // If an input field is not empty then update it onto db entry
                 if (name) {
                     req.session.club.name = name;
@@ -360,7 +362,7 @@ module.exports = {
                     req.session.club.clubEmail = clubEmail;
                     queryActions += "club.clubEmail = " + conn.escape(clubEmail) + ", ";
                 }
-                if (description) {
+                if (description && (description !== req.session.club.description)) {
                     req.session.club.description = description;
                     queryActions += "club.description = " + conn.escape(description) + ", ";
                 }
@@ -381,7 +383,9 @@ module.exports = {
                 /* Notifies user if request to update with all null data */
                 if (queryActions === "" && !interests) {
                     error = {message: 'No data entered'};
-                } else {
+                }
+                /* Handles modified club information if there exists  */
+                else {
                     // Truncate last comma in queryActions and concatenates query with given action strings and club specifier
                     updateClubQuery += (queryActions.substring(0, queryActions.length - 2) + updateClubQueryCond);
                     conn.query(updateClubQuery, [currClubName], function (err) {
@@ -391,9 +395,10 @@ module.exports = {
                     });
                 }
 
-                // Requires users to have at least one club category selected
-                if(!interests) {
-                    error = {message: 'No interests were selected'};
+                // Requires users to have at least one club category selected; each schedule must have a day
+                //TODO handle modifying interests xor schedule
+                if(!interests && !day) {
+                    error = {message: 'No interests or schedules were added'};
                 }
                 // Insert data if there was not an error in previous queries
                 else if (error === null) {
@@ -690,45 +695,70 @@ module.exports = {
     },
     
     /**
-     * Get interests matching club
+     * Get clubs matching interests and schedule
      */
-    getClubByInterest: function (req, res) {
-        let query_action = "SELECT DISTINCT club.leaderEmail, club.phone, club.description, club.name, club.clubEmail, " +
-                            "club.socialLink, club.img FROM club RIGHT JOIN club_interest ON club.name = club_interest.club_name " +
-                            "WHERE ";
+    getClubByFilter: function (req, res) {
+        let queryByFilter = "SELECT DISTINCT club.leaderEmail, club.phone, club.description, club.name, club.clubEmail, " +
+                            "club.socialLink, club.img FROM club " +
+                            "JOIN club_interest ON club.name = club_interest.club_name " +
+                            "JOIN club_schedule ON club.name = club_schedule.clubName " +
+                            "WHERE";
+        let queryResultOrder = ' ORDER BY club.name ASC';
 
-        let query_interest = "select * from club_interest";
+        let queryClubInterests = "select * from club_interest";
 
-        // Loop through all selected interests to filter
-        for ( item in req.body.checkbox) {
-            query_action += 'club_interest.interest = \'' + req.body.checkbox[item] + '\' OR ';
+        // Loop through all selected interests to filter if selected
+        if ( req.body.checkbox && req.body.checkbox.length > 0) {
+            for (item in req.body.checkbox) {
+                queryByFilter += ' club_interest.interest = \'' + req.body.checkbox[item] + '\' OR';
+            }
+            // Remove the last 'OR' string for query syntax and insert 'AND' for extra search conditions based on schedule
+            queryByFilter = queryByFilter.substring(0, queryByFilter.length - 3) + ' AND';
         }
-        // Remove the last 'OR' string for query syntax
-        query_action = query_action.substring(0, query_action.length - 3);
+
+        // Add day preference if selected
+        if (req.body.day !== 'N/A') {
+            queryByFilter += ' club_schedule.day = \'' + req.body.day + '\' AND';
+        }
+        // Add start time preference if selected
+        if (req.body.startTime) {
+            queryByFilter += ' \'' + req.body.startTime + '\' <= club_schedule.startTime AND';
+        }
+        // Add end time preference if selected
+        if (req.body.endTime) {
+            queryByFilter += ' club_schedule.endTime <= \'' + req.body.endTime + '\'';
+        }
+        // Remove last 'AND' if user doesn't search for club meeting end time
+        else {
+            queryByFilter = queryByFilter.substring(0, queryByFilter.length - 4);
+        }
+
+        console.log(queryByFilter);
 
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
             }
             else {
-                con.query(query_action,function (err, rows) {
+                con.query(queryByFilter + queryResultOrder,function (err, rows) {
                     if (err) {
                         req.flash('errorMsg', err.message);
                         res.redirect('/');
                     }
-                    // Assures the query returns a club entry
                     else if (rows[0] == null) {
+                        // Renders search page without found clubs
                         res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: req.body.checkbox});
                     }
-                    // Query returns found clubs so load them on search page
+                    // Query returns found clubs so find their corresponding tags to load
                     else {
-                        con.query(query_interest, function(erro, search_interest_rows) {
+                        con.query(queryClubInterests, function(erro, search_interest_rows) {
                             if(erro) {
                                 req.flash('errorMsg', erro.message);
                                 res.redirect('/');
                             }
                             else if(search_interest_rows[0] == null) {
-                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: req.body.checkbox});
+                                // Renders search page with clubs without interest tags
+                                res.render('pages/searchPage', {clubs: rows, search_interests: undefined, search: req.body.checkbox});
                             }
                             else {
                                 res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : req.body.checkbox});
@@ -783,7 +813,7 @@ module.exports = {
     },
 
     /**
-     * System requesting club info by name or club interest
+     * System requesting club info by name
      */
     getClubBySearch: function (req, res) {
         /*
@@ -912,7 +942,6 @@ module.exports = {
                                 email : user.email,
                                 phone : user.phone,
                                 password : user.password,
-                                about: user.about
                             };
                             req.flash('successMsg', "Welcome", req.session.user.fname);
                             res.redirect('/');
@@ -928,15 +957,6 @@ module.exports = {
      * User sends an email to club leader
      */
     sendEmail: function (req, res) {
-        let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                /* set email and password to use nodemailer */
-                user: 'do.not.reply.ucsd.clubs@gmail.com',
-                pass: 'ce101901'
-            }
-        });
-
         let mailOptions = {
             from: req.body.fromEmail,
             to: req.body.toEmail,
@@ -961,16 +981,6 @@ module.exports = {
      * System sends user their account credentials via given email
      */
     requestAccount: function (req, res) {
-        let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                //TODO Authenticate your Gmail account here
-                /* config.email/pass is locally set email and password to use nodemailer */
-                user: config.email || null,
-                pass: config.pass || null
-            }
-        });
-
         let userEmail = req.body.email;
 
         let query = "SELECT student.password FROM student WHERE student.email = ?";

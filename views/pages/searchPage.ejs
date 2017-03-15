@@ -174,7 +174,7 @@
         <div class="col-sm-3 col-lg-2">
             <div id="sidebar">
 
-                <form action="/searchPageInterest" method="POST">
+                <form action="/searchPageFilter" method="POST">
                 <!-- Title for Nav Bar -->
                 <h4 id="filter">
                     Filter Clubs
@@ -473,25 +473,25 @@
                 </h4>
                     <div id="weekday" class="form-group">
                         <label class="schedule-labels" for="Day-of-week">Day of the Week:</label>
-                        <select id="pickday" class="form-control" id="Day-of-week">
-                            <option value="monday">Monday</option>
-                            <option value="tuesday">Tuesday</option>
-                            <option value="wednesday">Wednesday</option>
-                            <option value="thursday">Thursday</option>
-                            <option value="friday">Friday</option>
-                            <option value="saturday">Saturday</option>
-                            <option value="sunday">Sunday</option>
+                        <select id="pickday" name="day" class="form-control" id="Day-of-week">
+                            <option selected>N/A</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
                         </select>
                     </div>
                     <label class="schedule-labels" for="start-time-input">Start Time:</label>
-                    <input class="form-control" type="time" step="900" id="start-time-input">
+                    <input class="form-control" type="time" name="startTime" step="900" id="start-time-input">
                     <label class="schedule-labels" for="end-time-input">End Time:</label>
-                    <input class="form-control" type="time" step="900" min="" id="end-time-input">
+                    <input class="form-control" type="time" name="endTime" step="900" min="" id="end-time-input">
                 
                 <br>
 
                 <button type="submit" class="btn btn-default btn-block" name="filterButton" value="filterButton">Filter</button>
-                <button type="button" class="btn btn-default btn-block" id="import-btn-SP">Filter by Saved Preferences</button>
                 <button type="reset" class="btn btn-default btn-block" id="clr-btn">Clear Filters</button>
                 </form>
 
@@ -500,7 +500,7 @@
 
         <!-- your page content -->
         <div class="col-sm-9 col-lg-10">
-            <% if (search !== null) {%>
+            <% if (search !== null && search !== undefined) {%>
                 <h2 class="page-header">Search Term: <%= search %></h2>
             <% } %>
             <% if(clubs) {%>
@@ -521,7 +521,6 @@
                                 <% } %>
                                 <i id="tags"><%= interests.join(' - ') %></i>
                                 <br>
-                                <!-- TODO allow description to wrap  -->
                                 <%= clubs[idx].description%>
                             </p>
                         </form>
