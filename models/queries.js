@@ -573,8 +573,6 @@ module.exports = {
         let name = req.body.clubName;
         let email = req.body.clubEmail;
 
-        console.log(name, email);
-
         // Query to delete club from club list
         connection(function (err, conn) {
             if (err) {
