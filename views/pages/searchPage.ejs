@@ -101,13 +101,17 @@
     }
 
     .SubCategories {
-        visibility: hidden;
+        visibility:hidden;
         color: black;
     }
     .interestlabel {
         font-weight: normal;
     }
     
+    input[type=checkbox]:checked {
+        background-color: whitesmoke;
+        border-left: 1px solid dodgerblue!important;
+    }
 
     .SubCategories:focus {
         font-weight: bold;
@@ -188,26 +192,26 @@
                         </a>
                         <div id="collapse99" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="Arts" class="interestlabel">Arts</label>
+                                <li class="list-group-item"><label class="interestlabel">Arts</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Arts" value="Arts"/>
                                 </li>
-                                <li class="list-group-item"><label for="Business" class="interestlabel">Business</label>
+                                <li class="list-group-item"><label class="interestlabel">Business</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Business" value="Business"/>
                                 </li>
-                                <li class="list-group-item"><label for="Comm" class="interestlabel">Communications</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Comm" value="Comm"/>
+                                <li class="list-group-item"><label class="interestlabel">Communications</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Comm" value="Communication"/>
                                 </li>
-                                <li class="list-group-item"><label for="Med" class="interestlabel">Med/Pre-Med/Health</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Med" value="Med" />
+                                <li class="list-group-item"><label class="interestlabel">Med/Pre-Med/Health</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Med" value="Pre-Med/Health" />
                                 </li>
-                                <li class="list-group-item"><label for="Social_sciences" class="interestlabel">Social Sciences</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Social_sciences" value="Social_sciences"/>
+                                <li class="list-group-item"><label class="interestlabel">Social Sciences</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Social_sciences" value="Social Sciences"/>
                                 </li>
-                                <li class="list-group-item"><label for="STEM" class="interestlabel">STEM</label>
+                                <li class="list-group-item"><label class="interestlabel">STEM</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="STEM" value="STEM"/>
                                 </li>
-                                <li class="list-group-item"><label for="Other_academics" class="interestlabel">Other Academics</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_academics" value="Other_academics"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Academics</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_academics" value="Other Academics"/>
                                 </li>
                             </ul>
                         </div>
@@ -223,32 +227,32 @@
                         </a>
                         <div id="collapse2" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="Culinary" class="interestlabel">Culinary</label>
+                                <li class="list-group-item"><label class="interestlabel">Culinary</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Culinary" value="Culinary"/>
                                 </li>
-                                <li class="list-group-item"><label for="Dance" class="interestlabel">Dance</label>
+                                <li class="list-group-item"><label class="interestlabel">Dance</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Dance" value="Dance"/>
                                 </li>
-                                <li class="list-group-item"><label for="Digital_arts" class="interestlabel">Digital Arts</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Digital_arts" value="Digital_arts"/>
+                                <li class="list-group-item"><label class="interestlabel">Digital Arts</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Digital_arts" value="Digital Arts"/>
                                 </li>
-                                <li class="list-group-item"><label for="Literature" class="interestlabel">Literature/Poetry</label>
+                                <li class="list-group-item"><label class="interestlabel">Literature/Poetry</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Literature" value="Literature"/>
                                 </li>
-                                <li class="list-group-item"><label for="Music" class="interestlabel">Music</label>
+                                <li class="list-group-item"><label class="interestlabel">Music</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Music" value="Music"/>
                                 </li>
-                                <li class="list-group-item"><label for="Painting" class="interestlabel">Painting/Drawing</label>
+                                <li class="list-group-item"><label class="interestlabel">Painting/Drawing</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Painting" value="Painting"/>
                                 </li>
-                                <li class="list-group-item"><label for="Photography" class="interestlabel">Photography/Videography</label>
+                                <li class="list-group-item"><label class="interestlabel">Photography/Videography</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Photography" value="Photography"/>
                                 </li>
-                                <li class="list-group-item"><label for="Theatre" class="interestlabel">Theatre/Stage</label>
+                                <li class="list-group-item"><label class="interestlabel">Theatre/Stage</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Theatre" value="Theatre"/>
                                 </li>
-                                <li class="list-group-item"><label for="Other_arts" class="interestlabel">Other Arts</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_arts" value="Other_arts"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Arts</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_arts" value="Other Arts"/>
                                 </li>
                             </ul>
                         </div>
@@ -264,29 +268,29 @@
                         </a>
                         <div id="collapse3" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="Individual_sports" class="interestlabel">Individual Sports</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Individual_sports" value="Individual_sports"/>
+                                <li class="list-group-item"><label class="interestlabel">Individual Sports</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Individual_sports" value="Individual Sports"/>
                                 </li>
-                                <li class="list-group-item"><label for="Intramural" class="interestlabel">Intramural Teams</label>
+                                <li class="list-group-item"><label class="interestlabel">Intramural Teams</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Intramural" value="Intramural"/>
                                 </li>
-                                <li class="list-group-item"><label for="Martial_arts" class="interestlabel">Martial Arts</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Martial_arts" value="Martial_arts"/>
+                                <li class="list-group-item"><label class="interestlabel">Martial Arts</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Martial_arts" value="Martial Arts"/>
                                 </li>
-                                <li class="list-group-item"><label for="Official_teams" class="interestlabel">Official UCSD Teams</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Official_teams" value="Official_teams"/>
+                                <li class="list-group-item"><label class="interestlabel">Official UCSD Teams</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Official_teams" value="Official Teams"/>
                                 </li>
-                                <li class="list-group-item"><label for="Outdoors" class="interestlabel">Outdoors</label>
+                                <li class="list-group-item"><label class="interestlabel">Outdoors</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Outdoors" value="Outdoors"/>
                                 </li>
-                                <li class="list-group-item"><label for="Team_sports" class="interestlabel">Team Sports</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Team_sports" value="Team_sports"/>
+                                <li class="list-group-item"><label class="interestlabel">Team Sports</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Team_sports" value="Team Sports"/>
                                 </li>
-                                <li class="list-group-item"><label for="Unaffiliated" class="interestlabel">Unaffiliated Sports</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Unaffiliated" value="Unaffiliated"/>
+                                <li class="list-group-item"><label class="interestlabel">Unaffiliated Sports</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Unaffiliated" value="Unaffiliated Sports"/>
                                 </li>
-                                <li class="list-group-item"><label for="Other_sports" class="interestlabel">Other Sports</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_sports" value="Other_sports"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Sports</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_sports" value="Other Sports"/>
                                 </li>
                             </ul>
                         </div>
@@ -302,17 +306,17 @@
                         </a>
                         <div id="collapse4" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="Activism" class="interestlabel">Activism</label>
+                                <li class="list-group-item"><label class="interestlabel">Activism</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Activism" value="Activism"/>
                                 </li>
-                                <li class="list-group-item"><label for="Community" class="interestlabel">Community Service</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Community" value="Community"/>
+                                <li class="list-group-item"><label class="interestlabel">Community Service</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Community" value="Community Service"/>
                                 </li>
-                                <li class="list-group-item"><label for="Environmental" class="interestlabel">Environmental</label>
+                                <li class="list-group-item"><label class="interestlabel">Environmental</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Environmental" value="Environmental"/>
                                 </li>
-                                <li class="list-group-item"><label for="Other_service" class="interestlabel">Other Service</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_service" value="Other_service"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Service</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_service" value="Other Service"/>
                                 </li>
                             </ul>
                         </div>
@@ -328,26 +332,26 @@
                         </a>
                         <div id="collapse5" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="Buddhism" class="interestlabel">Buddhism</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Buddhism" value="Buddhism"/>
+                                <li class="list-group-item"><label class="interestlabel">Buddhism</label>
                                 </li>
-                                <li class="list-group-item"><label for="Christian" class="interestlabel">Christianity/Catholicism</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Christian" value="Christian"/>
+                                <li class="list-group-item"><label class="interestlabel">Christianity/Catholicism</label>
+                                    <input type="checkbox" class="SubCategories" name="checkbox[]" id="Christian" value="Christian"/>
                                 </li>
-                                <li class="list-group-item"><label for="Hindu" class="interestlabel">Hinduism</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Hindu" value="Hindu"/>
+                                <li class="list-group-item"><label class="interestlabel">Hinduism</label>
+                                    <input type="checkbox" class="SubCategories" name="checkbox[]" id="Hindu" value="Hindu"/>
                                 </li>
-                                <li class="list-group-item"><label for="Islam" class="interestlabel">Islam</label>
+                                <li class="list-group-item"><label class="interestlabel">Islam</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Islam" value="Islam"/>
                                 </li>
-                                <li class="list-group-item"><label for="Judaism" class="interestlabel">Judaism</label>
+                                <li class="list-group-item"><label class="interestlabel">Judaism</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Judaism" value="Judaism"/>
                                 </li>
-                                <li class="list-group-item"><label for="Sikh" class="interestlabel">Sikhism</label>
+                                <li class="list-group-item"><label class="interestlabel">Sikhism</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Sikh" value="Sikh"/>
                                 </li>                                
-                                <li class="list-group-item"><label for="Other_religious" class="interestlabel">Other Religious/Spiritual</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_religious" value="Other_religious"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Religious/Spiritual</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_religious" value="Other Religions"/>
                                 </li>
                             </ul>
                         </div>
@@ -363,17 +367,17 @@
                         </a>
                         <div id="collapse6" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="Fraternity" class="interestlabel">Fraternity</label>
+                                <li class="list-group-item"><label class="interestlabel">Fraternity</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Fraternity" value="Fraternity"/>
                                 </li>
-                                <li class="list-group-item"><label for="CoEd" class="interestlabel">Co-Ed</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="CoEd" value="CoEd"/>
+                                <li class="list-group-item"><label class="interestlabel">Co-Ed</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="CoEd" value="Co-Ed"/>
                                 </li>
-                                <li class="list-group-item"><label for="Sorority" class="interestlabel">Sorority</label>
+                                <li class="list-group-item"><label class="interestlabel">Sorority</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Sorority" value="Sorority"/>
                                 </li>                                
-                                <li class="list-group-item"><label for="Other_greek" class="interestlabel">Other Greek Life</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_greek" value="Other_greek"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Greek Life</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_greek" value="Other Greek"/>
                                 </li>
                             </ul>
                         </div>
@@ -389,32 +393,32 @@
                         </a>
                         <div id="collapse7" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="Books" class="interestlabel">Books/Reading</label>
+                                <li class="list-group-item"><label class="interestlabel">Books/Reading</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Books" value="Books"/>
                                 </li>
-                                <li class="list-group-item"><label for="Cars" class="interestlabel">Cars</label>
+                                <li class="list-group-item"><label class="interestlabel">Cars</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Cars" value="Cars"/>
                                 </li>
-                                <li class="list-group-item"><label for="Comics" class="interestlabel">Comic Books</label>
+                                <li class="list-group-item"><label class="interestlabel">Comic Books</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Comics" value="Comics"/>
                                 </li>
-                                <li class="list-group-item"><label for="Concerts" class="interestlabel">Concerts</label>
+                                <li class="list-group-item"><label class="interestlabel">Concerts</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Concerts" value="Concerts"/>
                                 </li>
-                                <li class="list-group-item"><label for="Exercise" class="interestlabel">Exercise</label>
+                                <li class="list-group-item"><label class="interestlabel">Exercise</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Exercise" value="Exercise"/>
                                 </li>
-                                <li class="list-group-item"><label for="gaming" class="interestlabel">Gaming</label>
+                                <li class="list-group-item"><label class="interestlabel">Gaming</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="gaming" value="gaming"/>
                                 </li>
-                                <li class="list-group-item"><label for="LGBT" class="interestlabel">LGBT</label>
+                                <li class="list-group-item"><label class="interestlabel">LGBT</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="LGBT" value="LGBT"/>
                                 </li>
-                                <li class="list-group-item"><label for="Movies" class="interestlabel">Movies and TV</label>
+                                <li class="list-group-item"><label class="interestlabel">Movies and TV</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Movies" value="Movies"/>
                                 </li>
-                                <li class="list-group-item"><label for="Other_social" class="interestlabel">Other Social</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_social" value="Other_social"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Social</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_social" value="Other Social"/>
                                 </li>
                             </ul>
                         </div>
@@ -430,35 +434,35 @@
                         </a>
                         <div id="collapse8" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><label for="African" class="interestlabel">African</label>
+                                <li class="list-group-item"><label class="interestlabel">African</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="African" value="African"/>
                                 </li>
-                                <li class="list-group-item"><label for="Chinese" class="interestlabel">Chinese</label>
+                                <li class="list-group-item"><label class="interestlabel">Chinese</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Chinese" value="Chinese"/>
                                 </li>
-                                <li class="list-group-item"><label for="European" class="interestlabel">European</label>
+                                <li class="list-group-item"><label class="interestlabel">European</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="European" value="European"/>
                                 </li>
-                                <li class="list-group-item"><label for="Filipino" class="interestlabel">Filipino</label>
+                                <li class="list-group-item"><label class="interestlabel">Filipino</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Filipino" value="Filipino"/>
                                 </li>
-                                <li class="list-group-item"><label for="Hispanic" class="interestlabel">Hispanic/Latin</label>
+                                <li class="list-group-item"><label class="interestlabel">Hispanic/Latin</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Hispanic" value="Hispanic"/>
                                 </li>
-                                <li class="list-group-item"><label for="Indian" class="interestlabel">Indian</label>
+                                <li class="list-group-item"><label class="interestlabel">Indian</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Indian" value="Indian"/>
                                 </li>
-                                <li class="list-group-item"><label for="Japanese" class="interestlabel">Japanese</label>
+                                <li class="list-group-item"><label class="interestlabel">Japanese</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Japanese" value="Japanese"/>
                                 </li>
-                                <li class="list-group-item"><label for="Korean" class="interestlabel">Korean</label>
+                                <li class="list-group-item"><label class="interestlabel">Korean</label>
                                 <input type="checkbox" class="SubCategories" name="checkbox[]" id="Korean" value="Korean"/>
                                 </li>
-                                <li class="list-group-item"><label for="Middle_eastern" class="interestlabel">Middle Eastern</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Middle_eastern" value="Middle_eastern"/>
+                                <li class="list-group-item"><label class="interestlabel">Middle Eastern</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Middle_eastern" value="Middle Eastern"/>
                                 </li>
-                                <li class="list-group-item"><label for="Other_cultural" class="interestlabel">Other Cultural</label>
-                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_cultural" value="Other_cultural"/>
+                                <li class="list-group-item"><label class="interestlabel">Other Cultural</label>
+                                <input type="checkbox" class="SubCategories" name="checkbox[]" id="Other_cultural" value="Other Cultures"/>
                                 </li>
                             </ul>
                         </div>

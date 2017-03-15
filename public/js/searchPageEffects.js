@@ -15,6 +15,7 @@ $(document).ready(function() {
             $(this).children(".SubCategories").attr("checked", false);
             $(this).css("background-color", "");
         }
+        alert($(this).children(".SubCategories").prop("checked"));
     });
     
 });
