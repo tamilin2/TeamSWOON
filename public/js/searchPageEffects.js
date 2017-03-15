@@ -1,20 +1,9 @@
 $(document).ready(function() {
    
-    function toggleStyle(){
-        if ($(this).prop('checked')){
-            $(this).parent().css("background-color", "whitesmoke");
-            $(this).parent().css("border-left", "1px solid dodgerblue!important");
-       }
-       
-       if (!$(this).prop('checked')){
-            $(this).parent().css("background-color", "");
-            $(this).parent().css("border-left", "");
-       }
-    }
-   $(".SubCategories").change(toggleStyle);
-    
+   
     $("#clr-btn").click(function(){
         $(".list-group-item").css("background-color", "");
+        $(".SubCategories").attr("checked", false);
     });
     
     $(".list-group-item").click(function() {
@@ -27,7 +16,5 @@ $(document).ready(function() {
             $(this).css("background-color", "");
         }
     });
-    if ( $('#Arts').is(':checked') ) {
-        console.log("Checked");
-    }
+    
 });
