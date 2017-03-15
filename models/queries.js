@@ -410,9 +410,12 @@ module.exports = {
                         if (err) { error = true; }
                         });
                     // Delete club schedules if deleting club interests didn't cause an error
-                    conn.query(delSchedQuery, [req.session.club.name], function (err, rows) {
+                    conn.query(delSchedQuery, req.session.club.name, function (err, rows) {
                         if (err) {
                             error = true;
+                        }
+                        else {
+                            req.session.schedules = [];
                         }
                     });
                     
