@@ -325,8 +325,9 @@ module.exports = {
         let insInterestQuery = "insert into club_interest (club_name, interest) values (?, ?) ";
 
         // MySQL query to insert into club_schedule table
-        let insSchedQuery = "insert into club_schedule (clubName, day, startTime, endTime, location) values (?,?,?,?,?) ";
         let delSchedQuery = "Delete FROM club_schedule WHERE club_schedule.clubName = ? ";
+        let insSchedQuery = "insert into club_schedule (clubName, day, startTime, endTime, location) values (?,?,?,?,?) ";
+        
 
         // Tracks if error exists
         let error = null;
@@ -406,15 +407,15 @@ module.exports = {
                     /* Delete all interests and schedules a club has */
                     // Delete club interests
                     conn.query(delInterestQuery, req.session.club.name, function (err, rows) {
-                        if (err) { error = true; } else {
-                            // Delete club schedules if deleting club interests didn't cause an error
-                            conn.query(delSchedQuery, [name], function (err, rows) {
-                                if (err) {
-                                    error = true;
-                                }
-                            });
+                        if (err) { error = true; }
+                        });
+                    // Delete club schedules if deleting club interests didn't cause an error
+                    conn.query(delSchedQuery, [req.session.club.name], function (err, rows) {
+                        if (err) {
+                            error = true;
                         }
                     });
+                    
 
                     // loop through the interests array, inserting each as a row in the club_interest table
                     for (var i = 0; i < interests.length; i++) {
@@ -429,24 +430,24 @@ module.exports = {
                     }
                     // Continue with query if error wasn't set
                     if (error === null) {
-                        // for (var s = 0; s < day.length; s++) {
-                        //     // Insert new row of a club's schedule using up to date name
-                        //     conn.query(delSchedQuery, [req.session.club.name, day[s], start[s], end[s], location[s]], function (err) {
-                        //         if (err) {
-                        //             error = err;
-                        //         }
-                        //     });
-                        //     // Break insert schedule if there exists error
-                        //     if (error !== null) { break; }
-                        //
-                        //     // Saves club schedule info to load onto club page
-                        //     req.session.schedules.push({
-                        //         day: day[s],
-                        //         startTime: start[s],
-                        //         endTime: end[s],
-                        //         location: location[s]
-                        //     });
-                        // }
+                         for (var s = 0; s < day.length; s++) {
+                             // Insert new row of a club's schedule using up to date name
+                             conn.query(insSchedQuery, [req.session.club.name, day[s], start[s], end[s], location[s]], function (err) {
+                                 if (err) {
+                                     error = err;
+                                 }
+                             });
+                             // Break insert schedule if there exists error
+                             if (error !== null) { break; }
+                        
+                             // Saves club schedule info to load onto club page
+                             req.session.schedules.push({
+                                 day: day[s],
+                                 startTime: start[s],
+                                 endTime: end[s],
+                                 location: location[s]
+                             });
+                         }
 
                         // Load club page with up to date club info, interest, and schedule
                         res.render('pages/clubPage', {club: req.session.club, schedules: req.session.schedules});
