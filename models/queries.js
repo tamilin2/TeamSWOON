@@ -733,8 +733,6 @@ module.exports = {
             queryByFilter = queryByFilter.substring(0, queryByFilter.length - 4);
         }
 
-        console.log(queryByFilter);
-
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
