@@ -866,8 +866,8 @@ module.exports = {
      * System requesting all clubs made by a user
      */
     getClubsCreated: function (req, res) {
-        let query_action = "SELECT club.name FROM club WHERE club.leaderEmail = ? Order by club.name";
-
+        let query_action = "SELECT * FROM club WHERE club.leaderEmail = ? Order by club.name";
+        
         connection(function (err, con) {
             if (err) {
                 res.render('/', {errors: errors});
