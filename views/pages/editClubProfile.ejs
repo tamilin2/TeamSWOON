@@ -9,6 +9,7 @@
                     <h2 class="page-header">Edit Club Profile</h2>
                 </div>
             </div>
+
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="clubName">Club Name:</label>
@@ -25,6 +26,7 @@
                     <input type="tel" class="form-control" name="phone" id="phone" placeholder="<%= club.phone%>" maxlength="14"/>
                 </div>
             </div>
+
             <div class="row">
                 <div class="form-group col-md-4">
                     <label >Website:</label>
@@ -32,7 +34,18 @@
                 </div>
                 <div class="form-group col-md-8">
                     <label for="description">Description:</label>
-                    <textarea type="text" class="form-control" name="description" id="description" rows=5 maxlength="2000"><%= club.description%></textarea>
+                    <script>
+                        // On focus, text area's value is placeholder. If text remains unchanged on blur, text stays empty
+                        function adjustNewTextValue(inputText) {
+                            if (inputText.placeholder === inputText.value) {
+                                inputText.value = '';
+                            }
+                            else if (inputText.value === inputText.defaultValue) {
+                                inputText.value = inputText.placeholder;
+                            }
+                        }
+                    </script>
+                    <textarea type="text" class="form-control" name="description" id="description" onclick="adjustNewTextValue(this);" onblur="adjustNewTextValue(this);" placeholder="<%= club.description%>" rows=5 maxlength="2000"></textarea>
                 </div>
             </div>
 
@@ -68,6 +81,7 @@
                 </div>
             </div>
 
+            <!-- Forms for club interests -->
             <div class="row">
                 <div class="col-sm-12">
                     <h2>Categories:</h2>
@@ -180,74 +194,76 @@
                 <button type="button" class="btn disabled btn-primary" id="remove-form-field">-</button>
             </div>
         </div>
-            
-            <div class="row" id="primary-row">
-                <% if (schedules.length !== 0) {
-                    for (let idx in schedules ) { %>
-                    <div class="col-sm-3 form-group">
-                        <label for="day">Day:</label>
-                        <select class="form-control" name="day[]" id="day" required>
-                            <option value="Monday" <% if(schedules[idx].day === 'Monday') {%> selected <%}%> >Monday</option>
-                            <option value="Tuesday" <% if(schedules[idx].day === 'Tuesday') {%> selected <%}%>>Tuesday</option>
-                            <option value="Wednesday" <% if(schedules[idx].day === 'Wednesday') {%> selected <%}%>>Wednesday</option>
-                            <option value="Thursday" <% if(schedules[idx].day === 'Thursday') {%> selected <%}%>>Thursday</option>
-                            <option value="Friday" <% if(schedules[idx].day === 'Friday') {%> selected <%}%>>Friday</option>
-                            <option value="Saturday" <% if(schedules[idx].day === 'Saturday') {%> selected <%}%>>Saturday</option>
-                            <option value="Sunday" <% if(schedules[idx].day === 'Sunday') {%> selected <%}%>>Sunday</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-3 form-group">
-                        <label for="start-time">From:</label>
-                        <input type="time" class="form-control" value="<%= (schedules[idx].startTime) %>" name="startTime[]" id="start-time" />
-                    </div>
-                    <div class="col-sm-3 form-group">
-                        <label for="end-time">To:</label>
-                        <input type="time" class="form-control" value="<%= schedules[idx].endTime %>" name="endTime[]" id="end-time" />
-                    </div>
-                    <div class="col-sm-3 form-group">
-                        <label for=>Location:</label>
-                        <input type="text" class="form-control" value="<%= schedules[idx].location%>" name="location[]" />
-                    </div>
-                <% }
-                } else  {%>
-                    <div class="col-sm-3 col-xs-12 form-group">
-                        <label for="day">Day:</label>
-                            <select class="form-control" name="day[]" id="day">
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                                <option value="Sunday">Sunday</option>
-                            </select>
-                    </div>
-                    <div class="col-sm-3 col-xs-12 form-group">
 
-                        <label for="start">From:</label>
-                        <input type="time" class="form-control" name="startTime[]" id="start" required>
-                    </div>
-                    <div class="col-sm-3 col-xs-12 form-group">
-                        <label for="end">To:</label>
-                        <input type="time" class="form-control" name="endTime[]" id="end" required>
-                    </div>
-            
-            
-                    <div class="col-sm-3 col-xs-12 form-group">
-                        <label for=>Location:</label>
-                        <input type="text" class="form-control" name="location[]" maxlength="200" required/>
-                    </div>
-                <%}%>
-            </div>
-            <div class="row" id="submit-row">
-                <div class="col-md-2 col-md-offset-10">
-                    <button type="submit" id="meetbtn" class="btn btn-default">Save Club Information</button>
+        <!-- Forms for schedules -->
+        <div class="row" id="primary-row">
+            <!-- If a club has pre-existing meeting schedule, load them -->
+            <% if (schedules.length !== 0) {
+                for (let idx in schedules ) { %>
+                <div class="col-sm-3 form-group">
+                    <label for="day">Day:</label>
+                    <select class="form-control" name="day[]" id="day" required>
+                        <option value="Monday" <% if(schedules[idx].day === 'Monday') {%> selected <%}%> >Monday</option>
+                        <option value="Tuesday" <% if(schedules[idx].day === 'Tuesday') {%> selected <%}%>>Tuesday</option>
+                        <option value="Wednesday" <% if(schedules[idx].day === 'Wednesday') {%> selected <%}%>>Wednesday</option>
+                        <option value="Thursday" <% if(schedules[idx].day === 'Thursday') {%> selected <%}%>>Thursday</option>
+                        <option value="Friday" <% if(schedules[idx].day === 'Friday') {%> selected <%}%>>Friday</option>
+                        <option value="Saturday" <% if(schedules[idx].day === 'Saturday') {%> selected <%}%>>Saturday</option>
+                        <option value="Sunday" <% if(schedules[idx].day === 'Sunday') {%> selected <%}%>>Sunday</option>
+                    </select>
                 </div>
+                <div class="col-sm-3 form-group">
+                    <label for="start-time">From:</label>
+                    <input type="time" class="form-control" value="<%= (schedules[idx].startTime) %>" name="startTime[]" id="start-time" />
+                </div>
+                <div class="col-sm-3 form-group">
+                    <label for="end-time">To:</label>
+                    <input type="time" class="form-control" value="<%= schedules[idx].endTime %>" name="endTime[]" id="end-time" />
+                </div>
+                <div class="col-sm-3 form-group">
+                    <label for=>Location:</label>
+                    <input type="text" class="form-control" value="<%= schedules[idx].location%>" name="location[]" />
+                </div>
+            <% }
+            } else  {%>
+            <!-- Else a club didn't have a scheduled meeting, so they may create one -->
+                <div class="col-sm-3 col-xs-12 form-group">
+                    <label for="day">Day:</label>
+                        <select class="form-control" name="day[]" id="day">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                </div>
+                <div class="col-sm-3 col-xs-12 form-group">
+
+                    <label for="start">From:</label>
+                    <input type="time" class="form-control" name="startTime[]" id="start" required>
+                </div>
+                <div class="col-sm-3 col-xs-12 form-group">
+                    <label for="end">To:</label>
+                    <input type="time" class="form-control" name="endTime[]" id="end" required>
+                </div>
+                <div class="col-sm-3 col-xs-12 form-group">
+                    <label for=>Location:</label>
+                    <input type="text" class="form-control" name="location[]" maxlength="200" required/>
+                </div>
+            <%}%>
+        </div>
+
+        <div class="row" id="submit-row">
+            <div class="col-md-2 col-md-offset-10">
+                <button type="submit" id="meetbtn" class="btn btn-default">Save Club Information</button>
             </div>
+        </div>
         </div>
     </form>
     <br>
-    <!-- Script to confirm club deletion -->
+    <!-- Short script to confirm club deletion -->
     <script language="JavaScript">
         function confirmDelete() {
             return confirm('Confirm delete club?') === true;

@@ -1,7 +1,9 @@
 /**
  * Created by Jeffers on 2/25/2017.
- * Authenticate user's input to databaes
+ * Authenticate user's input to database
  */
+
+let kickbox = require('kickbox');
 
 let authenticator = module.exports = {
     /**
@@ -51,6 +53,12 @@ let authenticator = module.exports = {
      * Verifies given email is a ucsd.edu email
      */
     verify_email: function (req, res, email) {
+
+        // kickbox.verify(email, function (err, response) {
+        //     // Let's see some results
+        //     console.log(response.body);
+        // });
+
         // Assures email address ends in ucsd.edu to be a ucsd email
         if(email.substring(email.length-9) === '@ucsd.edu') {
             return true;

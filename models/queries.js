@@ -54,6 +54,7 @@ module.exports = {
             res.redirect('/users/createUserProfile');
         }
         else {
+            return;
             // Create new student row with given credentials on database
             connection(function (err, conn) {
                 if (err) {
@@ -458,108 +459,6 @@ module.exports = {
                 res.redirect('/users/editClubProfile');
             }
         });
-
-        // // Query to replace club interest and schedule
-        // connection(function (err, conn) {
-        //     if (err) {
-        //         // Keep error to display later
-        //         error = err;
-        //     } else {
-        //         // Delete club interests
-        //         conn.query(delInterestQuery, [name], function (err, rows) {
-        //             if (err) {
-        //                 error = true;
-        //             } else {
-        //                 // Delete club schedules
-        //                 conn.query(delSchedQuery, [name], function (err, rows) {
-        //                     conn.release();
-        //                     if (err) {
-        //                         error = true;
-        //                     }
-        //                 });
-        //             }
-        //         });
-        //     }
-        // });
-        //
-        // // Requires users to have at least one club category selected
-        // if(!interests) {
-        //     req.flash('errorMsg', 'Please select at least one Category');
-        //     res.redirect('/users/editClubProfile');
-        // }
-        // // Stop editing if there was an error in previous queries
-        // else if (error !== null) {
-        //     req.flash('errorMsg', error.message);
-        //     res.redirect('/users/editClubProfile');
-        // }
-        // else {
-        //     // Querying with verified input data
-        //     connection(function (err, conn) {
-        //         if (err) {
-        //             // Save error to display
-        //             error = err;
-        //         }
-        //         else {
-        //             // Replace existing db entry with modified data
-        //             conn.query(repClubQuery, [name, leaderEmail, clubEmail, phone, socialLink, description, img], function (err, rows) {
-        //                 if (err) {
-        //                     error = err;
-        //                 } else {
-        //                     // loop through the interests array, inserting each as a row in the club_interest table
-        //                     for (var i = 0; i < interests.length; i++) {
-        //                         conn.query(insInterestQuery, [clubname, interests[i]], function (err) {
-        //                             if (err) {
-        //                                 error = err;
-        //                             }
-        //                         });
-        //
-        //                         if (error !== null) { break; }
-        //                     }
-        //                     // Continue with query if error wasn't set
-        //                     if (error === null) {
-        //                         for (var s = 0; s < day.length; s++) {
-        //                             conn.query(delSchedQuery, [clubname, day[s], start[s], end[s], location[s]],
-        //                                 function (err) {
-        //                                     if (err) {
-        //                                         error = err;
-        //                                     }
-        //                                 });
-        //                             if (error !== null) {
-        //                                 break;
-        //                             }
-        //                             // Saves club schedule info to load onto club page
-        //                             req.session.schedules.push({
-        //                                 day: day[s],
-        //                                 startTime: start[s],
-        //                                 endTime: end[s],
-        //                                 location: location[s]
-        //                             });
-        //                         }
-        //                         // Saves last visited club's modified data
-        //                         req.session.club = {
-        //                             name: name,
-        //                             leaderEmail: leaderEmail,
-        //                             phone: phone,
-        //                             description: description,
-        //                             clubEmail: clubEmail,
-        //                             socialLink: socialLink,
-        //                             img: img
-        //                         };
-        //                     }
-        //                 }
-        //             });
-        //             conn.release();
-        //
-        //             // Sends user to respective pages if there existed errors
-        //             if (error !== null) {
-        //                 req.flash('errorMsg', error.message);
-        //                 res.redirect('/users/editClubProfile');
-        //             } else {
-        //                 res.render('pages/clubPage', {club: req.session.club, schedules: req.session.schedules});
-        //             }
-        //         }
-        //     });
-        // }
     },
 
     /**
