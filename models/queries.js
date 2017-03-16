@@ -54,7 +54,6 @@ module.exports = {
             res.redirect('/users/createUserProfile');
         }
         else {
-            return;
             // Create new student row with given credentials on database
             connection(function (err, conn) {
                 if (err) {
