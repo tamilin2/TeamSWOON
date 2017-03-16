@@ -77,13 +77,11 @@
                         <dt>Phone:</dt>
                         <dd id="phone"><%= club.phone%></dd>
                         <dt>Email:</dt>
-
                         <dd id="email"><a href="/contactClub" target="_top"><i title= "Send Mail" class="fa fa-envelope"></i></a>  <%= club.clubEmail%></dd>
+                        <dt>Website:</dt>
+                        <dd id="website"><a href=<%= club.socialLink %>> <%= club.socialLink %></a></dd>
 
                     </dl>
-                    <div id="icon">
-                        <a href=<%= club.socialLink%> <i title="<%= club.socialLink%>" class="fa fa-facebook-official"style="font-size:24px;"></a>
-                    </div>
                 </div>
             </div>
 
