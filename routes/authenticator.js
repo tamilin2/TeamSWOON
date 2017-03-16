@@ -91,8 +91,8 @@ let authenticator = module.exports = {
      * Ensures a user is a club leader of the current club
      */
     verifyCredentials: function (req, res, email, phone) {
-        let result = !authenticator.verify_email(req, res, email);
-        return !authenticator.verify_phone(req, res, phone) || result;
+        let result = !authenticator.verify_phone(req, res, phone);
+        return !authenticator.verify_email(req, res, email) || result;
     },
 
     /**
