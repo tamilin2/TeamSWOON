@@ -158,7 +158,7 @@ router.post('/editClubProfile',function (req, res) {
     upload(req, res, function (err) {
         if (err) {
             req.flash('errorMsg', err);
-            res.redirect('/users/editClubProfile');
+            res.redirect('/users/editClubPage');
         }
         else {
             queries.edit_club(req, res);

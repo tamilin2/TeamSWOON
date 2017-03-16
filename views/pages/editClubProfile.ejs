@@ -178,9 +178,7 @@
                     <input type="checkbox" name="interests[]" value="Other Cultures" /> Other Cultural <br>
                 </div>
             </div>
-        </div>
 
-        <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <h2>Meeting Times:</h2>
@@ -194,12 +192,68 @@
                 <button type="button" class="btn disabled btn-primary" id="remove-form-field">-</button>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                
+                if( <%=schedules.length%> !== 0){
+                    var count = <%= schedules.length%>;
+                } else {
+                    var count = 1;
+                }
+                if(count > 1) $("#remove-form-field").removeClass("disabled");
+                var maxRows = 20;
+                console.log ("Count at load is" + count);
+                function addFields() {
+                    console.log("Count before add = " + count);
+                    if (count > maxRows){
+                        alert("Maximum number of schedule inputs reached");
+                    }
+                    else {
+                        count++;
+                        var newRow = $("#primary-row1").clone();
+                        newRow.attr("id", function(){
+                            return "primary-row"+count;});
+                        newRow.children("#day").attr("value", "Monday");
+                        newRow.insertBefore("#submit-row");
+                        
+                        if($("#remove-form-field").hasClass("disabled")){
+                            $("#remove-form-field").removeClass("disabled");
+                        }
+                    }
+                    console.log("Count after add = " + count);
+                }
+
+                function removeFields() {
+                    console.log("count before remove = " + count);
+                    if(count==1) {
+                        alert("No fields to remove");
+                    }
+                    else {
+                        var toRemove = "#primary-row" + count;
+                        $(toRemove).remove();
+                        count--;
+                        if(count == 1){
+                            $("#remove-form-field").addClass("disabled");
+                        }
+                    }
+                    console.log("Count after remove" + count);
+                }
+
+                $("#add-form-field").click(addFields);
+                $("#remove-form-field").click(removeFields);
+            });
+            
+        </script>
+            
 
         <!-- Forms for schedules -->
-        <div class="row" id="primary-row">
+        
             <!-- If a club has pre-existing meeting schedule, load them -->
             <% if (schedules.length !== 0) {
-                for (let idx in schedules ) { %>
+                for (let idx in schedules ) { 
+                    var num = parseInt(idx) + 1;
+                    var id = "primary-row" + num;%>
+                <div class="row" id=<%=id%> >
                 <div class="col-sm-3 form-group">
                     <label for="day">Day:</label>
                     <select class="form-control" name="day[]" id="day" required>
@@ -224,11 +278,12 @@
                     <label for=>Location:</label>
                     <input type="text" class="form-control" value="<%= schedules[idx].location%>" name="location[]" />
                 </div>
+            </div>
             <% }
             } else  {%>
-            <!-- Else a club didn't have a scheduled meeting, so they may create one -->
-                <div class="col-sm-3 col-xs-12 form-group">
-                    <label for="day">Day:</label>
+                <div class="row" id="primary-row1">
+                    <div class="col-sm-3 col-xs-12 form-group">
+                        <label for="day">Day:</label>
                         <select class="form-control" name="day[]" id="day">
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
@@ -238,29 +293,29 @@
                             <option value="Saturday">Saturday</option>
                             <option value="Sunday">Sunday</option>
                         </select>
-                </div>
-                <div class="col-sm-3 col-xs-12 form-group">
+                    </div>
+                    <div class="col-sm-3 col-xs-12 form-group">
 
-                    <label for="start">From:</label>
-                    <input type="time" class="form-control" name="startTime[]" id="start" required>
-                </div>
-                <div class="col-sm-3 col-xs-12 form-group">
-                    <label for="end">To:</label>
-                    <input type="time" class="form-control" name="endTime[]" id="end" required>
-                </div>
-                <div class="col-sm-3 col-xs-12 form-group">
-                    <label for=>Location:</label>
-                    <input type="text" class="form-control" name="location[]" maxlength="200" required/>
+                        <label for="start">From:</label>
+                        <input type="time" class="form-control" name="startTime[]" id="start" required>
+                    </div>
+                    <div class="col-sm-3 col-xs-12 form-group">
+                        <label for="end">To:</label>
+                        <input type="time" class="form-control" name="endTime[]" id="end" required>
+                    </div>
+                    <div class="col-sm-3 col-xs-12 form-group">
+                        <label for=>Location:</label>
+                        <input type="text" class="form-control" name="location[]" maxlength="200" required/>
+                    </div>
                 </div>
             <%}%>
-        </div>
 
         <div class="row" id="submit-row">
             <div class="col-md-2 col-md-offset-10">
                 <button type="submit" id="meetbtn" class="btn btn-default">Save Club Information</button>
             </div>
         </div>
-        </div>
+    </div>
     </form>
     <br>
     <!-- Short script to confirm club deletion -->

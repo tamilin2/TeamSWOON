@@ -3,7 +3,6 @@
  * Authenticate user's input to database
  */
 
-let kickbox = require('kickbox');
 
 let authenticator = module.exports = {
     /**
