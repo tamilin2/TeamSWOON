@@ -324,6 +324,7 @@ module.exports = {
         let insInterestQuery = "INSERT INTO club_interest (club_name, interest) VALUES (?, ?) ";
 
         // MySQL query to insert into club_schedule table
+
         let insSchedQuery = "INSERT INTO club_schedule (clubName, day, startTime, endTime, location) VALUES (?,?,?,?,?) ";
         let delSchedQuery = "DELETE FROM club_schedule WHERE club_schedule.clubName = ? ";
 
@@ -430,7 +431,6 @@ module.exports = {
 
         // Loads error page if there exists an error
         if (error) {
-            console.log('Error');
             req.flash('errorMsg', error.message);
             res.redirect('/users/editClubProfile');
         }
