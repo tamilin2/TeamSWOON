@@ -174,7 +174,7 @@
         <div class="col-sm-3 col-lg-2">
             <div id="sidebar">
 
-                <form action="/searchPageFilter" method="POST">
+                <form action="/searchPageFilter" method="POST" id="filterForm">
                 <!-- Title for Nav Bar -->
                 <h4 id="filter">
                     Filter Clubs
@@ -502,6 +502,9 @@
         <div class="col-sm-9 col-lg-10">
             <% if (search !== null && search !== undefined) {%>
                 <h2 class="page-header">Search Term: <%= search %></h2>
+            <% } %>
+            <% if (timePref !== null && timePref !== undefined) {%>
+                <h3 class="page-header">Schedule: <%= timePref.day + " " + timePref.startTime + timePref.timeFormat + timePref.endTime %></h3>
             <% } %>
             <% if(clubs) {%>
                 <h4> Search Results: <%= clubs.length%>  </h4>
