@@ -892,9 +892,10 @@ module.exports = {
             to: req.body.toEmail,
             subject: req.body.subject,
             text: req.body.body,
-            html: "<p>" + req.body.body + "</p>"
+            html: "<div><p>" + req.body.body + '</p><br><p>' + '\nFrom: ' + req.body.fromEmail + "</p></div>"
         };
 
+        console.log(mailOptions);
         transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
                 console.error(err);

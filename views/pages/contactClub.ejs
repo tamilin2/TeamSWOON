@@ -22,6 +22,10 @@
             <input type="email" class="form-control" name="toEmail" value="<%= emails.to%>" readonly>
         </div>
         <div class="form-group">
+            <label for="fromEmail">To:</label>
+            <input type="email" class="form-control" name="fromEmail" placeholder="Enter your email" value="<%= emails.from%>" required>
+        </div>
+        <div class="form-group">
             <label for="subject">Subject:</label>
             <input type="text" class="form-control" name="subject" placeholder="Enter your subject" required>
         </div>
@@ -31,7 +35,7 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" id="submitBtn" class="btn btn-default">Login</button>
             </div>
         </div>
     </div>
