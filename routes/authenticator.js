@@ -93,6 +93,28 @@ let authenticator = module.exports = {
     verifyCredentials: function (req, res, email, phone) {
         let result = !authenticator.verify_email(req, res, email);
         return !authenticator.verify_phone(req, res, phone) || result;
+    },
+
+    /**
+     * Formats 24 hour time to 12 hour time
+     */
+    formatTime : function (time) {
+        let amOrPM= "";
+
+        // Get hour in 24 hour string
+        let currHour = parseInt(time.substring(0,2));
+        // Get minute in 24 hour string
+        let currMin = time.substring(3);
+
+        // Determine if time is in AM or PM
+        if (currHour < 12) {
+            amOrPM = "AM";
+        } else {
+            amOrPM= "PM";
+        }
+        // Get the correct PM time if past 12
+        currHour = currHour % 12 === 0 ? 12 : (currHour % 12);
+        return currHour + ":" + currMin + "" + amOrPM;
     }
 
 };

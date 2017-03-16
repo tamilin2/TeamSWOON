@@ -316,6 +316,7 @@ module.exports = {
     edit_club : function (req, res) {
         // Saves current club name
         let currClubName = req.session.club.name;
+
         let updateClubQuery = "UPDATE club SET "; let updateClubQueryCond = " WHERE club.name = ?";
         let queryActions = "";
 
@@ -438,6 +439,7 @@ module.exports = {
         else {
             // Empty current schedules when recording new schedules
             req.session.schedules = [];
+
             // Query to insert new club interests and schedules
             connection( function (err, conn) {
                 // loop through the interests array, inserting each as a row in the club_interest table
@@ -569,6 +571,8 @@ module.exports = {
         let query_action = "SELECT * FROM club WHERE club.name = ?";
         let query_schedule = "SELECT TIME_FORMAT(startTime, '%H:%i') AS 'startTime'," +
                              "TIME_FORMAT(endTime, '%H:%i') AS 'endTime'," +
+                             "TIME_FORMAT(startTime, '%h:%i%p') AS 'startTime12'," +
+                             "TIME_FORMAT(endTime, '%h:%i%p') AS 'endTime12'," +
                              "day, location " +
                              "FROM club_schedule WHERE club_schedule.clubName = ?";
 
@@ -636,22 +640,30 @@ module.exports = {
             queryByFilter = queryByFilter.substring(0, queryByFilter.length - 3) + ' AND';
         }
 
-        // Add day preference if selected
+        // Add day preference if selected, else make it blank
         if (req.body.day !== 'N/A') {
             queryByFilter += ' club_schedule.day = \'' + req.body.day + '\' AND';
-        }
-        // Add start time preference if selected
+        } else { req.body.day = ''; }
+        // Add start time preference if selected, else make it blank
         if (req.body.startTime) {
             queryByFilter += ' \'' + req.body.startTime + '\' <= club_schedule.startTime AND';
-        }
-        // Add end time preference if selected
+        }else { req.body.startTime = ''; }
+        // Add end time preference if selected, else make it blank
         if (req.body.endTime) {
             queryByFilter += ' club_schedule.endTime <= \'' + req.body.endTime + '\'';
-        }
-        // Remove last 'AND' if user doesn't search for club meeting end time
-        else {
+        } else {
+            req.body.endTime= '';
+            // Remove last 'AND' if user doesn't search for club meeting end time
             queryByFilter = queryByFilter.substring(0, queryByFilter.length - 4);
         }
+
+        // Saves user time preference as object
+        let userTimePref = {
+            day: req.body.day,
+            startTime: authenticator.formatTime(req.body.startTime),
+            endTime: authenticator.formatTime(req.body.endTime),
+            timeFormat: this.startTime !== '' && this.endTime !== '' ? '-' : ' '
+        };
 
         connection(function (err, con) {
             if (err) {
@@ -665,7 +677,7 @@ module.exports = {
                     }
                     else if (rows[0] == null) {
                         // Renders search page without found clubs
-                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: req.body.checkbox});
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: req.body.checkbox, timePref: userTimePref});
                     }
                     // Query returns found clubs so find their corresponding tags to load
                     else {
@@ -676,10 +688,10 @@ module.exports = {
                             }
                             else if(search_interest_rows[0] == null) {
                                 // Renders search page with clubs without interest tags
-                                res.render('pages/searchPage', {clubs: rows, search_interests: undefined, search: req.body.checkbox});
+                                res.render('pages/searchPage', {clubs: rows, search_interests: undefined, search: req.body.checkbox, timePref: userTimePref});
                             }
                             else {
-                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : req.body.checkbox});
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : req.body.checkbox, timePref: userTimePref});
                             }
                         });
                     }
@@ -707,7 +719,7 @@ module.exports = {
                     }
                     // When no clubs shows up
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null});
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null, timePref: null});
                     }
                     // Query returns found clubs so load them on search page
                     else {
@@ -717,10 +729,10 @@ module.exports = {
                                 res.redirect('/');
                             }
                             else if(search_interest_rows[0] == null) {
-                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null});
+                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: null, timePref: null});
                             }
                             else {
-                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : null});
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : null, timePref: null});
                             }
                         });
                     }
@@ -757,7 +769,7 @@ module.exports = {
                     }
                     // Assures the query returns a club entry
                     else if (rows[0] == null) {
-                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search});
+                        res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search, timePref: null});
                     }
                     // Query returns found clubs so load them on search page
                     else {
@@ -767,10 +779,10 @@ module.exports = {
                                 res.redirect('/');
                             }
                             else if(search_interest_rows[0] == null) {
-                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search});
+                                res.render('pages/searchPage', {clubs: undefined, search_interests: undefined, search: search, timePref: null});
                             }
                             else {
-                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : search});
+                                res.render('pages/searchPage', {clubs: rows, search_interests: search_interest_rows, search : search, timePref: null});
                             }
                         });
                     }
