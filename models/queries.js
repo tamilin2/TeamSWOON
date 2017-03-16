@@ -475,7 +475,9 @@ module.exports = {
                         req.session.schedules.push({
                             day: day[s],
                             startTime: start[s],
+                            startTime12: authenticator.formatTime(start[s]),
                             endTime: end[s],
+                            endTime12: authenticator.formatTime(end[s]),
                             location: location[s]
                         });
                     }
