@@ -100,6 +100,10 @@ let authenticator = module.exports = {
      * Formats 24 hour time to 12 hour time
      */
     formatTime : function (time) {
+        if (time === '') {
+            return '';
+        }
+
         let amOrPM= "";
 
         // Get hour in 24 hour string

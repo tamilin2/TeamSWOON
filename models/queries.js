@@ -666,8 +666,9 @@ module.exports = {
             day: req.body.day,
             startTime: authenticator.formatTime(req.body.startTime),
             endTime: authenticator.formatTime(req.body.endTime),
-            timeFormat: this.startTime !== '' && this.endTime !== '' ? '-' : ' '
+            timeFormat: (req.body.startTime !== '' && req.body.endTime !== '') ? '-' : ' '
         };
+        console.log(userTimePref);
 
         connection(function (err, con) {
             if (err) {
