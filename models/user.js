@@ -6,11 +6,7 @@ let pool = mysql.createPool({
     user            :  'bba003a662e9c4',
     password        :  '17ce3e64',
     database        :  'swoondb',
-    // 60 seconds until connection times out
-    connect_timeout :  60,
-    interactive_timeout : 40000,
-    wait_timeout    : 40000,
-    // Since connection limit is 4 on free trial server
+    // Since connection limit is 10 on trial db
     connectionLimit : 9
 });
 

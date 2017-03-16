@@ -107,11 +107,6 @@
     .interestlabel {
         font-weight: normal;
     }
-    
-    input[type=checkbox]:checked {
-        background-color: whitesmoke;
-        border-left: 1px solid dodgerblue!important;
-    }
 
     .SubCategories:focus {
         font-weight: bold;
@@ -502,6 +497,9 @@
         <div class="col-sm-9 col-lg-10">
             <% if (search !== null && search !== undefined) {%>
                 <h2 class="page-header">Search Term: <%= search %></h2>
+            <% } %>
+            <% if (timePref !== null && timePref !== undefined) {%>
+                <h3 class="page-header">Schedule: <%= timePref.day + " " + timePref.startTime + timePref.timeFormat + timePref.endTime %></h3>
             <% } %>
             <% if(clubs) {%>
                 <h4> Search Results: <%= clubs.length%>  </h4>

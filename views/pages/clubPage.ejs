@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <!-- Club Profile Image -->
-                <img style="max-width: 750px; max-height: 400px" id="pict" src="/img/<%= club.img%>" onerror="this.src='/img/default.jpg'"/>
+                <img style="max-width: 1200px; max-height: 400px" id="pict" src="/img/<%= club.img%>" onerror="this.src='/img/default.jpg'"/>
             </div>
         </div>
 
@@ -63,7 +63,7 @@
                     <% for(let index in schedules) { %>
                         <dl>
                             <dt>Time:</dt>
-                            <dd id="time"><%= schedules[index].day  + ", " + schedules[index].startTime + " - " + schedules[index].endTime%></dd>
+                            <dd id="time"><%= schedules[index].day  + ", " + schedules[index].startTime12 + " - " + schedules[index].endTime12%></dd>
                             <dt>Location:</dt>
                             <dd id="location"> <%= schedules[index].location%> </dd>
                         </dl>
