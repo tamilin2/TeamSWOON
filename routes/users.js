@@ -149,7 +149,7 @@ router.get('/userProfilePage', authenticator.ensureLoggedIn , function (req, res
  * Loads edit club profile if user is creator
  */
 router.get('/editClubProfile',function (req, res) {
-    res.render('pages/editClubProfile', {club: req.session.club, schedules: req.session.schedules});
+    res.render('pages/editClubProfile', {club: req.session.club, interests: req.session.interests, schedules: req.session.schedules});
 });
 /**
  * Sends club profile changes to db
