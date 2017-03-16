@@ -414,9 +414,6 @@ module.exports = {
                         if (err) {
                             error = true;
                         }
-                        else {
-                            req.session.schedules = [];
-                        }
                     });
                     
 
