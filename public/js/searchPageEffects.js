@@ -2,8 +2,8 @@ $(document).ready(function() {
    
    
     $("#clr-btn").click(function(){
-        $(".list-group-item").css("background-color", "");
         $(".SubCategories").attr("checked", false);
+        $(".interestlabel").css("font-weight", "normal");
     });
 
     $(".list-group-item").click(function() {
@@ -14,7 +14,6 @@ $(document).ready(function() {
         else {
             $(this).children(".SubCategories").attr("checked", false);
             $(this).children(".interestlabel").css("font-weight", "normal");
-            $(this).css("background-color", "");
         }
     });
     
