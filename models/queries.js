@@ -83,39 +83,36 @@ module.exports = {
      * User requesting to update profile
      */
     update_student: function (req, res) {
-        let query = "replace into student (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        let query = "UPDATE student SET "; let queryActions = '';
+        let queryCondition = " WHERE student.email = \'" + req.session.user.email + "\'";
         
-        let fname = req.session.user.fname;
-        let lname = req.session.user.lname;
+        let fname = req.body.firstname;
+        let lname = req.body.lastname;
         let phone = authenticator.parse_phoneNum(req.body.phone);
 
-        /* Notifies user if request to update with all null data */
-        if (!phone) {
-            req.flash('errorMsg', 'No data entered');
-            res.redirect('/users/editUserProfile');
-            return;
-        }
-        // If input field is empty then insert old data back into db entry
-        if (!phone) {
-            phone = req.session.user.phone;
-        }
-
-        /**
-         * After null check, check if credentials are valid
-         */
-        if( !authenticator.verify_phone(req, res, phone)) {
-            res.redirect('/users/editUserProfile');
-        }
-        else {
-            // Query to update user profile
-            connection(function (err, conn) {
-                if (err) {
-                    req.flash('errorMsg', err.message);
-                    res.redirect('/users/editUserProfile');
+        // Query to update user profile
+        connection(function (err, conn) {
+            if (err) {
+                req.flash('errorMsg', err.message);
+                res.redirect('/users/editUserProfile');
+            }
+            else {
+                /* Checks if user has entered new info to update*/
+                if (phone !== req.session.user.phone) {
+                    queryActions += "student.phone = " + conn.escape(phone) + ", ";
                 }
-                else {
+                if (fname !== req.session.user.fname) {
+                    queryActions += "student.first_name= " + conn.escape(fname) + ", ";
+                }
+                if (lname!== req.session.user.lname) {
+                    queryActions += "student.last_name= " + conn.escape(lname) + ", ";
+                }
+                if (queryActions !== '') {
+                    // Truncate last comma in queryActions and concatenates query with given action strings and club specifier
+                    query += (queryActions.substring(0, queryActions.length - 2) + queryCondition);
                     // Replace existing db entry with modified data
-                    conn.query(query, [fname, lname, req.session.user.email, phone, req.session.user.password], function (err, rows) {
+                    let cmd = conn.query(query, [fname, lname, req.session.user.email, phone, req.session.user.password], function (err, rows) {
+                        console.log(cmd.sql);
                         if (err) {
                             req.flash('errorMsg', err.message);
                             res.redirect('/users/editUserProfile');
@@ -123,19 +120,24 @@ module.exports = {
                         else {
                             // Since update success, represent session with the user's new credential
                             req.session.user = {
-                                fname : fname,
-                                lname : lname,
-                                email : req.session.user.email,
-                                phone : phone,
-                                password : req.session.user.password
+                                fname: fname,
+                                lname: lname,
+                                email: req.session.user.email,
+                                phone: phone,
+                                password: req.session.user.password
                             };
                             req.flash('successMsg', 'Updated profile');
                             res.redirect('/');
                         }
                     });
                 }
-            });
-        }
+                else {
+                    req.flash('errorMsg', 'Nothing new to update');
+                    res.redirect('/users/editUserProfile');
+                }
+            }
+            conn.release();
+        });
     },
 
     /**
