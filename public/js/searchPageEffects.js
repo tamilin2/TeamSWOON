@@ -1,5 +1,10 @@
 $(document).ready(function() {
-   
+   $("#start-time-input").change(function() {
+       document.getElementById("end-time-input").min = document.getElementById("start-time-input").value;
+   });
+    $("#end-time-input").change(function() {
+       document.getElementById("start-time-input").max = document.getElementById("end-time-input").value;
+   });
    
     $("#clr-btn").click(function(){
         $(".list-group-item").css("background-color", "");
