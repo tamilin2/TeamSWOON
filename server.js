@@ -66,7 +66,7 @@ app.use('/', routes);
 
 //start server
 app.listen(port, function () {
-   console.log("App started on port: " + port);
+   console.log("UCSD Club Finder started on port: " + port);
 });
 
 //method to set HTTP connection timeout - *note: just adjust time to liking

@@ -25,7 +25,7 @@ let authenticator = module.exports = {
         return number;
     },
 
-    /*
+    /**
      * Takes 10 digit phone number and format it under (<area code>)<3 digits>-<4 digits>
      */
     format_phone :function (phone) {
@@ -92,13 +92,18 @@ let authenticator = module.exports = {
      */
     verifyCredentials: function (req, res, email, phone) {
         let result = !authenticator.verify_phone(req, res, phone);
-        return !authenticator.verify_email(req, res, email) || result;
+        result = !authenticator.verify_email(req, res, email) || result;
+        return result;
     },
 
     /**
      * Formats 24 hour time to 12 hour time
      */
     formatTime : function (time) {
+        if (time === '') {
+            return '';
+        }
+
         let amOrPM= "";
 
         // Get hour in 24 hour string

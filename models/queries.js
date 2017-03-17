@@ -475,7 +475,9 @@ module.exports = {
                         req.session.schedules.push({
                             day: day[s],
                             startTime: start[s],
+                            startTime12: authenticator.formatTime(start[s]),
                             endTime: end[s],
+                            endTime12: authenticator.formatTime(end[s]),
                             location: location[s]
                         });
                     }
@@ -664,8 +666,9 @@ module.exports = {
             day: req.body.day,
             startTime: authenticator.formatTime(req.body.startTime),
             endTime: authenticator.formatTime(req.body.endTime),
-            timeFormat: this.startTime !== '' && this.endTime !== '' ? '-' : ' '
+            timeFormat: (req.body.startTime !== '' && req.body.endTime !== '') ? '-' : ' '
         };
+        console.log(userTimePref);
 
         connection(function (err, con) {
             if (err) {
