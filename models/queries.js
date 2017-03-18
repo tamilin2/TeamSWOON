@@ -279,7 +279,14 @@ module.exports = {
                                     });
                                 if (errorCheck) {break;}
                                 // Saves club schedule info to load onto club page
-                                req.session.schedules.push({day: day[s], startTime: start[s], endTime: end[s], location: location[s]});
+                                req.session.schedules.push({
+                                    day: day[s],
+                                    startTime: start[s],
+                                    startTime12: authenticator.formatTime(start[s]),
+                                    endTime: end[s],
+                                    endTime12: authenticator.formatTime(end[s]),
+                                    location: location[s]
+                                });
                             }
                             conn.release();
 
