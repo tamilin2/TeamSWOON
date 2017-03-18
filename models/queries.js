@@ -107,7 +107,10 @@ module.exports = {
                 if (lname!== req.session.user.lname) {
                     queryActions += "student.last_name= " + conn.escape(lname) + ", ";
                 }
-                if (queryActions !== '') {
+                if(!authenticator.verify_phone(req, res, phone)) {
+                    res.redirect('/users/editUserProfile');
+                }
+                else if (queryActions !== '') {
                     // Truncate last comma in queryActions and concatenates query with given action strings and club specifier
                     query += (queryActions.substring(0, queryActions.length - 2) + queryCondition);
                     // Replace existing db entry with modified data
