@@ -671,7 +671,6 @@ module.exports = {
             endTime: authenticator.formatTime(req.body.endTime),
             timeFormat: (req.body.startTime !== '' && req.body.endTime !== '') ? '-' : ' '
         };
-        console.log(userTimePref);
 
         connection(function (err, con) {
             if (err) {
