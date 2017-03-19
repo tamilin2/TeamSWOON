@@ -237,6 +237,9 @@ module.exports = {
             req.flash('errorMsg', 'Please select at least one Category');
             res.redirect('/users/createClubProfile');
         }
+        else if(!authenticator.verify_phone(req, res, phone)) {
+            res.redirect('/users/createClubProfile');
+        }
         else {
             connection(function (err, conn) {
                 if (err) {
